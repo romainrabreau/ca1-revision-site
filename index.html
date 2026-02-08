@@ -594,6 +594,110 @@ tr:hover td { background: rgba(227,6,19,0.04); }
   color: var(--text-secondary);
   font-weight: 600;
 }
+.fc-session-badge {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  background: var(--primary);
+  color: white;
+  font-size: 0.7em;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 20px;
+  z-index: 2;
+  letter-spacing: 0.5px;
+}
+.fc-mastery-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+.fc-mastery-btn {
+  padding: 10px 24px;
+  border-radius: 50px;
+  border: 2px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text);
+  font-size: 0.85em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.fc-mastery-btn.got-it { border-color: var(--success); color: var(--success); }
+.fc-mastery-btn.got-it:hover { background: var(--success); color: white; }
+.fc-mastery-btn.review { border-color: var(--error); color: var(--error); }
+.fc-mastery-btn.review:hover { background: var(--error); color: white; }
+.fc-mastery-counter {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 0.85em;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+.fc-filter-btn.mastered-filter { border-color: var(--success); color: var(--success); }
+.fc-filter-btn.mastered-filter.active { background: var(--success); color: white; border-color: var(--success); }
+
+/* ===== EXAM TIPS ===== */
+.tips-section {
+  display: grid;
+  gap: 20px;
+}
+.tip-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 24px 28px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+.tip-card h4 {
+  font-size: 1.1em;
+  margin-bottom: 12px;
+  color: var(--primary);
+}
+.tip-card ul {
+  padding-left: 20px;
+  line-height: 2;
+}
+.tip-card li { color: var(--text); }
+.trap-item { background: var(--warning-bg); border-radius: var(--radius-sm); padding: 10px 14px; margin-bottom: 8px; }
+.trap-item strong { color: var(--warning); }
+
+/* ===== BACK TO TOP ===== */
+.back-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  border: none;
+  font-size: 1.3em;
+  cursor: pointer;
+  box-shadow: var(--shadow-hover);
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 999;
+}
+.back-to-top.visible { opacity: 1; pointer-events: auto; }
+.back-to-top:hover { transform: translateY(-3px); }
+
+/* ===== PRINT ===== */
+@media print {
+  .hero, .controls, .mode-buttons, .footer, .back-to-top, #navTabs { display: none !important; }
+  .section { display: block !important; opacity: 1 !important; }
+  .cheat-card { break-inside: avoid; border: 1px solid #ccc; }
+  body { background: white; color: black; }
+}
 
 /* ===== QUIZ MODE ===== */
 .quiz-header {
@@ -935,6 +1039,10 @@ mark {
     <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z"/></svg>
     Cheat Sheet
   </button>
+  <button class="mode-btn" onclick="switchMode('examtips')" data-mode="examtips">
+    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"/></svg>
+    Exam Tips
+  </button>
 </div>
 
 <!-- NAV TABS (Session filter) -->
@@ -1020,6 +1128,28 @@ mark {
         <p>The <strong>cognitive information</strong> a consumer holds about an attitude object. It is what the consumer <strong>knows or thinks they know</strong>.<br>Example: "Organic food contains no pesticides."</p>
       </div>
       <div class="tip">Behaviour = ACTION (observable) | Attitude = EVALUATION (feeling/thinking) | Belief = KNOWLEDGE (cognitive info)</div>
+      <div class="concept">
+        <div class="concept-title">ABC Model: 3 Components of Attitude</div>
+        <p><strong>A = Affect:</strong> what you <strong>feel</strong> about the object (emotions, feelings).<br>
+        <strong>B = Behaviour (Conation):</strong> your <strong>intention to act</strong> toward the object.<br>
+        <strong>C = Cognition:</strong> what you <strong>know or believe</strong> about the object (knowledge, beliefs).</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">How Attitudes Form</div>
+        <p><strong>1. Direct Experience:</strong> personal interaction with the product or service. Produces <strong>stronger, more confidently held attitudes</strong>.<br>
+        <strong>2. Classical Conditioning:</strong> pairing a <strong>neutral stimulus</strong> with one that <strong>naturally elicits a response</strong> (e.g., pleasant music + brand).<br>
+        <strong>3. Operant (Instrumental) Conditioning:</strong> attitudes shaped by <strong>rewards and punishments</strong> following a behaviour.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">3 Types of Consumer Characteristics</div>
+        <p><strong>Personal:</strong> age, lifestyle, personality, self-concept.<br>
+        <strong>Psychological:</strong> motivation, perception, learning, attitudes, beliefs.<br>
+        <strong>Socio-cultural:</strong> culture, social class, family, reference groups.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Properties of Beliefs</div>
+        <p>Beliefs are <strong>resistant to change</strong>. They can be <strong>positive, neutral, or negative</strong>. They represent cognitive information and inform attitudes. A belief is NOT the same as an attitude (belief = knowledge claim; attitude = overall evaluation).</p>
+      </div>
     </div>
   </div>
 </div>
@@ -1072,8 +1202,54 @@ mark {
         <p>The <strong>process that leads people to behave as they do</strong>. It occurs when a <strong>need is aroused</strong> that the consumer wishes to satisfy. The need creates a state of tension that drives the consumer to reduce it.</p>
       </div>
       <div class="concept">
-        <div class="concept-title">Emotion</div>
-        <p>An <strong>affective response</strong> to a situation. Emotions influence consumer decisions and can be positive (joy, excitement) or negative (fear, frustration). They interact with attitudes and motivations.</p>
+        <div class="concept-title">Absolute Threshold vs. Differential Threshold (JND)</div>
+        <p><strong>Absolute threshold:</strong> the <strong>minimum amount of stimulation</strong> that can be detected on a sensory channel.<br>
+        <strong>Differential threshold (JND - Just Noticeable Difference):</strong> the ability to detect <strong>changes or differences</strong> between two stimuli.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Subliminal Perception</div>
+        <p>Stimuli that fall <strong>below the absolute threshold</strong>. The consumer is <strong>not consciously aware</strong> of the stimulus, but behaviour may still be influenced.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Perceptual Vigilance vs. Perceptual Defence</div>
+        <p><strong>Perceptual vigilance:</strong> consumers are more likely to <strong>notice stimuli related to their current needs</strong>.<br>
+        <strong>Perceptual defence:</strong> consumers <strong>block or filter out</strong> threatening or unpleasant stimuli (people see what they want to see).</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Sensory Overload</div>
+        <p>Occurs when consumers are exposed to <strong>far more information than they can process</strong>. Common in multitasking and digital environments.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Maslow's Hierarchy of Needs (5 levels)</div>
+        <div class="process-flow">
+          <span class="process-step">1. Physiological</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">2. Safety</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">3. Belongingness/Love</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">4. Esteem</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">5. Self-Actualization</span>
+        </div>
+        <p style="margin-top:8px"><em>Limitation: culture-specific, the strict order may not apply universally.</em></p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Murray's Psychogenic Needs (6 categories)</div>
+        <p><strong>Ambition, Materialism, Power, Affection, Information, Snobbery.</strong><br>
+        Differs from Maslow by identifying specific psychological needs rather than a strict hierarchy.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">3 Motivational Conflicts</div>
+        <p><strong>Approach-Approach:</strong> choice between <strong>two desirable options</strong> (e.g., two great holiday destinations).<br>
+        <strong>Approach-Avoidance:</strong> product has <strong>both positive and negative</strong> qualities (e.g., want cake but worried about calories).<br>
+        <strong>Avoidance-Avoidance:</strong> choice between <strong>two undesirable options</strong> (e.g., spend money on car repair or take the bus).</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Affect, Moods vs. Emotions</div>
+        <p><strong>Affect:</strong> umbrella term for moods + emotions.<br>
+        <strong>Moods:</strong> mild, diffuse, <strong>no clear cause</strong>, last <strong>longer</strong>.<br>
+        <strong>Emotions:</strong> intense, specific, <strong>clearly identified cause</strong>, <strong>short-lived</strong>.</p>
       </div>
     </div>
   </div>
@@ -1124,6 +1300,22 @@ mark {
         <div class="concept-title">Study Design Types</div>
         <p><strong>Exploratory studies:</strong> provide <strong>insights and understanding</strong>. Flexible, unstructured.<br>
         <strong>Conclusive studies:</strong> test <strong>specific hypotheses</strong> and examine relationships. Structured, quantitative.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Descriptive Study (Conclusive)</div>
+        <p>Describes <strong>market characteristics</strong>: user profiles, percentages of behaviours, determines triggers. It is <strong>explanatory</strong>.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Causal Study (Conclusive)</div>
+        <p>Provides evidence of <strong>cause-and-effect relationships</strong>. Does X (cause) influence Y (effect)? It is <strong>confirmatory</strong>.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Study Design</th><th>Type</th><th>Purpose</th><th>Method</th></tr>
+          <tr><td><strong>Exploratory</strong></td><td>Qualitative</td><td>Understand, explore, gain insights</td><td>Secondary data, interviews, focus groups</td></tr>
+          <tr><td><strong>Descriptive</strong></td><td>Conclusive / Quantitative</td><td>Describe, measure, explain</td><td>Survey, questionnaire</td></tr>
+          <tr><td><strong>Causal</strong></td><td>Conclusive / Quantitative</td><td>Confirm cause-effect relationships</td><td>Experiments, survey</td></tr>
+        </table>
       </div>
     </div>
   </div>
@@ -1250,6 +1442,36 @@ mark {
         <p><strong>Structured interview:</strong> standardized questions, fixed order.<br>
         <strong>Semi-structured interview:</strong> set topics/questions but <strong>no imposed sequence</strong>, free to ask follow-up questions.<br>
         <strong>Narrative interview:</strong> open-ended, respondent tells their story.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Interview Guide: 4 Phases</div>
+        <div class="process-flow">
+          <span class="process-step">1. Introductory</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">2. Subject Centering</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">3. Deepening</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">4. Closing</span>
+        </div>
+        <p style="margin-top:8px">It is a flexible canvas giving precise signs for each phase. All questions should be <strong>open-ended</strong> (not yes/no).</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">3 Question Types in Interview Guide</div>
+        <p><strong>Descriptive questions:</strong> ask for <strong>facts</strong> (what, how).<br>
+        <strong>Casual questions:</strong> ask for <strong>reasons</strong> (why a behaviour/opinion exists).<br>
+        <strong>Consequence questions:</strong> ask <strong>what happens</strong> as a result of a behaviour.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Interviewer Should DO</th><th>Interviewer Should NOT DO</th></tr>
+          <tr><td>Listen actively</td><td>Fear silence</td></tr>
+          <tr><td>Stay objective</td><td>Interrupt the interviewee</td></tr>
+          <tr><td>Show understanding (without interpretation)</td><td>Be directive or impose structure</td></tr>
+          <tr><td>Strengthen a point discussed previously</td><td>Induce responses</td></tr>
+          <tr><td>Make summaries using interviewee's words</td><td>Interpret or give opinions/judgments</td></tr>
+          <tr><td>Record the interview and take notes</td><td></td></tr>
+        </table>
       </div>
     </div>
   </div>
@@ -1378,6 +1600,46 @@ mark {
         <strong>Snowball sampling:</strong> participants recruit others.<br>
         <strong>Quota sampling:</strong> sample reflects the numerical composition of subgroups in the population.</p>
       </div>
+      <div class="concept">
+        <div class="concept-title">Quota Sampling (Detail)</div>
+        <p>Most used non-probability method in marketing. Reduced model of the population.<br>
+        <strong>Single quota:</strong> based on <strong>1 criterion</strong> (e.g., gender only).<br>
+        <strong>Cross quota:</strong> based on <strong>2+ criteria crossed</strong> (e.g., gender &times; age).<br>
+        <em>Warning: too many criteria (&gt;2-3) makes it very difficult to find required respondents.</em></p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Sample Size Formula</div>
+        <p><strong>n = t&sup2;pq / e&sup2;</strong><br>
+        With t = 1.96 (95% confidence), p = q = 0.5:<br>
+        <strong>Simplified: n = 1/e&sup2;</strong><br>
+        Example: e = 4% &rarr; n = 600 | e = 2% &rarr; n = 2,401</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Confidence Level</th><th>e = 8%</th><th>e = 6%</th><th>e = 4%</th><th>e = 2%</th></tr>
+          <tr><td><strong>90% (t=1.645)</strong></td><td>106</td><td>187</td><td>425</td><td>1,701</td></tr>
+          <tr><td><strong>95% (t=1.960)</strong></td><td>150</td><td>267</td><td>600</td><td>2,401</td></tr>
+          <tr><td><strong>99% (t=2.576)</strong></td><td>285</td><td>461</td><td>1,138</td><td>3,220</td></tr>
+        </table>
+      </div>
+      <div class="tip">Key rule: to HALVE the margin of error, you must QUADRUPLE the sample size (e/2 &rarr; n &times; 4). Heavy consequences on time and cost.</div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Probability Methods</th><th>Advantages</th><th>Disadvantages</th></tr>
+          <tr><td><strong>Simple random</strong></td><td>Representative of population</td><td>May cost more; need full list</td></tr>
+          <tr><td><strong>Stratified random</strong></td><td>Representative of population</td><td>May cost more; need full list</td></tr>
+          <tr><td><strong>Cluster</strong></td><td>No need to sample from individual lists</td><td>Full list of cluster members still needed</td></tr>
+        </table>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Non-probability Methods</th><th>Advantages</th><th>Disadvantages</th></tr>
+          <tr><td><strong>Convenience</strong></td><td>Inexpensive, efficient, convenient</td><td>Likely bias; not generalizable</td></tr>
+          <tr><td><strong>Purposive</strong></td><td>Includes only types of interest</td><td>Likely bias; not generalizable</td></tr>
+          <tr><td><strong>Snowball</strong></td><td>Same as purposive</td><td>Same as purposive</td></tr>
+          <tr><td><strong>Quota</strong></td><td>Inexpensive; reduces lack of representativeness</td><td>Possible bias; no method for choosing within subgroups</td></tr>
+        </table>
+      </div>
     </div>
   </div>
 </div>
@@ -1396,9 +1658,11 @@ mark {
     <button class="fc-filter-btn" onclick="filterFlashcards(6)">S6</button>
     <button class="fc-filter-btn" onclick="filterFlashcards(8)">S8</button>
     <button class="fc-filter-btn" onclick="filterFlashcards(9)">S9</button>
+    <button class="fc-filter-btn mastered-filter" onclick="filterFlashcards('notmastered')">Not Mastered</button>
   </div>
   <div class="flashcard-container">
     <div class="flashcard" id="flashcard" onclick="flipCard()">
+      <div class="fc-session-badge" id="fcBadge">S1</div>
       <div class="flashcard-face flashcard-front">
         <h3 id="fcQuestion"></h3>
         <p>Click to reveal the answer</p>
@@ -1406,6 +1670,10 @@ mark {
       <div class="flashcard-face flashcard-back">
         <p id="fcAnswer"></p>
       </div>
+    </div>
+    <div class="fc-mastery-row">
+      <button class="fc-mastery-btn review" onclick="markCard('review')">Review Again</button>
+      <button class="fc-mastery-btn got-it" onclick="markCard('gotit')">Got it!</button>
     </div>
     <div class="flashcard-controls">
       <button class="fc-btn" onclick="prevCard()">
@@ -1419,6 +1687,7 @@ mark {
       </button>
     </div>
     <div class="flashcard-progress" id="fcProgress"></div>
+    <div class="fc-mastery-counter" id="fcMastery">Mastered: 0 / 72</div>
   </div>
 </div>
 
@@ -1488,80 +1757,216 @@ mark {
 
 <!-- ==================== CHEAT SHEET MODE ==================== -->
 <div class="section" id="cheatsheetSection">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+    <div class="fc-filter-row" id="csFilterRow" style="margin:0">
+      <button class="fc-filter-btn active" onclick="filterCheatSheet('all')">All</button>
+      <button class="fc-filter-btn" onclick="filterCheatSheet(1)">S1</button>
+      <button class="fc-filter-btn" onclick="filterCheatSheet(2)">S2</button>
+      <button class="fc-filter-btn" onclick="filterCheatSheet(3)">S3</button>
+      <button class="fc-filter-btn" onclick="filterCheatSheet(4)">S4</button>
+      <button class="fc-filter-btn" onclick="filterCheatSheet(5)">S5</button>
+      <button class="fc-filter-btn" onclick="filterCheatSheet(6)">S6</button>
+      <button class="fc-filter-btn" onclick="filterCheatSheet(8)">S8</button>
+      <button class="fc-filter-btn" onclick="filterCheatSheet(9)">S9</button>
+    </div>
+    <button class="fc-btn" onclick="window.print()" style="padding:8px 18px;font-size:0.8em">Print</button>
+  </div>
   <div class="cheat-grid">
-    <div class="cheat-card">
-      <h4>Behaviour vs. Attitude vs. Belief</h4>
-      <p><strong>Behaviour</strong> = what you DO (observable)<br><strong>Attitude</strong> = what you THINK/FEEL (evaluation)<br><strong>Belief</strong> = what you KNOW (cognitive info)</p>
-    </div>
-    <div class="cheat-card">
-      <h4>Sensation vs. Perception</h4>
-      <p><strong>Sensation</strong> = immediate response of senses<br><strong>Perception</strong> = selecting + organizing + interpreting that sensory info</p>
-    </div>
-    <div class="cheat-card">
-      <h4>MDP vs. MSP</h4>
-      <p><strong>MDP</strong> = what to DO (action-oriented, from manager)<br><strong>MSP</strong> = what to STUDY (information-oriented, from researcher)</p>
-    </div>
-    <div class="cheat-card">
-      <h4>Brief vs. Proposal</h4>
-      <p><strong>Brief</strong> = from CLIENT<br><strong>Proposal</strong> = from RESEARCH INSTITUTE</p>
-    </div>
-    <div class="cheat-card">
-      <h4>Primary vs. Secondary Data</h4>
-      <p><strong>Primary</strong> = collected FOR this study (expensive, long)<br><strong>Secondary</strong> = already exists (cheap, fast, prerequisite)</p>
-    </div>
-    <div class="cheat-card">
-      <h4>Internal vs. External Secondary Data</h4>
-      <p><strong>Internal</strong> = within the organization (CRM, reports)<br><strong>External</strong> = outside (government, press, syndicated)</p>
-    </div>
-    <div class="cheat-card">
-      <h4>Qualitative vs. Quantitative</h4>
-      <p><strong>Qualitative</strong> = small sample, non-numerical, insights, unstructured<br><strong>Quantitative</strong> = large sample, numerical, statistical, structured</p>
-    </div>
-    <div class="cheat-card">
-      <h4>Exploratory vs. Conclusive</h4>
-      <p><strong>Exploratory</strong> = insights, understanding, flexible<br><strong>Conclusive</strong> = test hypotheses, examine relationships, structured</p>
-    </div>
-    <div class="cheat-card">
-      <h4>Probability vs. Non-probability Sampling</h4>
-      <p><strong>Probability</strong> (frame available): simple random, stratified, cluster<br><strong>Non-probability</strong> (no frame): convenience, purposive, snowball, quota</p>
-    </div>
-    <div class="cheat-card">
-      <h4>Thematic Analysis Flow</h4>
-      <p>Transcript &rarr; <strong>Excerpt</strong> (verbatim) &rarr; <strong>Code</strong> (label) &rarr; <strong>Sub-theme</strong> &rarr; <strong>Theme</strong> &rarr; <strong>Narrative</strong></p>
-    </div>
-    <div class="cheat-card">
-      <h4>Saturation Effect</h4>
-      <p>When <strong>no new insights</strong> emerge from additional interviews. Signals the end of data collection. Sample size cannot be determined in advance.</p>
-    </div>
-    <div class="cheat-card">
-      <h4>Three Sieves of Socrates</h4>
-      <p>Evaluate secondary data: 1) Is it <strong>true</strong>? 2) Is it <strong>good</strong>? 3) Is it <strong>useful</strong>?</p>
-    </div>
-    <div class="cheat-card">
+    <!-- S1 -->
+    <div class="cheat-card" data-cs="1">
       <h4>Consumer Behaviour Model</h4>
       <p><strong>Environment</strong> &rarr; <strong>Black Box</strong> (characteristics + decision process) &rarr; <strong>Responses</strong></p>
     </div>
-    <div class="cheat-card">
-      <h4>Perceptual Process</h4>
-      <p>Sensory stimuli &rarr; Sensory receptors &rarr; Exposure &rarr; Attention &rarr; Interpretation</p>
+    <!-- S2 -->
+    <div class="cheat-card" data-cs="2">
+      <h4>Behaviour vs. Attitude vs. Belief</h4>
+      <p><strong>Behaviour</strong> = what you DO (observable)<br><strong>Attitude</strong> = what you THINK/FEEL (evaluation)<br><strong>Belief</strong> = what you KNOW (cognitive info, resistant to change)</p>
     </div>
-    <div class="cheat-card">
+    <div class="cheat-card" data-cs="2">
+      <h4>ABC Model of Attitude</h4>
+      <p><strong>A</strong> = Affect (feel) | <strong>B</strong> = Behaviour/Conation (intend to act) | <strong>C</strong> = Cognition (know/believe)</p>
+    </div>
+    <div class="cheat-card" data-cs="2">
+      <h4>3 Ways Attitudes Form</h4>
+      <p><strong>1.</strong> Direct experience (strongest)<br><strong>2.</strong> Classical conditioning (pairing stimuli)<br><strong>3.</strong> Operant conditioning (rewards/punishments)</p>
+    </div>
+    <!-- S3 -->
+    <div class="cheat-card" data-cs="3">
+      <h4>Sensation vs. Perception</h4>
+      <p><strong>Sensation</strong> = immediate response of senses<br><strong>Perception</strong> = selecting + organizing + interpreting sensory info</p>
+    </div>
+    <div class="cheat-card" data-cs="3">
+      <h4>Perceptual Process</h4>
+      <p>Stimuli &rarr; Receptors &rarr; Exposure &rarr; Attention &rarr; Interpretation</p>
+    </div>
+    <div class="cheat-card" data-cs="3">
+      <h4>Absolute vs. Differential Threshold</h4>
+      <p><strong>Absolute</strong> = minimum stimulation detected<br><strong>Differential (JND)</strong> = detect changes/differences between stimuli</p>
+    </div>
+    <div class="cheat-card" data-cs="3">
+      <h4>Maslow's 5 Levels</h4>
+      <p>1. Physiological &rarr; 2. Safety &rarr; 3. Belongingness &rarr; 4. Esteem &rarr; 5. Self-Actualization</p>
+    </div>
+    <div class="cheat-card" data-cs="3">
+      <h4>3 Motivational Conflicts</h4>
+      <p><strong>Approach-Approach</strong> = 2 desirable<br><strong>Approach-Avoidance</strong> = + and - qualities<br><strong>Avoidance-Avoidance</strong> = 2 undesirable</p>
+    </div>
+    <div class="cheat-card" data-cs="3">
+      <h4>Moods vs. Emotions</h4>
+      <p><strong>Moods</strong> = mild, diffuse, no clear cause, longer<br><strong>Emotions</strong> = intense, specific, clear cause, short-lived</p>
+    </div>
+    <!-- S4 -->
+    <div class="cheat-card" data-cs="4">
       <h4>Market Study Process (5 Stages)</h4>
       <p>1. Formulate problem &rarr; 2. Study design &rarr; 3. Data collection &rarr; 4. Analyze &rarr; 5. Report &rarr; <strong>Decide</strong></p>
     </div>
-    <div class="cheat-card">
+    <div class="cheat-card" data-cs="4">
+      <h4>MDP vs. MSP</h4>
+      <p><strong>MDP</strong> = what to DO (action-oriented)<br><strong>MSP</strong> = what to STUDY (information-oriented)</p>
+    </div>
+    <div class="cheat-card" data-cs="4">
+      <h4>Brief vs. Proposal</h4>
+      <p><strong>Brief</strong> = from CLIENT<br><strong>Proposal</strong> = from RESEARCH INSTITUTE</p>
+    </div>
+    <div class="cheat-card" data-cs="4">
+      <h4>Descriptive vs. Causal Study</h4>
+      <p><strong>Descriptive</strong> = describe, measure, explain (explanatory)<br><strong>Causal</strong> = cause-and-effect relationships (confirmatory)</p>
+    </div>
+    <!-- S5 -->
+    <div class="cheat-card" data-cs="5">
+      <h4>Primary vs. Secondary Data</h4>
+      <p><strong>Primary</strong> = collected FOR this study (expensive, long)<br><strong>Secondary</strong> = already exists (cheap, fast, prerequisite)</p>
+    </div>
+    <div class="cheat-card" data-cs="5">
+      <h4>Internal vs. External Secondary Data</h4>
+      <p><strong>Internal</strong> = within the organization (CRM, reports)<br><strong>External</strong> = outside (government, press, syndicated)</p>
+    </div>
+    <div class="cheat-card" data-cs="5">
+      <h4>Three Sieves of Socrates</h4>
+      <p>Evaluate secondary data: 1) <strong>True</strong>? 2) <strong>Good</strong>? 3) <strong>Useful</strong>?</p>
+    </div>
+    <!-- S6 -->
+    <div class="cheat-card" data-cs="6">
+      <h4>Qualitative vs. Quantitative</h4>
+      <p><strong>Qualitative</strong> = small sample, non-numerical, insights<br><strong>Quantitative</strong> = large sample, numerical, statistical</p>
+    </div>
+    <div class="cheat-card" data-cs="6">
+      <h4>Exploratory vs. Conclusive</h4>
+      <p><strong>Exploratory</strong> = insights, understanding, flexible<br><strong>Conclusive</strong> = test hypotheses, structured</p>
+    </div>
+    <div class="cheat-card" data-cs="6">
+      <h4>Interview Guide: 4 Phases</h4>
+      <p>1. Introductory &rarr; 2. Subject Centering &rarr; 3. Deepening &rarr; 4. Closing</p>
+    </div>
+    <div class="cheat-card" data-cs="6">
+      <h4>Interviewer Do's &amp; Don'ts</h4>
+      <p><strong>Do:</strong> listen, stay objective, summarize<br><strong>Don't:</strong> fear silence, interrupt, induce, interpret, give opinions</p>
+    </div>
+    <div class="cheat-card" data-cs="6">
       <h4>Interview Types</h4>
-      <p><strong>Structured</strong> = fixed order<br><strong>Semi-structured</strong> = set topics, flexible order<br><strong>Narrative</strong> = open-ended story</p>
+      <p><strong>Structured</strong> = fixed order<br><strong>Semi-structured</strong> = flexible order<br><strong>Narrative</strong> = open-ended story</p>
+    </div>
+    <div class="cheat-card" data-cs="6">
+      <h4>Saturation Effect</h4>
+      <p>When <strong>no new insights</strong> emerge. Signals end of interviews. Sample size unknown beforehand.</p>
+    </div>
+    <!-- S8 -->
+    <div class="cheat-card" data-cs="8">
+      <h4>Thematic Analysis Flow</h4>
+      <p>Transcript &rarr; <strong>Excerpt</strong> &rarr; <strong>Code</strong> &rarr; <strong>Sub-theme</strong> &rarr; <strong>Theme</strong> &rarr; <strong>Narrative</strong></p>
+    </div>
+    <div class="cheat-card" data-cs="8">
+      <h4>7 Steps of Qual Analysis</h4>
+      <p>1. Familiarize &rarr; 2. Initial codes &rarr; 3. Decide what to code &rarr; 4. Codifying &rarr; 5. Themes &rarr; 6. Revise &rarr; 7. Write results</p>
+    </div>
+    <!-- S9 -->
+    <div class="cheat-card" data-cs="9">
+      <h4>Probability vs. Non-probability</h4>
+      <p><strong>Probability</strong> (frame available): simple random, stratified, cluster<br><strong>Non-probability</strong> (no frame): convenience, purposive, snowball, quota</p>
+    </div>
+    <div class="cheat-card" data-cs="9">
+      <h4>Quota Sampling</h4>
+      <p><strong>Single</strong> = 1 criterion (gender)<br><strong>Cross</strong> = 2+ criteria (gender x age)<br>Most used non-probability method</p>
+    </div>
+    <div class="cheat-card" data-cs="9">
+      <h4>Sample Size Formula</h4>
+      <p>n = 1/e&sup2; (at 95% confidence)<br>e=4% &rarr; n=600 | e=2% &rarr; n=2401<br><strong>e/2 &rarr; n &times; 4</strong></p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== EXAM TIPS MODE ==================== -->
+<div class="section" id="examtipsSection">
+  <div class="tips-section">
+    <div class="tip-card">
+      <h4>Exam Format</h4>
+      <ul>
+        <li><strong>15 MCQ questions</strong> - only 1 correct answer per question</li>
+        <li><strong>15 minutes</strong> - about 1 minute per question</li>
+        <li><strong>No negative points</strong> - always answer, never leave blank!</li>
+        <li>Covers <strong>Sessions 1 to 9</strong> (Session 7 = work-in-progress, no content)</li>
+        <li>Takes place at the <strong>beginning of Session 11</strong></li>
+      </ul>
+    </div>
+    <div class="tip-card">
+      <h4>Strategy</h4>
+      <ul>
+        <li>Read ALL 4 options before choosing</li>
+        <li><strong>1 minute max per question</strong> - don't get stuck</li>
+        <li>If unsure, eliminate the 2 most obviously wrong answers first</li>
+        <li>No negative points = always guess if you don't know</li>
+        <li>Watch out for absolute words ("always", "never", "only") - often traps</li>
+        <li>Pay attention to "which is NOT" questions - they reverse the logic</li>
+      </ul>
+    </div>
+    <div class="tip-card">
+      <h4>Common Traps &amp; Confusions</h4>
+      <div class="trap-item"><strong>Behaviour vs Attitude vs Belief</strong> - Behaviour = action (observable), Attitude = evaluation (feeling), Belief = knowledge (cognitive). Don't mix them up!</div>
+      <div class="trap-item"><strong>MDP vs MSP</strong> - MDP = what to DO (action), MSP = what to STUDY (information). They often swap these in wrong answers.</div>
+      <div class="trap-item"><strong>Primary vs Secondary data</strong> - Secondary is a PREREQUISITE, comes FIRST. Primary is collected for this specific study.</div>
+      <div class="trap-item"><strong>Probability vs Non-probability</strong> - Key question: is a sampling frame AVAILABLE? Yes = probability, No = non-probability.</div>
+      <div class="trap-item"><strong>Perception vs Sensation</strong> - Sensation = raw input from senses. Perception = processing that input (select + organize + interpret).</div>
+      <div class="trap-item"><strong>Classical vs Operant conditioning</strong> - Classical = pairing stimuli. Operant = rewards/punishments.</div>
+      <div class="trap-item"><strong>Brief vs Proposal</strong> - Brief = from CLIENT. Proposal = from RESEARCH INSTITUTE. Never the other way around.</div>
+    </div>
+    <div class="tip-card">
+      <h4>High-Frequency Topics (most likely to appear)</h4>
+      <ul>
+        <li><strong>S2:</strong> ABC model (3 components), how attitudes form (3 ways), behaviour vs attitude vs belief</li>
+        <li><strong>S3:</strong> Perception vs sensation, absolute vs differential threshold, Maslow, motivational conflicts, moods vs emotions</li>
+        <li><strong>S4:</strong> MDP vs MSP, 5 stages, descriptive vs causal study, brief vs proposal</li>
+        <li><strong>S5:</strong> Primary vs secondary data, internal vs external, uses of secondary data</li>
+        <li><strong>S6:</strong> Interview guide (4 phases), saturation effect, sampling methods (convenience/purposive/snowball)</li>
+        <li><strong>S8:</strong> Thematic analysis steps, excerpt vs code vs theme, codifying</li>
+        <li><strong>S9:</strong> Probability vs non-probability, quota sampling, sample size formula (n=1/e&sup2;), margin of error rule</li>
+      </ul>
+    </div>
+    <div class="tip-card">
+      <h4>Last-Minute Checklist</h4>
+      <ul>
+        <li>Can you define: behaviour, attitude, belief?</li>
+        <li>Can you name the 3 components of attitude (ABC)?</li>
+        <li>Can you name the 5 stages of a market study?</li>
+        <li>Do you know the difference between MDP and MSP?</li>
+        <li>Can you explain probability vs non-probability sampling?</li>
+        <li>Can you list the 7 steps of thematic analysis?</li>
+        <li>Do you know the sample size formula and the e/2 &rarr; n&times;4 rule?</li>
+        <li>Can you name the 4 phases of the interview guide?</li>
+      </ul>
     </div>
   </div>
 </div>
 
 </div><!-- end container -->
 
+<!-- BACK TO TOP -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
+
 <!-- FOOTER -->
 <div class="footer">
   Consumer and Market Studies - Y3S6 - <span>ESSCA</span> 2025/2026 - Prof. Aude RYCHALSKI<br>
-  Revision document prepared for <span>Romain RABREAU</span>
+  Revision document prepared for <span>Romain RABREAU</span><br>
+  <button onclick="resetAllProgress()" style="margin-top:8px;padding:6px 16px;border-radius:20px;border:1px solid rgba(255,255,255,0.3);background:transparent;color:rgba(255,255,255,0.6);font-size:0.75em;cursor:pointer">Reset all progress</button>
 </div>
 
 <script>
@@ -1725,13 +2130,19 @@ let currentQuizMode = null;
 let activeQuizQuestions = [];
 let timerInterval = null;
 let timerSeconds = 0;
+let masteredCards = new Set();
+let quizHistory = [];
 
-// Load progress from localStorage
+// Load from localStorage
 try {
   const saved = localStorage.getItem('ca1_progress');
   if (saved) sessionsRead = new Set(JSON.parse(saved));
   const savedTheme = localStorage.getItem('ca1_theme');
   if (savedTheme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  const savedMastered = localStorage.getItem('ca1_mastered');
+  if (savedMastered) masteredCards = new Set(JSON.parse(savedMastered));
+  const savedHistory = localStorage.getItem('ca1_quiz_history');
+  if (savedHistory) quizHistory = JSON.parse(savedHistory);
 } catch(e) {}
 
 // ===== THEME =====
@@ -1748,7 +2159,7 @@ function switchMode(mode) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.getElementById(mode + 'Section').classList.add('active');
   document.getElementById('navTabs').style.display = (mode === 'study') ? 'flex' : 'none';
-  if (mode === 'flashcards') showCard();
+  if (mode === 'flashcards') { updateMasteryCounter(); showCard(); }
   if (mode === 'quiz') backToModeSelect();
 }
 
@@ -1764,7 +2175,7 @@ function toggleSession(header) {
   }
 }
 
-// ===== FILTER SESSIONS (Study mode) =====
+// ===== FILTER SESSIONS =====
 function filterSession(session) {
   currentSession = session;
   document.querySelectorAll('.nav-tab').forEach((t, i) => {
@@ -1772,11 +2183,8 @@ function filterSession(session) {
     else t.classList.toggle('active', t.textContent.includes('S' + session));
   });
   document.querySelectorAll('.session-card').forEach(card => {
-    if (session === 'all') {
-      card.classList.remove('hidden');
-    } else {
-      card.classList.toggle('hidden', card.dataset.session !== String(session));
-    }
+    if (session === 'all') card.classList.remove('hidden');
+    else card.classList.toggle('hidden', card.dataset.session !== String(session));
   });
   if (session !== 'all') {
     document.querySelectorAll('.session-card').forEach(card => {
@@ -1788,15 +2196,9 @@ function filterSession(session) {
 // ===== SEARCH =====
 function handleSearch(query) {
   const q = query.toLowerCase().trim();
-  if (!q) {
-    document.querySelectorAll('.session-card').forEach(c => c.classList.remove('hidden'));
-    document.querySelectorAll('.concept, .table-wrap, .tip').forEach(el => el.classList.remove('hidden'));
-    document.querySelectorAll('mark').forEach(m => { m.replaceWith(document.createTextNode(m.textContent)); });
-    return;
-  }
+  if (!q) { document.querySelectorAll('.session-card').forEach(c => c.classList.remove('hidden')); return; }
   document.querySelectorAll('.session-card').forEach(card => {
-    const content = card.textContent.toLowerCase();
-    const match = content.includes(q);
+    const match = card.textContent.toLowerCase().includes(q);
     card.classList.toggle('hidden', !match);
     if (match) card.classList.add('open');
   });
@@ -1804,8 +2206,7 @@ function handleSearch(query) {
 
 // ===== PROGRESS =====
 function updateProgress() {
-  const total = 8;
-  const read = sessionsRead.size;
+  const total = 8; const read = sessionsRead.size;
   const pct = Math.round((read / total) * 100);
   document.getElementById('progressFill').style.width = pct + '%';
   document.getElementById('progressText').textContent = pct + '%';
@@ -1815,70 +2216,79 @@ updateProgress();
 // ===== FLASHCARDS =====
 function filterFlashcards(session) {
   fcFilterSession = session;
-  document.querySelectorAll('#fcFilterRow .fc-filter-btn').forEach((b, i) => {
-    if (session === 'all') b.classList.toggle('active', i === 0);
+  document.querySelectorAll('#fcFilterRow .fc-filter-btn').forEach(b => {
+    if (session === 'all') b.classList.toggle('active', b.textContent === 'All');
+    else if (session === 'notmastered') b.classList.toggle('active', b.classList.contains('mastered-filter'));
     else b.classList.toggle('active', b.textContent === 'S' + session);
   });
-  if (session === 'all') {
-    filteredFlashcards = [...Array(flashcards.length).keys()];
+  if (session === 'all') filteredFlashcards = [...Array(flashcards.length).keys()];
+  else if (session === 'notmastered') {
+    filteredFlashcards = []; flashcards.forEach((c, i) => { if (!masteredCards.has(i)) filteredFlashcards.push(i); });
   } else {
-    filteredFlashcards = [];
-    flashcards.forEach((c, i) => { if (c.s === session) filteredFlashcards.push(i); });
+    filteredFlashcards = []; flashcards.forEach((c, i) => { if (c.s === session) filteredFlashcards.push(i); });
   }
-  fcOrder = [...filteredFlashcards];
-  fcIndex = 0;
-  showCard();
+  fcOrder = [...filteredFlashcards]; fcIndex = 0; showCard();
 }
 
 function showCard() {
   if (fcOrder.length === 0) {
-    document.getElementById('fcQuestion').textContent = 'No cards for this session';
+    document.getElementById('fcQuestion').textContent = fcFilterSession === 'notmastered' ? 'All cards mastered!' : 'No cards for this filter';
     document.getElementById('fcAnswer').textContent = '';
     document.getElementById('fcProgress').textContent = '0 / 0';
+    document.getElementById('fcBadge').textContent = '';
     return;
   }
-  const card = flashcards[fcOrder[fcIndex]];
+  const idx = fcOrder[fcIndex]; const card = flashcards[idx];
   document.getElementById('fcQuestion').textContent = card.q;
   document.getElementById('fcAnswer').textContent = card.a;
   document.getElementById('flashcard').classList.remove('flipped');
-  document.getElementById('fcProgress').textContent = `${fcIndex + 1} / ${fcOrder.length}`;
+  document.getElementById('fcProgress').textContent = (fcIndex + 1) + ' / ' + fcOrder.length;
+  document.getElementById('fcBadge').textContent = 'S' + card.s;
 }
+
 function flipCard() { document.getElementById('flashcard').classList.toggle('flipped'); }
-function nextCard() {
-  if (fcOrder.length === 0) return;
-  fcIndex = (fcIndex + 1) % fcOrder.length;
-  showCard();
-}
-function prevCard() {
-  if (fcOrder.length === 0) return;
-  fcIndex = (fcIndex - 1 + fcOrder.length) % fcOrder.length;
-  showCard();
-}
+function nextCard() { if (fcOrder.length === 0) return; fcIndex = (fcIndex + 1) % fcOrder.length; showCard(); }
+function prevCard() { if (fcOrder.length === 0) return; fcIndex = (fcIndex - 1 + fcOrder.length) % fcOrder.length; showCard(); }
 function shuffleCards() {
-  for (let i = fcOrder.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [fcOrder[i], fcOrder[j]] = [fcOrder[j], fcOrder[i]];
-  }
-  fcIndex = 0;
-  showCard();
+  for (let i = fcOrder.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [fcOrder[i], fcOrder[j]] = [fcOrder[j], fcOrder[i]]; }
+  fcIndex = 0; showCard();
+}
+
+function markCard(action) {
+  if (fcOrder.length === 0) return;
+  const idx = fcOrder[fcIndex];
+  if (action === 'gotit') masteredCards.add(idx); else masteredCards.delete(idx);
+  localStorage.setItem('ca1_mastered', JSON.stringify([...masteredCards]));
+  updateMasteryCounter();
+  if (fcOrder.length > 1) nextCard();
+}
+
+function updateMasteryCounter() {
+  const el = document.getElementById('fcMastery');
+  if (el) el.textContent = 'Mastered: ' + masteredCards.size + ' / ' + flashcards.length;
+}
+
+// ===== CHEAT SHEET FILTER =====
+function filterCheatSheet(session) {
+  document.querySelectorAll('#csFilterRow .fc-filter-btn').forEach(b => {
+    if (session === 'all') b.classList.toggle('active', b.textContent === 'All');
+    else b.classList.toggle('active', b.textContent === 'S' + session);
+  });
+  document.querySelectorAll('.cheat-card').forEach(card => {
+    if (session === 'all') card.classList.remove('hidden');
+    else card.classList.toggle('hidden', card.dataset.cs !== String(session));
+  });
 }
 
 // ===== QUIZ =====
 function shuffleArray(arr) {
   const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
   return a;
 }
 
 function backToModeSelect() {
-  stopTimer();
-  currentQuizMode = null;
-  activeQuizQuestions = [];
-  quizAnswers = {};
-  quizScore = 0;
+  stopTimer(); currentQuizMode = null; activeQuizQuestions = []; quizAnswers = {}; quizScore = 0;
   document.getElementById('quizModeSelector').classList.remove('hidden');
   document.getElementById('quizSessionFilter').classList.add('hidden');
   document.getElementById('quizHeader').classList.add('hidden');
@@ -1888,139 +2298,68 @@ function backToModeSelect() {
 }
 
 function startQuizMode(mode) {
-  currentQuizMode = mode;
-  quizAnswers = {};
-  quizScore = 0;
-
+  currentQuizMode = mode; quizAnswers = {}; quizScore = 0;
   if (mode === 'session') {
     document.getElementById('quizModeSelector').classList.add('hidden');
     document.getElementById('quizSessionFilter').classList.remove('hidden');
     return;
   }
-
   let indices = [...Array(quizQuestions.length).keys()];
-  if (mode === 'quick10') {
-    indices = shuffleArray(indices).slice(0, 10);
-    activeQuizQuestions = indices;
-  } else if (mode === 'exam') {
-    indices = shuffleArray(indices).slice(0, 15);
-    activeQuizQuestions = indices;
-  } else {
-    activeQuizQuestions = indices;
-  }
-
+  if (mode === 'quick10') { activeQuizQuestions = shuffleArray(indices).slice(0, 10); }
+  else if (mode === 'exam') { activeQuizQuestions = shuffleArray(indices).slice(0, 15); }
+  else { activeQuizQuestions = indices; }
   document.getElementById('quizModeSelector').classList.add('hidden');
   document.getElementById('quizSessionFilter').classList.add('hidden');
   document.getElementById('quizHeader').classList.remove('hidden');
-
   const titles = { quick10: 'Quick 10', exam: 'Exam Simulation (15 min)', full: 'Full Practice' };
   document.getElementById('quizTitle').textContent = titles[mode] || 'Quiz';
-
-  if (mode === 'exam') {
-    document.getElementById('quizTimer').classList.remove('hidden-timer');
-    startTimer(15 * 60);
-  } else {
-    document.getElementById('quizTimer').classList.add('hidden-timer');
-  }
-
+  if (mode === 'exam') { document.getElementById('quizTimer').classList.remove('hidden-timer'); startTimer(15 * 60); }
+  else { document.getElementById('quizTimer').classList.add('hidden-timer'); }
   renderQuiz();
 }
 
 function startSessionQuiz(session) {
   activeQuizQuestions = [];
   quizQuestions.forEach((q, i) => { if (q.s === session) activeQuizQuestions.push(i); });
-
-  if (activeQuizQuestions.length === 0) {
-    alert('No questions for session ' + session);
-    return;
-  }
-
+  if (activeQuizQuestions.length === 0) { alert('No questions for session ' + session); return; }
   document.getElementById('quizSessionFilter').classList.add('hidden');
   document.getElementById('quizHeader').classList.remove('hidden');
   document.getElementById('quizTitle').textContent = 'Session ' + session + ' Quiz';
   document.getElementById('quizTimer').classList.add('hidden-timer');
-  quizAnswers = {};
-  quizScore = 0;
-  renderQuiz();
+  quizAnswers = {}; quizScore = 0; renderQuiz();
 }
 
 function renderQuiz() {
   const container = document.getElementById('quizContainer');
   container.innerHTML = '';
   document.getElementById('quizResults').classList.remove('show');
-  quizScore = 0;
-  let answered = 0;
-
+  quizScore = 0; let answered = 0;
   activeQuizQuestions.forEach((qIdx, displayIdx) => {
-    const q = quizQuestions[qIdx];
-    const div = document.createElement('div');
-    div.className = 'question-card';
-    div.id = 'qcard-' + qIdx;
-
+    const q = quizQuestions[qIdx]; const div = document.createElement('div');
+    div.className = 'question-card'; div.id = 'qcard-' + qIdx;
     const letters = ['A', 'B', 'C', 'D'];
     let optionsHtml = q.options.map((opt, oi) => {
-      let cls = 'option';
-      const savedAnswer = quizAnswers[qIdx];
-      if (savedAnswer !== undefined) {
-        cls += ' disabled';
-        if (oi === q.correct) cls += ' correct';
-        if (oi === savedAnswer && savedAnswer !== q.correct) cls += ' wrong';
-      }
-      return `<div class="${cls}" onclick="selectOption(${qIdx}, ${oi})" data-qi="${qIdx}" data-oi="${oi}">
-        <div class="option-letter">${letters[oi]}</div>
-        <div>${opt}</div>
-      </div>`;
+      let cls = 'option'; const savedAnswer = quizAnswers[qIdx];
+      if (savedAnswer !== undefined) { cls += ' disabled'; if (oi === q.correct) cls += ' correct'; if (oi === savedAnswer && savedAnswer !== q.correct) cls += ' wrong'; }
+      return '<div class="' + cls + '" onclick="selectOption(' + qIdx + ',' + oi + ')" data-qi="' + qIdx + '" data-oi="' + oi + '"><div class="option-letter">' + letters[oi] + '</div><div>' + opt + '</div></div>';
     }).join('');
-
-    const savedAnswer = quizAnswers[qIdx];
-    let expClass = 'explanation';
-    if (savedAnswer !== undefined) {
-      answered++;
-      expClass += savedAnswer === q.correct ? ' correct-exp show' : ' wrong-exp show';
-      if (savedAnswer === q.correct) quizScore++;
-      div.className += savedAnswer === q.correct ? ' answered-correct' : ' answered-wrong';
-    }
-
-    div.innerHTML = `
-      <div class="question-num">Question ${displayIdx + 1} <span style="font-weight:400;opacity:0.6">(S${q.s})</span></div>
-      <div class="question-text">${q.q}</div>
-      ${optionsHtml}
-      <div class="${expClass}" id="exp-${qIdx}">${q.explanation}</div>
-    `;
+    const savedAnswer = quizAnswers[qIdx]; let expClass = 'explanation';
+    if (savedAnswer !== undefined) { answered++; expClass += savedAnswer === q.correct ? ' correct-exp show' : ' wrong-exp show'; if (savedAnswer === q.correct) quizScore++; div.className += savedAnswer === q.correct ? ' answered-correct' : ' answered-wrong'; }
+    div.innerHTML = '<div class="question-num">Question ' + (displayIdx + 1) + ' <span style="font-weight:400;opacity:0.6">(S' + q.s + ')</span></div><div class="question-text">' + q.q + '</div>' + optionsHtml + '<div class="' + expClass + '" id="exp-' + qIdx + '">' + q.explanation + '</div>';
     container.appendChild(div);
   });
-
   updateQuizScore(answered);
 }
 
 function selectOption(qi, oi) {
   if (quizAnswers[qi] !== undefined) return;
   quizAnswers[qi] = oi;
-
-  const q = quizQuestions[qi];
-  const card = document.getElementById('qcard-' + qi);
-  const options = card.querySelectorAll('.option');
-
-  options.forEach((opt, i) => {
-    opt.classList.add('disabled');
-    if (i === q.correct) opt.classList.add('correct');
-    if (i === oi && oi !== q.correct) opt.classList.add('wrong');
-  });
-
-  const exp = document.getElementById('exp-' + qi);
-  exp.classList.add('show');
-  if (oi === q.correct) {
-    exp.classList.add('correct-exp');
-    card.classList.add('answered-correct');
-    quizScore++;
-  } else {
-    exp.classList.add('wrong-exp');
-    card.classList.add('answered-wrong');
-  }
-
-  const answered = Object.keys(quizAnswers).length;
-  updateQuizScore(answered);
-
+  const q = quizQuestions[qi]; const card = document.getElementById('qcard-' + qi);
+  card.querySelectorAll('.option').forEach((opt, i) => { opt.classList.add('disabled'); if (i === q.correct) opt.classList.add('correct'); if (i === oi && oi !== q.correct) opt.classList.add('wrong'); });
+  const exp = document.getElementById('exp-' + qi); exp.classList.add('show');
+  if (oi === q.correct) { exp.classList.add('correct-exp'); card.classList.add('answered-correct'); quizScore++; }
+  else { exp.classList.add('wrong-exp'); card.classList.add('answered-wrong'); }
+  const answered = Object.keys(quizAnswers).length; updateQuizScore(answered);
   if (answered === activeQuizQuestions.length) { stopTimer(); showResults(); }
 }
 
@@ -2028,37 +2367,41 @@ function updateQuizScore(answered) {
   const total = activeQuizQuestions.length;
   const pct = answered > 0 ? Math.round((quizScore / answered) * 100) : 0;
   document.getElementById('scoreText').textContent = pct + '%';
-  document.getElementById('scoreCircle').style.background = `conic-gradient(var(--primary) ${pct * 3.6}deg, var(--border) ${pct * 3.6}deg)`;
-  document.getElementById('quizProgress').textContent = `${answered} / ${total} answered`;
+  document.getElementById('scoreCircle').style.background = 'conic-gradient(var(--primary) ' + (pct * 3.6) + 'deg, var(--border) ' + (pct * 3.6) + 'deg)';
+  document.getElementById('quizProgress').textContent = answered + ' / ' + total + ' answered';
 }
 
 function showResults() {
   const total = activeQuizQuestions.length;
   const pct = Math.round((quizScore / total) * 100);
   const results = document.getElementById('quizResults');
-  const circle = document.getElementById('resultsCircle');
-  const msg = document.getElementById('resultsMsg');
-  const sub = document.getElementById('resultsSub');
-
-  circle.textContent = pct + '%';
-  circle.className = 'results-circle ' + (pct >= 80 ? 'great' : pct >= 50 ? 'ok' : 'bad');
-
-  if (pct >= 80) {
-    msg.textContent = 'Excellent work!';
-    sub.textContent = `You scored ${quizScore}/${total}. You're well prepared for the CA1!`;
-  } else if (pct >= 50) {
-    msg.textContent = 'Good effort!';
-    sub.textContent = `You scored ${quizScore}/${total}. Review the sessions where you made mistakes.`;
-  } else {
-    msg.textContent = 'Keep studying!';
-    sub.textContent = `You scored ${quizScore}/${total}. Go through the study material and flashcards again.`;
-  }
+  // Save history
+  quizHistory.push({ mode: currentQuizMode || 'session', pct: pct });
+  if (quizHistory.length > 10) quizHistory.shift();
+  localStorage.setItem('ca1_quiz_history', JSON.stringify(quizHistory));
+  const mistakes = activeQuizQuestions.filter(qi => quizAnswers[qi] !== quizQuestions[qi].correct).length;
+  let msgText, subText;
+  if (pct >= 80) { msgText = 'Excellent work!'; subText = 'You scored ' + quizScore + '/' + total + '. Well prepared for the CA1!'; }
+  else if (pct >= 50) { msgText = 'Good effort!'; subText = 'You scored ' + quizScore + '/' + total + '. Review the ' + mistakes + ' question(s) you missed.'; }
+  else { msgText = 'Keep studying!'; subText = 'You scored ' + quizScore + '/' + total + '. Go through the study material again.'; }
+  let historyHtml = '';
+  if (quizHistory.length > 1) historyHtml = '<div style="margin-top:16px;font-size:0.85em;color:var(--text-secondary)"><strong>Recent:</strong> ' + quizHistory.slice(-5).map(h => h.pct + '%').join(' → ') + '</div>';
+  results.innerHTML = '<div class="results-circle ' + (pct >= 80 ? 'great' : pct >= 50 ? 'ok' : 'bad') + '">' + pct + '%</div>' +
+    '<div class="results-msg">' + msgText + '</div><div class="results-sub">' + subText + '</div>' + historyHtml +
+    '<div style="display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap">' +
+    (mistakes > 0 ? '<button class="fc-btn" onclick="reviewMistakes()" style="border-color:var(--error);color:var(--error)">Review Mistakes</button>' : '') +
+    '<button class="fc-btn primary-btn" onclick="backToModeSelect()">Back to Modes</button></div>';
   results.classList.add('show');
 }
 
+function reviewMistakes() {
+  document.getElementById('quizResults').classList.remove('show');
+  const first = activeQuizQuestions.find(qi => quizAnswers[qi] !== quizQuestions[qi].correct);
+  if (first !== undefined) { const el = document.getElementById('qcard-' + first); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+}
+
 function resetQuiz() {
-  quizAnswers = {};
-  quizScore = 0;
+  quizAnswers = {}; quizScore = 0;
   document.getElementById('quizResults').classList.remove('show');
   if (currentQuizMode === 'exam') startTimer(15 * 60);
   renderQuiz();
@@ -2066,60 +2409,76 @@ function resetQuiz() {
 
 // ===== TIMER =====
 function startTimer(seconds) {
-  stopTimer();
-  timerSeconds = seconds;
-  updateTimerDisplay();
+  stopTimer(); timerSeconds = seconds; updateTimerDisplay();
   timerInterval = setInterval(() => {
     timerSeconds--;
     if (timerSeconds <= 0) {
-      stopTimer();
-      timerSeconds = 0;
-      updateTimerDisplay();
-      // Auto-finish: mark unanswered as wrong
+      stopTimer(); timerSeconds = 0; updateTimerDisplay();
       activeQuizQuestions.forEach(qi => {
         if (quizAnswers[qi] === undefined) {
-          quizAnswers[qi] = -1;
-          const card = document.getElementById('qcard-' + qi);
-          if (card) {
-            card.querySelectorAll('.option').forEach((opt, i) => {
-              opt.classList.add('disabled');
-              if (i === quizQuestions[qi].correct) opt.classList.add('correct');
-            });
-            const exp = document.getElementById('exp-' + qi);
-            if (exp) { exp.classList.add('show', 'wrong-exp'); }
-            card.classList.add('answered-wrong');
-          }
+          quizAnswers[qi] = -1; const card = document.getElementById('qcard-' + qi);
+          if (card) { card.querySelectorAll('.option').forEach((opt, i) => { opt.classList.add('disabled'); if (i === quizQuestions[qi].correct) opt.classList.add('correct'); });
+            const exp = document.getElementById('exp-' + qi); if (exp) exp.classList.add('show', 'wrong-exp'); card.classList.add('answered-wrong'); }
         }
       });
-      showResults();
-      return;
+      showResults(); return;
     }
     updateTimerDisplay();
-    if (timerSeconds <= 60) document.getElementById('quizTimer').classList.add('warning');
+    if (timerSeconds <= 60) { document.getElementById('quizTimer').classList.add('warning'); if (navigator.vibrate && timerSeconds === 60) navigator.vibrate(200); }
   }, 1000);
 }
 
-function stopTimer() {
-  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
-  document.getElementById('quizTimer').classList.remove('warning');
-}
+function stopTimer() { if (timerInterval) { clearInterval(timerInterval); timerInterval = null; } document.getElementById('quizTimer').classList.remove('warning'); }
 
 function updateTimerDisplay() {
-  const m = Math.floor(timerSeconds / 60);
-  const s = timerSeconds % 60;
-  document.getElementById('timerDisplay').textContent = `${m}:${s.toString().padStart(2, '0')}`;
+  const m = Math.floor(timerSeconds / 60); const s = timerSeconds % 60;
+  document.getElementById('timerDisplay').textContent = m + ':' + s.toString().padStart(2, '0');
 }
 
-// ===== KEYBOARD SHORTCUTS =====
+// ===== RESET ALL =====
+function resetAllProgress() {
+  if (!confirm('Reset all progress? (mastered cards, quiz history, session progress)')) return;
+  localStorage.removeItem('ca1_progress'); localStorage.removeItem('ca1_mastered'); localStorage.removeItem('ca1_quiz_history');
+  sessionsRead = new Set(); masteredCards = new Set(); quizHistory = [];
+  updateProgress(); updateMasteryCounter();
+}
+
+// ===== KEYBOARD =====
 document.addEventListener('keydown', (e) => {
   if (currentMode === 'flashcards') {
     if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextCard(); }
     if (e.key === 'ArrowLeft') { e.preventDefault(); prevCard(); }
     if (e.key === 'Enter') { e.preventDefault(); flipCard(); }
   }
+  if (currentMode === 'quiz') {
+    const keyMap = { 'a': 0, 'b': 1, 'c': 2, 'd': 3 };
+    const optIdx = keyMap[e.key.toLowerCase()];
+    if (optIdx !== undefined) {
+      const unanswered = activeQuizQuestions.find(qi => quizAnswers[qi] === undefined);
+      if (unanswered !== undefined) { e.preventDefault(); selectOption(unanswered, optIdx);
+        const next = activeQuizQuestions.find(qi => quizAnswers[qi] === undefined);
+        if (next !== undefined) { const el = document.getElementById('qcard-' + next); if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300); }
+      }
+    }
+  }
 });
 
+// ===== SWIPE =====
+let touchStartX = 0, touchStartY = 0;
+document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; touchStartY = e.changedTouches[0].screenY; }, { passive: true });
+document.addEventListener('touchend', (e) => {
+  if (currentMode !== 'flashcards') return;
+  const dx = e.changedTouches[0].screenX - touchStartX;
+  const dy = e.changedTouches[0].screenY - touchStartY;
+  if (Math.abs(dx) < 50 || Math.abs(dy) > Math.abs(dx)) return;
+  if (dx > 0) prevCard(); else nextCard();
+}, { passive: true });
+
+// ===== BACK TO TOP =====
+window.addEventListener('scroll', () => { const btn = document.getElementById('backToTop'); if (btn) btn.classList.toggle('visible', window.scrollY > 400); }, { passive: true });
+
 // ===== INIT =====
+updateMasteryCounter();
 showCard();
 </script>
 </body>
