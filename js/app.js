@@ -115,11 +115,20 @@ function updateMasteryDashboard() {
 // ===== FLASHCARD SEARCH =====
 function searchFlashcards(query) {
   const q = query.toLowerCase().trim();
-  if (!q) { filterFlashcards(fcFilterSession === 'notmastered' ? 'notmastered' : 'all'); return; }
+  const countEl = document.getElementById('fcSearchCount');
+  if (!q) {
+    if (countEl) { countEl.classList.remove('visible'); countEl.textContent = ''; }
+    filterFlashcards(fcFilterSession === 'notmastered' ? 'notmastered' : 'all');
+    return;
+  }
   filteredFlashcards = [];
   flashcards.forEach((c, i) => {
     if (c.q.toLowerCase().includes(q) || c.a.toLowerCase().includes(q)) filteredFlashcards.push(i);
   });
+  if (countEl) {
+    countEl.textContent = filteredFlashcards.length + ' found';
+    countEl.classList.add('visible');
+  }
   fcOrder = [...filteredFlashcards]; fcIndex = 0; showCard();
 }
 
@@ -166,6 +175,7 @@ function showCard() {
     document.getElementById('fcAnswer').textContent = '';
     document.getElementById('fcProgress').textContent = '0 / 0';
     document.getElementById('fcBadge').textContent = '';
+    updateMasteryIndicator();
     return;
   }
   const idx = fcOrder[fcIndex]; const card = flashcards[idx];
@@ -174,6 +184,7 @@ function showCard() {
   document.getElementById('flashcard').classList.remove('flipped');
   document.getElementById('fcProgress').textContent = (fcIndex + 1) + ' / ' + fcOrder.length;
   document.getElementById('fcBadge').textContent = 'S' + card.s;
+  updateMasteryIndicator();
 }
 
 function flipCard() { document.getElementById('flashcard').classList.toggle('flipped'); }
@@ -189,13 +200,43 @@ function markCard(action) {
   const idx = fcOrder[fcIndex];
   if (action === 'gotit') masteredCards.add(idx); else masteredCards.delete(idx);
   localStorage.setItem('ca1_mastered', JSON.stringify([...masteredCards]));
-  updateMasteryCounter(); updateMasteryDashboard(); updateProgress();
+  updateMasteryCounter(); updateMasteryDashboard(); updateProgress(); updateMasteryIndicator();
   if (fcOrder.length > 1) nextCard();
 }
 
 function updateMasteryCounter() {
   const el = document.getElementById('fcMastery');
   if (el) el.textContent = 'Mastered: ' + masteredCards.size + ' / ' + flashcards.length;
+  updateFcStats();
+}
+
+function updateFcStats() {
+  const total = flashcards.length;
+  const mastered = masteredCards.size;
+  const remaining = total - mastered;
+  const elTotal = document.getElementById('fcStatTotal');
+  const elMastered = document.getElementById('fcStatMastered');
+  const elRemaining = document.getElementById('fcStatRemaining');
+  const elQuizAvg = document.getElementById('fcStatQuizAvg');
+  if (elTotal) elTotal.textContent = total;
+  if (elMastered) elMastered.textContent = mastered;
+  if (elRemaining) elRemaining.textContent = remaining;
+  if (elQuizAvg) {
+    if (quizHistory.length > 0) {
+      const avg = Math.round(quizHistory.reduce((s, h) => s + h.pct, 0) / quizHistory.length);
+      elQuizAvg.textContent = avg + '%';
+    } else {
+      elQuizAvg.textContent = '--';
+    }
+  }
+}
+
+function updateMasteryIndicator() {
+  const el = document.getElementById('fcMasteryIndicator');
+  if (!el) return;
+  if (fcOrder.length === 0) { el.classList.remove('active'); return; }
+  const idx = fcOrder[fcIndex];
+  el.classList.toggle('active', masteredCards.has(idx));
 }
 
 // ===== CHEAT SHEET FILTER =====
@@ -324,6 +365,7 @@ function showResults() {
   quizHistory.push({ mode: currentQuizMode || 'session', pct: pct });
   if (quizHistory.length > 10) quizHistory.shift();
   localStorage.setItem('ca1_quiz_history', JSON.stringify(quizHistory));
+  updateFcStats();
   const mistakes = activeQuizQuestions.filter(qi => quizAnswers[qi] !== quizQuestions[qi].correct).length;
   let msgText, subText;
   if (pct >= 80) { msgText = 'Excellent work!'; subText = 'You scored ' + quizScore + '/' + total + '. Well prepared for the CA1!'; }
@@ -433,4 +475,5 @@ window.addEventListener('scroll', () => { const btn = document.getElementById('b
 // ===== INIT =====
 updateMasteryCounter();
 updateMasteryDashboard();
+updateFcStats();
 showCard();

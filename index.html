@@ -673,23 +673,51 @@
 
 <!-- ==================== FLASHCARD MODE ==================== -->
 <div class="section" id="flashcardsSection">
-  <div class="fc-search">
-    <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
-    <input type="text" id="fcSearchInput" placeholder="Search flashcards by keyword..." oninput="searchFlashcards(this.value)">
+
+  <!-- Stats bar -->
+  <div class="fc-stats-bar" id="fcStatsBar">
+    <div class="fc-stat">
+      <span class="fc-stat-value" id="fcStatTotal">72</span>
+      <span class="fc-stat-label">Total</span>
+    </div>
+    <div class="fc-stat">
+      <span class="fc-stat-value fc-stat-success" id="fcStatMastered">0</span>
+      <span class="fc-stat-label">Mastered</span>
+    </div>
+    <div class="fc-stat">
+      <span class="fc-stat-value fc-stat-warning" id="fcStatRemaining">72</span>
+      <span class="fc-stat-label">Remaining</span>
+    </div>
+    <div class="fc-stat">
+      <span class="fc-stat-value fc-stat-info" id="fcStatQuizAvg">--</span>
+      <span class="fc-stat-label">Quiz Avg</span>
+    </div>
   </div>
-  <div class="fc-filter-row" id="fcFilterRow">
-    <button class="fc-filter-btn active" onclick="filterFlashcards('all')">All</button>
-    <button class="fc-filter-btn" onclick="filterFlashcards(1)">S1</button>
-    <button class="fc-filter-btn" onclick="filterFlashcards(2)">S2</button>
-    <button class="fc-filter-btn" onclick="filterFlashcards(3)">S3</button>
-    <button class="fc-filter-btn" onclick="filterFlashcards(4)">S4</button>
-    <button class="fc-filter-btn" onclick="filterFlashcards(5)">S5</button>
-    <button class="fc-filter-btn" onclick="filterFlashcards(6)">S6</button>
-    <button class="fc-filter-btn" onclick="filterFlashcards(8)">S8</button>
-    <button class="fc-filter-btn" onclick="filterFlashcards(9)">S9</button>
-    <button class="fc-filter-btn mastered-filter" onclick="filterFlashcards('notmastered')">Not Mastered</button>
+
+  <!-- Toolbar: search + filters unified -->
+  <div class="fc-toolbar">
+    <div class="fc-toolbar-search">
+      <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+      <input type="text" id="fcSearchInput" placeholder="Search..." oninput="searchFlashcards(this.value)">
+      <span class="fc-search-count" id="fcSearchCount"></span>
+    </div>
+    <div class="fc-toolbar-filters" id="fcFilterRow">
+      <button class="fc-filter-btn active" onclick="filterFlashcards('all')">All</button>
+      <button class="fc-filter-btn" onclick="filterFlashcards(1)">S1</button>
+      <button class="fc-filter-btn" onclick="filterFlashcards(2)">S2</button>
+      <button class="fc-filter-btn" onclick="filterFlashcards(3)">S3</button>
+      <button class="fc-filter-btn" onclick="filterFlashcards(4)">S4</button>
+      <button class="fc-filter-btn" onclick="filterFlashcards(5)">S5</button>
+      <button class="fc-filter-btn" onclick="filterFlashcards(6)">S6</button>
+      <button class="fc-filter-btn" onclick="filterFlashcards(8)">S8</button>
+      <button class="fc-filter-btn" onclick="filterFlashcards(9)">S9</button>
+      <button class="fc-filter-btn mastered-filter" onclick="filterFlashcards('notmastered')">To Review</button>
+    </div>
   </div>
+
+  <!-- Card area -->
   <div class="flashcard-container">
+    <div class="fc-mastery-indicator" id="fcMasteryIndicator" title="Card mastered"></div>
     <div class="flashcard" id="flashcard" onclick="flipCard()">
       <div class="fc-session-badge" id="fcBadge">S1</div>
       <div class="flashcard-face flashcard-front">
@@ -711,7 +739,7 @@
       </button>
     </div>
     <div class="flashcard-controls">
-      <button class="fc-btn" onclick="prevCard()">
+      <button class="fc-btn" onclick="prevCard()" title="Left arrow key">
         <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
         Prev
       </button>
@@ -719,7 +747,7 @@
         <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3"/></svg>
         Shuffle
       </button>
-      <button class="fc-btn primary-btn" onclick="nextCard()">
+      <button class="fc-btn primary-btn" onclick="nextCard()" title="Right arrow key">
         Next
         <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
       </button>
@@ -741,6 +769,13 @@
         </select>
       </div>
     </div>
+  </div>
+
+  <!-- Keyboard shortcuts hint -->
+  <div class="fc-shortcuts">
+    <span><kbd>&larr;</kbd><kbd>&rarr;</kbd> Navigate</span>
+    <span><kbd>Enter</kbd> Flip</span>
+    <span><kbd>Space</kbd> Next</span>
   </div>
 </div>
 
