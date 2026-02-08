@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CA1 Revision - Consumer & Market Studies | ESSCA</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+<style>
+/* ===== CSS VARIABLES & RESET ===== */
+:root {
+  --primary: #e30613;
+  --primary-dark: #b00510;
+  --primary-light: #ff4d5a;
+  --bg: #f0f2f5;
+  --bg-card: #ffffff;
+  --bg-card-alt: #f8f9fa;
+  --text: #1a1a2e;
+  --text-secondary: #6c757d;
+  --text-light: #adb5bd;
+  --border: #e9ecef;
+  --shadow: 0 4px 24px rgba(0,0,0,0.06);
+  --shadow-hover: 0 8px 32px rgba(0,0,0,0.12);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --gradient: linear-gradient(135deg, #e30613 0%, #ff6b6b 50%, #e30613 100%);
+  --gradient-dark: linear-gradient(135deg, #b00510 0%, #e30613 100%);
+  --success: #10b981;
+  --success-bg: #ecfdf5;
+  --error: #ef4444;
+  --error-bg: #fef2f2;
+  --warning: #f59e0b;
+  --warning-bg: #fffbeb;
+  --info: #3b82f6;
+  --info-bg: #eff6ff;
+}
+
+[data-theme="dark"] {
+  --bg: #0f172a;
+  --bg-card: #1e293b;
+  --bg-card-alt: #253349;
+  --text: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-light: #64748b;
+  --border: #334155;
+  --shadow: 0 4px 24px rgba(0,0,0,0.3);
+  --shadow-hover: 0 8px 32px rgba(0,0,0,0.5);
+  --success-bg: #064e3b;
+  --error-bg: #450a0a;
+  --warning-bg: #451a03;
+  --info-bg: #1e3a5f;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  transition: var(--transition);
+  overflow-x: hidden;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+
+/* ===== HEADER ===== */
+.hero {
+  background: var(--gradient);
+  background-size: 200% 200%;
+  animation: gradientShift 8s ease infinite;
+  color: white;
+  padding: 60px 30px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+  animation: pulse 4s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+.hero h1 {
+  font-size: 2.8em;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 8px;
+  position: relative;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+.hero .subtitle {
+  font-size: 1.2em;
+  opacity: 0.95;
+  font-weight: 400;
+  margin-bottom: 20px;
+  position: relative;
+}
+.exam-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(10px);
+  padding: 14px 28px;
+  border-radius: 50px;
+  font-size: 0.95em;
+  font-weight: 500;
+  position: relative;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+.exam-badge span { display: flex; align-items: center; gap: 6px; }
+.badge-dot {
+  width: 4px; height: 4px;
+  background: rgba(255,255,255,0.6);
+  border-radius: 50%;
+}
+
+/* ===== CONTROLS BAR ===== */
+.controls-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  transition: var(--transition);
+  flex-wrap: wrap;
+}
+.controls-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+.controls-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Search */
+.search-box {
+  position: relative;
+  flex: 1;
+  max-width: 400px;
+}
+.search-box input {
+  width: 100%;
+  padding: 10px 16px 10px 42px;
+  border: 2px solid var(--border);
+  border-radius: 50px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.9em;
+  transition: var(--transition);
+  outline: none;
+}
+.search-box input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(227,6,19,0.15); }
+.search-box svg {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: var(--text-light);
+}
+
+/* Progress */
+.progress-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85em;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.progress-bar {
+  width: 120px;
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--gradient);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+/* Theme toggle */
+.theme-toggle {
+  width: 42px;
+  height: 24px;
+  background: var(--border);
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: var(--transition);
+}
+.theme-toggle::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  top: 3px;
+  left: 3px;
+  transition: var(--transition);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+[data-theme="dark"] .theme-toggle { background: var(--primary); }
+[data-theme="dark"] .theme-toggle::after { left: 21px; }
+
+/* ===== NAV TABS ===== */
+.nav-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 12px 24px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+.nav-tab {
+  padding: 8px 18px;
+  border-radius: 50px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.85em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+  position: relative;
+}
+.nav-tab:hover { background: var(--bg); color: var(--text); }
+.nav-tab.active {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 2px 8px rgba(227,6,19,0.3);
+}
+
+/* ===== MODE SWITCHER ===== */
+.mode-switcher {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 20px 24px 0;
+}
+.mode-btn {
+  padding: 12px 28px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-size: 0.95em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mode-btn:hover { border-color: var(--primary); color: var(--primary); }
+.mode-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  box-shadow: 0 4px 16px rgba(227,6,19,0.3);
+}
+
+/* ===== MAIN CONTAINER ===== */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* ===== SECTIONS ===== */
+.section {
+  display: none;
+}
+.section.active {
+  display: block;
+  animation: fadeIn 0.4s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== SESSION CARD ===== */
+.session-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  margin: 20px 0;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: var(--transition);
+  border: 1px solid var(--border);
+}
+.session-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+.session-header {
+  padding: 20px 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  user-select: none;
+}
+.session-header:hover { background: var(--bg-card-alt); }
+.session-number {
+  width: 44px;
+  height: 44px;
+  background: var(--gradient);
+  color: white;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.1em;
+  flex-shrink: 0;
+}
+.session-info { flex: 1; }
+.session-info h3 {
+  font-size: 1.1em;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.session-info p {
+  font-size: 0.85em;
+  color: var(--text-secondary);
+}
+.session-toggle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+.session-card.open .session-toggle { transform: rotate(180deg); }
+.session-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.session-card.open .session-body { max-height: 5000px; }
+.session-content { padding: 0 28px 24px; }
+
+/* ===== CONCEPT CARD ===== */
+.concept {
+  padding: 18px 20px;
+  margin: 12px 0;
+  background: var(--bg-card-alt);
+  border-radius: var(--radius-sm);
+  border-left: 4px solid var(--primary);
+  transition: var(--transition);
+}
+.concept:hover { transform: translateX(4px); }
+.concept-title {
+  font-weight: 700;
+  font-size: 1em;
+  color: var(--primary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.concept p, .concept span { font-size: 0.95em; line-height: 1.7; }
+
+/* ===== PROCESS FLOW ===== */
+.process-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin: 10px 0;
+}
+.process-step {
+  background: var(--gradient);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.88em;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(227,6,19,0.2);
+}
+.process-arrow { color: var(--primary); font-weight: bold; font-size: 1.3em; }
+
+/* ===== TABLES ===== */
+.table-wrap { overflow-x: auto; margin: 14px 0; border-radius: var(--radius-sm); }
+table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+th {
+  background: var(--gradient);
+  color: white;
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+}
+td {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+tr:nth-child(even) td { background: var(--bg-card-alt); }
+tr:hover td { background: rgba(227,6,19,0.04); }
+
+/* ===== TIP BOX ===== */
+.tip {
+  background: var(--warning-bg);
+  border-left: 4px solid var(--warning);
+  padding: 14px 18px;
+  margin: 14px 0;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 0.92em;
+  font-weight: 500;
+}
+
+/* ===== KEY TERM ===== */
+.key-term {
+  display: inline-block;
+  background: rgba(227,6,19,0.1);
+  color: var(--primary);
+  padding: 2px 10px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.9em;
+}
+
+/* ===== CHEAT SHEET ===== */
+.cheat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+.cheat-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.cheat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--gradient);
+}
+.cheat-card:hover {
+  border-color: var(--primary);
+  box-shadow: 0 4px 20px rgba(227,6,19,0.12);
+  transform: translateY(-3px);
+}
+.cheat-card h4 {
+  font-size: 0.95em;
+  color: var(--primary);
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+.cheat-card p {
+  font-size: 0.88em;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+.cheat-card strong { color: var(--text); }
+
+/* ===== FLASHCARD MODE ===== */
+.flashcard-container {
+  perspective: 1200px;
+  max-width: 600px;
+  margin: 30px auto;
+}
+.flashcard {
+  width: 100%;
+  min-height: 300px;
+  position: relative;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.flashcard.flipped { transform: rotateY(180deg); }
+.flashcard-face {
+  position: absolute;
+  width: 100%;
+  min-height: 300px;
+  backface-visibility: hidden;
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 36px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  border: 2px solid var(--border);
+}
+.flashcard-front {
+  background: var(--bg-card);
+}
+.flashcard-front h3 {
+  font-size: 1.4em;
+  color: var(--primary);
+  margin-bottom: 12px;
+}
+.flashcard-front p {
+  font-size: 0.9em;
+  color: var(--text-light);
+}
+.flashcard-back {
+  background: var(--gradient);
+  color: white;
+  transform: rotateY(180deg);
+}
+.flashcard-back p {
+  font-size: 1.05em;
+  line-height: 1.8;
+}
+.flashcard-controls {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+.fc-btn {
+  padding: 12px 32px;
+  border-radius: 50px;
+  border: 2px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text);
+  font-size: 0.95em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.fc-btn:hover { border-color: var(--primary); color: var(--primary); }
+.fc-btn.primary-btn {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+.fc-btn.primary-btn:hover { background: var(--primary-dark); }
+.flashcard-progress {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 0.9em;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* ===== QUIZ MODE ===== */
+.quiz-header {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 24px 28px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.quiz-score {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.score-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: conic-gradient(var(--primary) 0%, var(--border) 0%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.score-circle::before {
+  content: '';
+  width: 50px;
+  height: 50px;
+  background: var(--bg-card);
+  border-radius: 50%;
+  position: absolute;
+}
+.score-text {
+  position: relative;
+  z-index: 1;
+  font-weight: 800;
+  font-size: 0.85em;
+  color: var(--primary);
+}
+.quiz-info h3 { font-size: 1.1em; font-weight: 700; }
+.quiz-info p { font-size: 0.85em; color: var(--text-secondary); }
+.quiz-actions { display: flex; gap: 10px; }
+.quiz-btn {
+  padding: 10px 22px;
+  border-radius: 50px;
+  border: none;
+  font-size: 0.9em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.quiz-btn.reset-btn {
+  background: var(--bg);
+  color: var(--text-secondary);
+  border: 2px solid var(--border);
+}
+.quiz-btn.reset-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+.question-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 24px 28px;
+  margin: 14px 0;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  transition: var(--transition);
+}
+.question-card.answered-correct { border-color: var(--success); }
+.question-card.answered-wrong { border-color: var(--error); }
+.question-num {
+  font-size: 0.8em;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.question-text {
+  font-size: 1.05em;
+  font-weight: 600;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+.option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  margin: 6px 0;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--border);
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 0.95em;
+}
+.option:hover:not(.disabled) {
+  border-color: var(--primary);
+  background: rgba(227,6,19,0.04);
+}
+.option.selected {
+  border-color: var(--primary);
+  background: rgba(227,6,19,0.08);
+}
+.option.correct {
+  border-color: var(--success);
+  background: var(--success-bg);
+}
+.option.wrong {
+  border-color: var(--error);
+  background: var(--error-bg);
+}
+.option.disabled { cursor: default; opacity: 0.7; }
+.option-letter {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85em;
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+.option.correct .option-letter { background: var(--success); color: white; }
+.option.wrong .option-letter { background: var(--error); color: white; }
+.explanation {
+  margin-top: 14px;
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 0.9em;
+  font-weight: 500;
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+.explanation.show { display: block; }
+.explanation.correct-exp { background: var(--success-bg); color: #065f46; border-left: 4px solid var(--success); }
+.explanation.wrong-exp { background: var(--error-bg); color: #991b1b; border-left: 4px solid var(--error); }
+[data-theme="dark"] .explanation.correct-exp { color: #6ee7b7; }
+[data-theme="dark"] .explanation.wrong-exp { color: #fca5a5; }
+
+/* ===== QUIZ RESULTS ===== */
+.quiz-results {
+  display: none;
+  text-align: center;
+  padding: 48px 24px;
+}
+.quiz-results.show { display: block; animation: fadeIn 0.5s ease; }
+.results-circle {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  margin: 0 auto 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.8em;
+  font-weight: 800;
+  position: relative;
+}
+.results-circle.great { background: var(--success-bg); color: var(--success); border: 4px solid var(--success); }
+.results-circle.ok { background: var(--warning-bg); color: var(--warning); border: 4px solid var(--warning); }
+.results-circle.bad { background: var(--error-bg); color: var(--error); border: 4px solid var(--error); }
+.results-msg { font-size: 1.4em; font-weight: 700; margin-bottom: 8px; }
+.results-sub { color: var(--text-secondary); margin-bottom: 24px; }
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  padding: 40px 24px;
+  color: var(--text-light);
+  font-size: 0.85em;
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+}
+.footer span { color: var(--primary); font-weight: 600; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .hero { padding: 40px 20px 60px; }
+  .hero h1 { font-size: 1.8em; }
+  .controls-bar { padding: 10px 16px; }
+  .container { padding: 16px; }
+  .session-content { padding: 0 20px 20px; }
+  .mode-switcher { flex-wrap: wrap; }
+  .cheat-grid { grid-template-columns: 1fr; }
+  .exam-badge { flex-wrap: wrap; justify-content: center; font-size: 0.85em; padding: 10px 18px; }
+  .quiz-header { flex-direction: column; text-align: center; }
+  .flashcard-face { min-height: 250px; padding: 30px 24px; }
+  .search-box { max-width: none; }
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-in { animation: slideUp 0.5s ease forwards; }
+
+/* highlight search */
+mark {
+  background: rgba(227,6,19,0.2);
+  color: inherit;
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Consumer & Market Studies</h1>
+  <p class="subtitle">CA1 - Interactive Revision Guide</p>
+  <div class="exam-badge">
+    <span>15 MCQ Questions</span>
+    <div class="badge-dot"></div>
+    <span>15 Minutes</span>
+    <div class="badge-dot"></div>
+    <span>Sessions 1-9</span>
+    <div class="badge-dot"></div>
+    <span>No Negative Points</span>
+  </div>
+</div>
+
+<!-- CONTROLS BAR -->
+<div class="controls-bar">
+  <div class="controls-left">
+    <div class="search-box">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+      <input type="text" id="searchInput" placeholder="Search concepts, terms, definitions..." oninput="handleSearch(this.value)">
+    </div>
+    <div class="progress-container">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <span id="progressText">0%</span>
+    </div>
+  </div>
+  <div class="controls-right">
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode"></button>
+  </div>
+</div>
+
+<!-- MODE SWITCHER -->
+<div class="mode-switcher">
+  <button class="mode-btn active" onclick="switchMode('study')" data-mode="study">
+    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg>
+    Study
+  </button>
+  <button class="mode-btn" onclick="switchMode('flashcards')" data-mode="flashcards">
+    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/></svg>
+    Flashcards
+  </button>
+  <button class="mode-btn" onclick="switchMode('quiz')" data-mode="quiz">
+    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"/></svg>
+    Quiz
+  </button>
+  <button class="mode-btn" onclick="switchMode('cheatsheet')" data-mode="cheatsheet">
+    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z"/></svg>
+    Cheat Sheet
+  </button>
+</div>
+
+<!-- NAV TABS (Session filter) -->
+<div class="nav-tabs" id="navTabs">
+  <button class="nav-tab active" onclick="filterSession('all')">All Sessions</button>
+  <button class="nav-tab" onclick="filterSession(1)">S1 - Intro</button>
+  <button class="nav-tab" onclick="filterSession(2)">S2 - Attitude</button>
+  <button class="nav-tab" onclick="filterSession(3)">S3 - Perception</button>
+  <button class="nav-tab" onclick="filterSession(4)">S4 - Early Phases</button>
+  <button class="nav-tab" onclick="filterSession(5)">S5 - Secondary Data</button>
+  <button class="nav-tab" onclick="filterSession(6)">S6 - Qualitative</button>
+  <button class="nav-tab" onclick="filterSession(8)">S8 - Qual Analysis</button>
+  <button class="nav-tab" onclick="filterSession(9)">S9 - Quantitative</button>
+</div>
+
+<div class="container">
+
+<!-- ==================== STUDY MODE ==================== -->
+<div class="section active" id="studySection">
+
+<!-- SESSION 1 -->
+<div class="session-card open" data-session="1">
+  <div class="session-header" onclick="toggleSession(this)">
+    <div style="display:flex;align-items:center;gap:16px;flex:1;min-width:0">
+      <div class="session-number">1</div>
+      <div class="session-info">
+        <h3>Introducing Consumer and Market Studies</h3>
+        <p>Consumer behaviour, market study definition, role of market study</p>
+      </div>
+    </div>
+    <div class="session-toggle">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+    </div>
+  </div>
+  <div class="session-body">
+    <div class="session-content">
+      <div class="concept">
+        <div class="concept-title">Consumer Behaviour</div>
+        <p>The processes involved when individuals or groups <strong>select, purchase, use, or dispose of</strong> products, services, ideas, or experiences to <strong>satisfy needs and desires</strong>.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Market Study</div>
+        <p>The <strong>systematic and objective</strong> identification, collection, analysis, dissemination, and use of information for the purpose of <strong>improving decision making</strong> related to the identification and solution of problems and opportunities in marketing.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Role of Market Study</div>
+        <p>Market studies help organizations understand their consumers and markets to make <strong>better-informed marketing decisions</strong>. They reduce uncertainty by providing factual data instead of assumptions.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SESSION 2 -->
+<div class="session-card" data-session="2">
+  <div class="session-header" onclick="toggleSession(this)">
+    <div style="display:flex;align-items:center;gap:16px;flex:1;min-width:0">
+      <div class="session-number">2</div>
+      <div class="session-info">
+        <h3>Attitude, Behaviour and Belief</h3>
+        <p>Consumer behaviour model, attitude vs behaviour vs belief</p>
+      </div>
+    </div>
+    <div class="session-toggle">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+    </div>
+  </div>
+  <div class="session-body">
+    <div class="session-content">
+      <div class="concept">
+        <div class="concept-title">Model of Consumer Behaviour</div>
+        <p><strong>Environment</strong> (marketing stimuli + other stimuli) <span class="process-arrow">&rarr;</span> <strong>Consumer's Black Box</strong> (characteristics + decision process) <span class="process-arrow">&rarr;</span> <strong>Consumer Responses</strong> (attitudes, purchase behaviour, etc.)</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Behaviour</div>
+        <p>What a consumer <strong>does</strong>. It is <strong>observed and factual</strong> - you can see it.<br>Example: "I buy organic food every week."</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Attitude</div>
+        <p>What a consumer <strong>thinks or feels</strong>. It <strong>cannot be directly observed</strong>. It is an overall evaluation (positive or negative) of an object, person, or issue.<br>Example: "I think organic food is healthier."</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Belief</div>
+        <p>The <strong>cognitive information</strong> a consumer holds about an attitude object. It is what the consumer <strong>knows or thinks they know</strong>.<br>Example: "Organic food contains no pesticides."</p>
+      </div>
+      <div class="tip">Behaviour = ACTION (observable) | Attitude = EVALUATION (feeling/thinking) | Belief = KNOWLEDGE (cognitive info)</div>
+    </div>
+  </div>
+</div>
+
+<!-- SESSION 3 -->
+<div class="session-card" data-session="3">
+  <div class="session-header" onclick="toggleSession(this)">
+    <div style="display:flex;align-items:center;gap:16px;flex:1;min-width:0">
+      <div class="session-number">3</div>
+      <div class="session-info">
+        <h3>Perception, Motivation and Emotion</h3>
+        <p>Perceptual process, functional vs symbolic attributes, motivation, emotion</p>
+      </div>
+    </div>
+    <div class="session-toggle">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+    </div>
+  </div>
+  <div class="session-body">
+    <div class="session-content">
+      <div class="concept">
+        <div class="concept-title">Perception</div>
+        <p>The process by which sensory information is <strong>selected, organized, and interpreted</strong>. It is how people make sense of the world around them.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Sensation</div>
+        <p>The <strong>immediate response</strong> of sensory receptors (eyes, ears, nose, mouth, skin) to basic stimuli such as light, colour, sound, odour, and texture.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Perceptual Process (Solomon, 2018)</div>
+        <div class="process-flow">
+          <span class="process-step">Sensory stimuli</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">Sensory receptors</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">Exposure</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">Attention</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">Interpretation</span>
+        </div>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Functional vs. Symbolic Attributes</div>
+        <p><strong>Functional attributes:</strong> tangible, measurable characteristics (taste, smell, price, weight).<br>
+        <strong>Symbolic attributes:</strong> intangible characteristics (brand image, quality perception, authenticity, status).</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Motivation</div>
+        <p>The <strong>process that leads people to behave as they do</strong>. It occurs when a <strong>need is aroused</strong> that the consumer wishes to satisfy. The need creates a state of tension that drives the consumer to reduce it.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Emotion</div>
+        <p>An <strong>affective response</strong> to a situation. Emotions influence consumer decisions and can be positive (joy, excitement) or negative (fear, frustration). They interact with attitudes and motivations.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SESSION 4 -->
+<div class="session-card" data-session="4">
+  <div class="session-header" onclick="toggleSession(this)">
+    <div style="display:flex;align-items:center;gap:16px;flex:1;min-width:0">
+      <div class="session-number">4</div>
+      <div class="session-info">
+        <h3>Early Phases of a Market Study</h3>
+        <p>5-stage process, MDP vs MSP, brief vs proposal, study design types</p>
+      </div>
+    </div>
+    <div class="session-toggle">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+    </div>
+  </div>
+  <div class="session-body">
+    <div class="session-content">
+      <div class="concept">
+        <div class="concept-title">Market Study Process (5 Stages)</div>
+        <div class="process-flow">
+          <span class="process-step">1. Formulate the problem</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">2. Determine study design</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">3. Data collection & sampling</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">4. Analyze & interpret</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">5. Report & delivery</span>
+        </div>
+        <p style="margin-top:10px;font-style:italic;">All of this leads to &rarr; <strong>Make decisions</strong></p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">MDP vs. MSP</div>
+        <p><strong>Management Decision Problem (MDP):</strong> asks what the <strong>decision maker needs to do</strong>. Action-oriented.<br>Example: "Should Starbucks launch a drive-thru in France?"</p>
+        <p style="margin-top:8px"><strong>Marketing Study Problem (MSP):</strong> asks what <strong>information is needed</strong> and how it can be best obtained. Research-oriented.<br>Example: "What are consumer beliefs, perceptions, motivations, barriers towards a Starbucks drive-thru?"</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Brief vs. Proposal</div>
+        <p><strong>Brief</strong> = from the <strong>client</strong>. Contains: background, business objectives, stakeholders, scope, outcomes, budget/timing.<br>
+        <strong>Proposal</strong> = from the <strong>research institute/supplier</strong>. Contains: project title, marketing problem, purpose, methodology, sample plan, timeline, budget, ethical concerns.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Study Design Types</div>
+        <p><strong>Exploratory studies:</strong> provide <strong>insights and understanding</strong>. Flexible, unstructured.<br>
+        <strong>Conclusive studies:</strong> test <strong>specific hypotheses</strong> and examine relationships. Structured, quantitative.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SESSION 5 -->
+<div class="session-card" data-session="5">
+  <div class="session-header" onclick="toggleSession(this)">
+    <div style="display:flex;align-items:center;gap:16px;flex:1;min-width:0">
+      <div class="session-number">5</div>
+      <div class="session-info">
+        <h3>Secondary Data Analysis</h3>
+        <p>Primary vs secondary data, internal vs external, uses and evaluation</p>
+      </div>
+    </div>
+    <div class="session-toggle">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+    </div>
+  </div>
+  <div class="session-body">
+    <div class="session-content">
+      <div class="concept">
+        <div class="concept-title">Primary vs. Secondary Data</div>
+        <p><strong>Primary data:</strong> originated by the researcher <strong>for the specific purpose</strong> of addressing the study problem at hand.<br>
+        <strong>Secondary data:</strong> data collected <strong>for some other purpose</strong> than the problem at hand. They are <strong>existing data</strong>.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <tr><th></th><th>Primary Data</th><th>Secondary Data</th></tr>
+          <tr><td><strong>Collection purpose</strong></td><td>For the problem at hand</td><td>For other problems</td></tr>
+          <tr><td><strong>Collection process</strong></td><td>Very involved</td><td>Rapid and easy</td></tr>
+          <tr><td><strong>Collection cost</strong></td><td>High</td><td>Relatively low</td></tr>
+          <tr><td><strong>Collection time</strong></td><td>Long</td><td>Short</td></tr>
+        </table>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Prerequisite</div>
+        <p>Examination of secondary data is a <strong>prerequisite</strong> to the collection of primary data. A market study always starts with secondary data.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Internal vs. External Secondary Data</div>
+        <p><strong>Internal data:</strong> available <strong>within</strong> the organization (client database, CRM/ERP, internal reports, previous studies).<br>
+        <strong>External data:</strong> <strong>outside</strong> the organization (government sources/census, professional associations, professional press, social media, syndicated services).</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Uses of Secondary Data</div>
+        <p>Identify the problem, better define the problem, develop an approach, formulate research design, answer study questions, interpret primary data more insightfully.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Three Sieves of Socrates</div>
+        <p>When evaluating secondary data: 1) Is it <strong>true</strong>? 2) Is it <strong>good</strong>? 3) Is it <strong>useful</strong>?<br>
+        Also evaluate: methodology, accuracy, currency, content, purpose, and credibility.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Exploratory Research Method (5 steps)</div>
+        <div class="process-flow">
+          <span class="process-step">Identify object & field</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">Use keywords</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">Identify nature & content</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">Consult resources</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">Write up properly</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SESSION 6 -->
+<div class="session-card" data-session="6">
+  <div class="session-header" onclick="toggleSession(this)">
+    <div style="display:flex;align-items:center;gap:16px;flex:1;min-width:0">
+      <div class="session-number">6</div>
+      <div class="session-info">
+        <h3>Qualitative Study: Aims, Interviews and Interview Guide</h3>
+        <p>Qualitative methods, depth interviews, sampling, saturation effect</p>
+      </div>
+    </div>
+    <div class="session-toggle">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+    </div>
+  </div>
+  <div class="session-body">
+    <div class="session-content">
+      <div class="concept">
+        <div class="concept-title">Qualitative Study</div>
+        <p>An <strong>unstructured, exploratory</strong> research methodology based on <strong>small samples</strong> intended to provide <strong>insight and understanding</strong> of a social phenomenon within its natural setting. It focuses on <strong>words, concepts, ideas, opinions</strong>. Data is <strong>non-numerical</strong>.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Qualitative Study Procedures</div>
+        <p><strong>Direct (nondisguised):</strong> Focus Groups, Depth Interviews<br>
+        <strong>Indirect (disguised):</strong> Projective Techniques</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Advantages & Disadvantages</div>
+        <p><strong>Advantages:</strong> deeper insights than secondary data, uncover underlying reasons, probe for motivations, free exchange of information, attribute responses to respondents.<br>
+        <strong>Disadvantages:</strong> skilled interviewers are expensive, small sample (not conclusive), quality depends on interviewer.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Depth Interview</div>
+        <p>A <strong>direct, personal interview</strong> where a single respondent is probed by a skilled interviewer to uncover underlying opinions, motivations, beliefs, attitudes, and feelings. Can be structured or unstructured.</p>
+        <p style="margin-top:6px"><strong>Characteristics:</strong> one-to-one, single topic, 30 min to 1 hour, diversity of participants, recording recommended.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Sample Selection Criteria (Initial Target)</div>
+        <p>Based on: <strong>demographic</strong> (age, income, gender), <strong>psychographic</strong> (attitudes, values, lifestyle), <strong>geographic</strong> (location, availability), <strong>usage</strong> (non-user, occasional, frequent) characteristics.<br>
+        Participants can be: industry experts, product users, or anyone concerned by the topic.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Qualitative Sampling Methods</div>
+        <p><strong>Convenience sampling:</strong> pure chance, take-them-where-you-find-them.<br>
+        <strong>Purposive sampling:</strong> identify key characteristics, find where these people are, invite them.<br>
+        <strong>Snowball sampling:</strong> first participant refers others who match the profile.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Saturation Effect</div>
+        <p>When you stop finding <strong>new insights, ideas, opinions, or patterns</strong> as you interview more participants. This signals the <strong>end of the interviews</strong>. It is impossible to know the exact sample size beforehand.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Interview Techniques</div>
+        <p><strong>Structured interview:</strong> standardized questions, fixed order.<br>
+        <strong>Semi-structured interview:</strong> set topics/questions but <strong>no imposed sequence</strong>, free to ask follow-up questions.<br>
+        <strong>Narrative interview:</strong> open-ended, respondent tells their story.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SESSION 8 -->
+<div class="session-card" data-session="8">
+  <div class="session-header" onclick="toggleSession(this)">
+    <div style="display:flex;align-items:center;gap:16px;flex:1;min-width:0">
+      <div class="session-number">8</div>
+      <div class="session-info">
+        <h3>Qualitative Data Analysis</h3>
+        <p>Thematic analysis, 7 steps, codes, themes, excerpts, hierarchy</p>
+      </div>
+    </div>
+    <div class="session-toggle">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+    </div>
+  </div>
+  <div class="session-body">
+    <div class="session-content">
+      <div class="concept">
+        <div class="concept-title">Analysis (Bernard, 2006)</div>
+        <p>The search for <strong>patterns in data</strong> and for ideas that help explain why those patterns are there.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Thematic Analysis</div>
+        <p>A data analysis process that involves delving through a data set, <strong>identifying patterns</strong>, systematically <strong>coding</strong>, deriving <strong>themes</strong>, and creating a <strong>narrative</strong>.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">7 Steps of Qualitative Analysis</div>
+        <p><strong>Step 1: Familiarize yourself with data</strong> - Transcribe interviews, read transcripts, identify meanings and patterns.</p>
+        <p><strong>Step 2: Come up with initial codes</strong> - A code is a word/phrase that captures the essence of an excerpt.</p>
+        <p><strong>Step 3: Decide what you code</strong> - Identify relevant excerpts, apply appropriate codes. Same meaning = same code.</p>
+        <p><strong>Step 4: Merge codes with supporting excerpts</strong> - Group excerpts by code (= codifying). This allows deeper understanding.</p>
+        <p><strong>Step 5: Group codes into themes</strong> - A theme is nuanced, complex, meaningful and related to the information needed.</p>
+        <p><strong>Step 6: Assess and revise themes</strong> - Check relevance, ensure enough data per theme, themes must be mutually exclusive. Merge similar themes, delete non-contributing ones. Iterative process.</p>
+        <p><strong>Step 7: Write the results</strong> - Tell a consistent story, use quotes to support ideas, provide interpretive analysis.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Key Vocabulary</div>
+        <p><span class="key-term">Excerpt</span> = word-for-word reproduction of verbal data (verbatim).<br>
+        <span class="key-term">Code</span> = word/phrase capturing the essence of an excerpt.<br>
+        <span class="key-term">Codifying</span> = grouping and categorizing data by codes.<br>
+        <span class="key-term">Theme</span> = grouping of codes that says something meaningful about the MSP.<br>
+        <span class="key-term">Sub-theme</span> = codes grouped under a theme (e.g., Frustration + Anger = Negative Emotions).</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Hierarchy of Themes</div>
+        <p><strong>Strong themes</strong> = most recurring (high frequency of excerpts, many respondents).<br>
+        <strong>Weak themes</strong> = less recurring.<br>
+        Depends on: frequency of excerpts, number of interviews addressing the code, and length of verbatim.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Important: Limitations</div>
+        <p>Findings of a qualitative study <strong>can't be generalized</strong> (sample too small, not statistically representative) but they provide insights and help in <strong>questionnaire design</strong> for the quantitative phase.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SESSION 9 -->
+<div class="session-card" data-session="9">
+  <div class="session-header" onclick="toggleSession(this)">
+    <div style="display:flex;align-items:center;gap:16px;flex:1;min-width:0">
+      <div class="session-number">9</div>
+      <div class="session-info">
+        <h3>Quantitative Study: Aims, Sampling and Data Collection</h3>
+        <p>Qualitative vs quantitative, sampling methods, probability vs non-probability</p>
+      </div>
+    </div>
+    <div class="session-toggle">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+    </div>
+  </div>
+  <div class="session-body">
+    <div class="session-content">
+      <div class="table-wrap">
+        <table>
+          <tr><th></th><th>Qualitative Study</th><th>Quantitative Study</th></tr>
+          <tr><td><strong>Objective</strong></td><td>Gain qualitative understanding of underlying reasons/motivations</td><td>Quantify data and generalize results from sample to population</td></tr>
+          <tr><td><strong>Sample</strong></td><td>Small, nonrepresentative</td><td>Large, statistically representative</td></tr>
+          <tr><td><strong>Data collection</strong></td><td>Unstructured</td><td>Structured</td></tr>
+          <tr><td><strong>Data analysis</strong></td><td>Nonstatistical</td><td>Statistical</td></tr>
+          <tr><td><strong>Outcome</strong></td><td>Develop initial understanding</td><td>Recommend final course of action</td></tr>
+        </table>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Quantitative Study</div>
+        <p>A <strong>systematic investigation</strong> by gathering <strong>quantifiable data</strong> and performing statistical, mathematical, or computational techniques. It is <strong>explanatory (descriptive)</strong> and <strong>confirmatory (causal)</strong>: it explains and confirms relationships between variables.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Quantitative Data</div>
+        <p>Information that can be <strong>counted or measured</strong> and given a numerical value. Can be <strong>intrinsically quantitative</strong> (e.g., monthly budget, annual income) or have an <strong>imposed numeric structure</strong> (e.g., Likert scale 1-5).</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Sampling Design Process (3 steps)</div>
+        <p><strong>1. Define the population</strong> (and deduce the target to be studied).<br>
+        <strong>2. Choose the sampling method</strong> (how to select participants).<br>
+        <strong>3. Determine the sample size.</strong></p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Population vs. Sample</div>
+        <p><strong>Population:</strong> the defined group of individuals from which a sample is drawn.<br>
+        <strong>Sample:</strong> members of a population selected to participate in a study.<br>
+        Proper sampling allows us to <strong>estimate characteristics of the population as a whole</strong>.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Sampling Technique</div>
+        <p>Depends on whether a <strong>sampling frame</strong> (list of target population) is <strong>available and accessible</strong>:<br>
+        <strong>YES</strong> &rarr; Probability sampling<br>
+        <strong>NO</strong> &rarr; Non-probability sampling</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Probability Sampling Methods</div>
+        <p>Each member has a <strong>specifiable probability</strong> of being chosen.<br>
+        <strong>Simple random sampling:</strong> every member has an equal probability.<br>
+        <strong>Stratified random sampling:</strong> population divided into subgroups (strata), random samples from each.<br>
+        <strong>Cluster sampling:</strong> groups/geographic areas identified as clusters, samples taken from clusters.</p>
+      </div>
+      <div class="concept">
+        <div class="concept-title">Non-Probability Sampling Methods</div>
+        <p>Probability of any member being chosen is <strong>unknown</strong>.<br>
+        <strong>Convenience sampling:</strong> haphazard, take-them-where-you-find-them.<br>
+        <strong>Purposive sampling:</strong> selected based on researcher's judgment.<br>
+        <strong>Snowball sampling:</strong> participants recruit others.<br>
+        <strong>Quota sampling:</strong> sample reflects the numerical composition of subgroups in the population.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end study section -->
+
+<!-- ==================== FLASHCARD MODE ==================== -->
+<div class="section" id="flashcardSection">
+  <div class="flashcard-container">
+    <div class="flashcard" id="flashcard" onclick="flipCard()">
+      <div class="flashcard-face flashcard-front">
+        <h3 id="fcQuestion"></h3>
+        <p>Click to reveal the answer</p>
+      </div>
+      <div class="flashcard-face flashcard-back">
+        <p id="fcAnswer"></p>
+      </div>
+    </div>
+    <div class="flashcard-controls">
+      <button class="fc-btn" onclick="prevCard()">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
+        Previous
+      </button>
+      <button class="fc-btn" onclick="shuffleCards()">Shuffle</button>
+      <button class="fc-btn primary-btn" onclick="nextCard()">
+        Next
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+      </button>
+    </div>
+    <div class="flashcard-progress" id="fcProgress"></div>
+  </div>
+</div>
+
+<!-- ==================== QUIZ MODE ==================== -->
+<div class="section" id="quizSection">
+  <div class="quiz-header">
+    <div class="quiz-score">
+      <div class="score-circle" id="scoreCircle">
+        <span class="score-text" id="scoreText">0%</span>
+      </div>
+      <div class="quiz-info">
+        <h3>Practice Quiz</h3>
+        <p id="quizProgress">0 / 20 answered</p>
+      </div>
+    </div>
+    <div class="quiz-actions">
+      <button class="quiz-btn reset-btn" onclick="resetQuiz()">Reset Quiz</button>
+    </div>
+  </div>
+  <div id="quizContainer"></div>
+  <div class="quiz-results" id="quizResults">
+    <div class="results-circle" id="resultsCircle"></div>
+    <div class="results-msg" id="resultsMsg"></div>
+    <div class="results-sub" id="resultsSub"></div>
+    <button class="fc-btn primary-btn" onclick="resetQuiz()" style="margin:0 auto">Try Again</button>
+  </div>
+</div>
+
+<!-- ==================== CHEAT SHEET MODE ==================== -->
+<div class="section" id="cheatsheetSection">
+  <div class="cheat-grid">
+    <div class="cheat-card">
+      <h4>Behaviour vs. Attitude vs. Belief</h4>
+      <p><strong>Behaviour</strong> = what you DO (observable)<br><strong>Attitude</strong> = what you THINK/FEEL (evaluation)<br><strong>Belief</strong> = what you KNOW (cognitive info)</p>
+    </div>
+    <div class="cheat-card">
+      <h4>Sensation vs. Perception</h4>
+      <p><strong>Sensation</strong> = immediate response of senses<br><strong>Perception</strong> = selecting + organizing + interpreting that sensory info</p>
+    </div>
+    <div class="cheat-card">
+      <h4>MDP vs. MSP</h4>
+      <p><strong>MDP</strong> = what to DO (action-oriented, from manager)<br><strong>MSP</strong> = what to STUDY (information-oriented, from researcher)</p>
+    </div>
+    <div class="cheat-card">
+      <h4>Brief vs. Proposal</h4>
+      <p><strong>Brief</strong> = from CLIENT<br><strong>Proposal</strong> = from RESEARCH INSTITUTE</p>
+    </div>
+    <div class="cheat-card">
+      <h4>Primary vs. Secondary Data</h4>
+      <p><strong>Primary</strong> = collected FOR this study (expensive, long)<br><strong>Secondary</strong> = already exists (cheap, fast, prerequisite)</p>
+    </div>
+    <div class="cheat-card">
+      <h4>Internal vs. External Secondary Data</h4>
+      <p><strong>Internal</strong> = within the organization (CRM, reports)<br><strong>External</strong> = outside (government, press, syndicated)</p>
+    </div>
+    <div class="cheat-card">
+      <h4>Qualitative vs. Quantitative</h4>
+      <p><strong>Qualitative</strong> = small sample, non-numerical, insights, unstructured<br><strong>Quantitative</strong> = large sample, numerical, statistical, structured</p>
+    </div>
+    <div class="cheat-card">
+      <h4>Exploratory vs. Conclusive</h4>
+      <p><strong>Exploratory</strong> = insights, understanding, flexible<br><strong>Conclusive</strong> = test hypotheses, examine relationships, structured</p>
+    </div>
+    <div class="cheat-card">
+      <h4>Probability vs. Non-probability Sampling</h4>
+      <p><strong>Probability</strong> (frame available): simple random, stratified, cluster<br><strong>Non-probability</strong> (no frame): convenience, purposive, snowball, quota</p>
+    </div>
+    <div class="cheat-card">
+      <h4>Thematic Analysis Flow</h4>
+      <p>Transcript &rarr; <strong>Excerpt</strong> (verbatim) &rarr; <strong>Code</strong> (label) &rarr; <strong>Sub-theme</strong> &rarr; <strong>Theme</strong> &rarr; <strong>Narrative</strong></p>
+    </div>
+    <div class="cheat-card">
+      <h4>Saturation Effect</h4>
+      <p>When <strong>no new insights</strong> emerge from additional interviews. Signals the end of data collection. Sample size cannot be determined in advance.</p>
+    </div>
+    <div class="cheat-card">
+      <h4>Three Sieves of Socrates</h4>
+      <p>Evaluate secondary data: 1) Is it <strong>true</strong>? 2) Is it <strong>good</strong>? 3) Is it <strong>useful</strong>?</p>
+    </div>
+    <div class="cheat-card">
+      <h4>Consumer Behaviour Model</h4>
+      <p><strong>Environment</strong> &rarr; <strong>Black Box</strong> (characteristics + decision process) &rarr; <strong>Responses</strong></p>
+    </div>
+    <div class="cheat-card">
+      <h4>Perceptual Process</h4>
+      <p>Sensory stimuli &rarr; Sensory receptors &rarr; Exposure &rarr; Attention &rarr; Interpretation</p>
+    </div>
+    <div class="cheat-card">
+      <h4>Market Study Process (5 Stages)</h4>
+      <p>1. Formulate problem &rarr; 2. Study design &rarr; 3. Data collection &rarr; 4. Analyze &rarr; 5. Report &rarr; <strong>Decide</strong></p>
+    </div>
+    <div class="cheat-card">
+      <h4>Interview Types</h4>
+      <p><strong>Structured</strong> = fixed order<br><strong>Semi-structured</strong> = set topics, flexible order<br><strong>Narrative</strong> = open-ended story</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- end container -->
+
+<!-- FOOTER -->
+<div class="footer">
+  Consumer and Market Studies - Y3S6 - <span>ESSCA</span> 2025/2026 - Prof. Aude RYCHALSKI<br>
+  Revision document prepared for <span>Romain RABREAU</span>
+</div>
+
+<script>
+// ===== DATA =====
+const flashcards = [
+  { q: "What is Consumer Behaviour?", a: "The processes involved when individuals or groups select, purchase, use, or dispose of products, services, ideas, or experiences to satisfy needs and desires." },
+  { q: "What is a Market Study?", a: "The systematic and objective identification, collection, analysis, dissemination, and use of information for improving decision making related to marketing problems and opportunities." },
+  { q: "Define Behaviour (in consumer studies)", a: "What a consumer DOES. It is observed and factual - you can see it. Example: 'I buy organic food every week.'" },
+  { q: "Define Attitude", a: "What a consumer thinks or feels. It cannot be directly observed. It is an overall evaluation (positive or negative). Example: 'I think organic food is healthier.'" },
+  { q: "Define Belief", a: "The cognitive information a consumer holds about an attitude object. What the consumer knows or thinks they know. Example: 'Organic food contains no pesticides.'" },
+  { q: "What is the Consumer's Black Box?", a: "The middle part of the consumer behaviour model. It contains: 1) Consumer characteristics and 2) the Decision process. Inputs are environmental stimuli, outputs are consumer responses." },
+  { q: "What is Perception?", a: "The process by which sensory information is selected, organized, and interpreted. It is how people make sense of the world around them." },
+  { q: "What is Sensation?", a: "The immediate response of sensory receptors (eyes, ears, nose, mouth, skin) to basic stimuli such as light, colour, sound, odour, and texture." },
+  { q: "What is the Perceptual Process? (Solomon, 2018)", a: "Sensory stimuli -> Sensory receptors -> Exposure -> Attention -> Interpretation" },
+  { q: "Functional vs. Symbolic Attributes?", a: "Functional: tangible, measurable (taste, price, weight). Symbolic: intangible (brand image, quality perception, status)." },
+  { q: "What is Motivation?", a: "The process that leads people to behave as they do. It occurs when a need is aroused that the consumer wishes to satisfy, creating tension that drives action." },
+  { q: "What are the 5 stages of a Market Study?", a: "1. Formulate the problem -> 2. Determine study design -> 3. Data collection & sampling -> 4. Analyze & interpret -> 5. Report & delivery -> Make decisions" },
+  { q: "MDP vs. MSP?", a: "MDP (Management Decision Problem): What the decision maker needs to DO (action-oriented). MSP (Marketing Study Problem): What INFORMATION is needed (research-oriented)." },
+  { q: "Brief vs. Proposal?", a: "Brief = from the CLIENT (background, objectives, scope, budget). Proposal = from the RESEARCH INSTITUTE (methodology, sample plan, timeline, budget)." },
+  { q: "Exploratory vs. Conclusive studies?", a: "Exploratory: provide insights and understanding, flexible, unstructured. Conclusive: test specific hypotheses, examine relationships, structured, quantitative." },
+  { q: "Primary vs. Secondary Data?", a: "Primary: collected specifically for the current study (expensive, time-consuming). Secondary: already existing data collected for another purpose (cheap, fast, prerequisite to primary data)." },
+  { q: "Internal vs. External Secondary Data?", a: "Internal: within the organization (CRM, reports, previous studies). External: outside (government, associations, press, social media, syndicated services)." },
+  { q: "Three Sieves of Socrates?", a: "For evaluating secondary data: 1) Is it TRUE? 2) Is it GOOD? 3) Is it USEFUL? Also check methodology, accuracy, currency, content, purpose, credibility." },
+  { q: "What is a Qualitative Study?", a: "An unstructured, exploratory methodology based on small samples intended to provide insight and understanding. Focuses on words, concepts, ideas, opinions. Data is non-numerical." },
+  { q: "What is a Depth Interview?", a: "A direct, personal interview where a single respondent is probed by a skilled interviewer to uncover underlying opinions, motivations, beliefs, attitudes, and feelings. One-to-one, 30 min to 1 hour." },
+  { q: "What is the Saturation Effect?", a: "When you stop finding new insights, ideas, or patterns as you interview more participants. Signals the end of interviews. Exact sample size cannot be known beforehand." },
+  { q: "Semi-structured Interview?", a: "Set topics/questions but no imposed sequence. The interviewer is free to ask follow-up questions. Flexible yet focused." },
+  { q: "What is Thematic Analysis?", a: "A data analysis process: identifying patterns in data, systematically coding, deriving themes, and creating a narrative." },
+  { q: "Excerpt vs. Code vs. Theme?", a: "Excerpt = word-for-word verbatim. Code = word/phrase capturing the essence of an excerpt. Theme = grouping of codes that says something meaningful about the MSP." },
+  { q: "7 Steps of Qualitative Analysis?", a: "1. Familiarize with data, 2. Initial codes, 3. Decide what to code, 4. Merge codes with excerpts, 5. Group codes into themes, 6. Assess & revise themes, 7. Write results." },
+  { q: "Strong vs. Weak Themes?", a: "Strong themes = most recurring (high frequency, many respondents). Weak themes = less recurring. Based on frequency, number of interviews, and length of verbatim." },
+  { q: "Qualitative vs. Quantitative Study?", a: "Qualitative: small sample, unstructured, insights, non-statistical. Quantitative: large sample, structured, generalize results, statistical analysis." },
+  { q: "What is Quantitative Data?", a: "Information that can be counted or measured with a numerical value. Either intrinsically quantitative (income) or imposed numeric structure (Likert scale 1-5)." },
+  { q: "Probability vs. Non-probability Sampling?", a: "Probability (sampling frame available): simple random, stratified, cluster. Non-probability (no frame): convenience, purposive, snowball, quota." },
+  { q: "What is Quota Sampling?", a: "A non-probability method where the sample reflects the numerical composition of subgroups in the population." }
+];
+
+const quizQuestions = [
+  { q: "What is the correct definition of 'behaviour' in consumer studies?", options: ["A consumer's overall evaluation of a product", "The cognitive information a consumer holds about an object", "An observed and factual action toward an object", "The process of interpreting sensory information"], correct: 2, explanation: "Behaviour is observed and factual - it is what a consumer actually does. (Session 2)" },
+  { q: "In the consumer behaviour model, what are the two components of the 'Consumer's Black Box'?", options: ["Marketing stimuli and other stimuli", "Consumer characteristics and decision process", "Attitudes and purchase behaviour", "Perception and motivation"], correct: 1, explanation: "The black box contains consumer characteristics and the decision process. (Session 2)" },
+  { q: "What is 'perception' according to the course?", options: ["The immediate response of sensory receptors to stimuli", "The process by which sensory information is selected, organized, and interpreted", "A consumer's overall feeling about a product", "The act of purchasing a product"], correct: 1, explanation: "Perception is the process of selecting, organizing, and interpreting sensory info. Option a) is the definition of 'sensation.' (Session 3)" },
+  { q: "What is the correct order of the perceptual process (Solomon, 2018)?", options: ["Attention > Exposure > Interpretation > Sensory stimuli", "Sensory stimuli > Sensory receptors > Exposure > Attention > Interpretation", "Interpretation > Attention > Exposure > Sensory receptors", "Sensory receptors > Motivation > Attention > Behaviour"], correct: 1, explanation: "Stimuli > Receptors > Exposure > Attention > Interpretation. (Session 3)" },
+  { q: "The Management Decision Problem (MDP) asks:", options: ["What information is needed and how to obtain it", "What the decision maker needs to do", "How to analyze the data collected", "Who should conduct the study"], correct: 1, explanation: "The MDP asks what the decision maker needs to do. The MSP asks what information is needed. (Session 4)" },
+  { q: "A 'brief' in the market study process comes from:", options: ["The research institute", "The government", "The client", "The consumers"], correct: 2, explanation: "The brief is from the client. The proposal is from the supplier/research institute. (Session 4)" },
+  { q: "Secondary data is:", options: ["Data collected specifically for the current study", "Data collected for some other purpose than the problem at hand", "Data that is always unreliable", "Data from depth interviews"], correct: 1, explanation: "Secondary data was collected for a different purpose. It is existing data and a prerequisite to primary data collection. (Session 5)" },
+  { q: "Which of the following is NOT a characteristic of secondary data compared to primary data?", options: ["Relatively low cost", "Short collection time", "Very involved collection process", "Rapid and easy collection"], correct: 2, explanation: "'Very involved' describes primary data, not secondary data. Secondary data is rapid, easy, low cost, short time. (Session 5)" },
+  { q: "A qualitative study focuses on:", options: ["Numerical data and statistical tests", "Words, concepts, ideas, and opinions", "Large, representative samples", "Confirming hypotheses"], correct: 1, explanation: "Qualitative study focuses on words, concepts, ideas, and opinions. It is non-numerical. (Session 6)" },
+  { q: "The 'saturation effect' in qualitative research means:", options: ["The interviewer is too tired to continue", "You stop finding new insights as you interview more participants", "The sample size has reached 100 respondents", "All respondents give the same demographic profile"], correct: 1, explanation: "Saturation = no new insights, ideas, or patterns emerge. This signals the end of interviews. (Session 6)" },
+  { q: "In a semi-structured interview, the interviewer:", options: ["Follows a strict order of pre-determined questions", "Does not impose a specific sequence and can ask follow-up questions", "Only listens and never asks questions", "Uses a questionnaire with closed-ended questions"], correct: 1, explanation: "Semi-structured: topics/questions are set, but no imposed sequence. Free to ask additional questions. (Session 6)" },
+  { q: "In thematic analysis, a 'code' is:", options: ["A full paragraph from the transcript", "A word or short phrase that captures the essence of an excerpt", "The name of a respondent", "A statistical formula"], correct: 1, explanation: "A code is a word or short phrase that symbolically assigns a summative, essence-capturing attribute to an excerpt. (Session 8)" },
+  { q: "Which is the correct hierarchy in thematic analysis?", options: ["Theme > Code > Excerpt > Narrative", "Narrative > Theme > Excerpt > Code", "Excerpt > Code > Theme > Narrative", "Code > Excerpt > Narrative > Theme"], correct: 2, explanation: "Transcript > Excerpts > Codes > Themes > Narrative. (Session 8)" },
+  { q: "Quota sampling is a type of:", options: ["Probability sampling", "Non-probability sampling", "Cluster sampling", "Stratified sampling"], correct: 1, explanation: "Quota sampling is a non-probability sampling method where the sample reflects the numerical composition of subgroups. (Session 9)" },
+  { q: "The main difference between a quantitative and qualitative study outcome is:", options: ["Qualitative recommends a final course of action, quantitative develops initial understanding", "Qualitative develops initial understanding, quantitative recommends a final course of action", "Both aim to develop initial understanding", "Both recommend a final course of action"], correct: 1, explanation: "Qualitative = develop initial understanding. Quantitative = recommend a final course of action. (Session 9)" },
+  { q: "'Brand image' and 'perceived quality' are examples of:", options: ["Functional attributes", "Symbolic attributes", "Primary data", "Sampling methods"], correct: 1, explanation: "Brand image and perceived quality are symbolic (intangible) attributes. Functional attributes are tangible like price, weight, taste. (Session 3)" },
+  { q: "When should you use probability sampling?", options: ["When you have no sampling frame available", "When a sampling frame representing the target population is available and accessible", "When the study is qualitative", "When the budget is very limited"], correct: 1, explanation: "Probability sampling is used when a sampling frame (list of the target population) is available and accessible. (Session 9)" },
+  { q: "Motivation occurs when:", options: ["A consumer sees an advertisement", "A need is aroused that the consumer wishes to satisfy", "A consumer compares two brands", "The price of a product decreases"], correct: 1, explanation: "Motivation is the process that leads people to behave as they do; it occurs when a need is aroused. (Session 3)" },
+  { q: "Findings from a qualitative study:", options: ["Can be generalized to the entire population", "Cannot be generalized but provide insights and help design the questionnaire", "Are always confirmed by quantitative data", "Replace the need for quantitative studies"], correct: 1, explanation: "Qualitative findings can't be generalized (too small/not representative) but they provide insights and help in questionnaire design. (Session 8)" },
+  { q: "'Codifying' in thematic analysis means:", options: ["Recording the interviews", "Grouping and categorizing data to consolidate meaning", "Writing the final report", "Selecting participants for interviews"], correct: 1, explanation: "Codifying is the process of grouping and categorizing data by codes to consolidate meaning and explanation. (Session 8)" }
+];
+
+// ===== STATE =====
+let currentMode = 'study';
+let currentSession = 'all';
+let fcIndex = 0;
+let fcOrder = [...Array(flashcards.length).keys()];
+let quizAnswers = {};
+let quizScore = 0;
+let sessionsRead = new Set();
+
+// Load progress from localStorage
+try {
+  const saved = localStorage.getItem('ca1_progress');
+  if (saved) sessionsRead = new Set(JSON.parse(saved));
+  const savedQuiz = localStorage.getItem('ca1_quiz');
+  if (savedQuiz) quizAnswers = JSON.parse(savedQuiz);
+  const savedTheme = localStorage.getItem('ca1_theme');
+  if (savedTheme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+} catch(e) {}
+
+// ===== THEME =====
+function toggleTheme() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
+  localStorage.setItem('ca1_theme', isDark ? '' : 'dark');
+}
+
+// ===== MODES =====
+function switchMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(mode + 'Section').classList.add('active');
+  document.getElementById('navTabs').style.display = (mode === 'study') ? 'flex' : 'none';
+  if (mode === 'flashcards') showCard();
+  if (mode === 'quiz') renderQuiz();
+}
+
+// ===== SESSION TOGGLE =====
+function toggleSession(header) {
+  const card = header.closest('.session-card');
+  card.classList.toggle('open');
+  const sessionNum = card.dataset.session;
+  if (card.classList.contains('open')) {
+    sessionsRead.add(sessionNum);
+    localStorage.setItem('ca1_progress', JSON.stringify([...sessionsRead]));
+    updateProgress();
+  }
+}
+
+// ===== FILTER SESSIONS =====
+function filterSession(session) {
+  currentSession = session;
+  document.querySelectorAll('.nav-tab').forEach((t, i) => {
+    if (session === 'all') t.classList.toggle('active', i === 0);
+    else t.classList.toggle('active', t.textContent.includes('S' + session));
+  });
+  document.querySelectorAll('.session-card').forEach(card => {
+    if (session === 'all') {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.toggle('hidden', card.dataset.session !== String(session));
+    }
+  });
+  // Open selected session
+  if (session !== 'all') {
+    document.querySelectorAll('.session-card').forEach(card => {
+      if (card.dataset.session === String(session)) card.classList.add('open');
+    });
+  }
+}
+
+// ===== SEARCH =====
+function handleSearch(query) {
+  const q = query.toLowerCase().trim();
+  if (!q) {
+    document.querySelectorAll('.session-card').forEach(c => c.classList.remove('hidden'));
+    document.querySelectorAll('.concept, .table-wrap, .tip').forEach(el => el.classList.remove('hidden'));
+    // Remove highlights
+    document.querySelectorAll('mark').forEach(m => {
+      m.replaceWith(document.createTextNode(m.textContent));
+    });
+    return;
+  }
+  document.querySelectorAll('.session-card').forEach(card => {
+    const content = card.textContent.toLowerCase();
+    const match = content.includes(q);
+    card.classList.toggle('hidden', !match);
+    if (match) card.classList.add('open');
+  });
+}
+
+// ===== PROGRESS =====
+function updateProgress() {
+  const total = 8; // 8 sessions
+  const read = sessionsRead.size;
+  const pct = Math.round((read / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = pct + '%';
+}
+updateProgress();
+
+// ===== FLASHCARDS =====
+function showCard() {
+  const card = flashcards[fcOrder[fcIndex]];
+  document.getElementById('fcQuestion').textContent = card.q;
+  document.getElementById('fcAnswer').textContent = card.a;
+  document.getElementById('flashcard').classList.remove('flipped');
+  document.getElementById('fcProgress').textContent = `${fcIndex + 1} / ${flashcards.length}`;
+}
+function flipCard() {
+  document.getElementById('flashcard').classList.toggle('flipped');
+}
+function nextCard() {
+  fcIndex = (fcIndex + 1) % flashcards.length;
+  showCard();
+}
+function prevCard() {
+  fcIndex = (fcIndex - 1 + flashcards.length) % flashcards.length;
+  showCard();
+}
+function shuffleCards() {
+  for (let i = fcOrder.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [fcOrder[i], fcOrder[j]] = [fcOrder[j], fcOrder[i]];
+  }
+  fcIndex = 0;
+  showCard();
+}
+
+// ===== QUIZ =====
+function renderQuiz() {
+  const container = document.getElementById('quizContainer');
+  container.innerHTML = '';
+  quizScore = 0;
+  let answered = 0;
+
+  quizQuestions.forEach((q, qi) => {
+    const div = document.createElement('div');
+    div.className = 'question-card';
+    div.id = 'qcard-' + qi;
+
+    const letters = ['A', 'B', 'C', 'D'];
+    let optionsHtml = q.options.map((opt, oi) => {
+      let cls = 'option';
+      const savedAnswer = quizAnswers[qi];
+      if (savedAnswer !== undefined) {
+        cls += ' disabled';
+        if (oi === q.correct) cls += ' correct';
+        if (oi === savedAnswer && savedAnswer !== q.correct) cls += ' wrong';
+      }
+      return `<div class="${cls}" onclick="selectOption(${qi}, ${oi})" data-qi="${qi}" data-oi="${oi}">
+        <div class="option-letter">${letters[oi]}</div>
+        <div>${opt}</div>
+      </div>`;
+    }).join('');
+
+    const savedAnswer = quizAnswers[qi];
+    let expClass = 'explanation';
+    let expShow = '';
+    if (savedAnswer !== undefined) {
+      answered++;
+      expClass += savedAnswer === q.correct ? ' correct-exp show' : ' wrong-exp show';
+      if (savedAnswer === q.correct) quizScore++;
+      div.className += savedAnswer === q.correct ? ' answered-correct' : ' answered-wrong';
+    }
+
+    div.innerHTML = `
+      <div class="question-num">Question ${qi + 1}</div>
+      <div class="question-text">${q.q}</div>
+      ${optionsHtml}
+      <div class="${expClass}" id="exp-${qi}">${q.explanation}</div>
+    `;
+    container.appendChild(div);
+  });
+
+  updateQuizScore(answered);
+}
+
+function selectOption(qi, oi) {
+  if (quizAnswers[qi] !== undefined) return;
+  quizAnswers[qi] = oi;
+  localStorage.setItem('ca1_quiz', JSON.stringify(quizAnswers));
+
+  const q = quizQuestions[qi];
+  const card = document.getElementById('qcard-' + qi);
+  const options = card.querySelectorAll('.option');
+
+  options.forEach((opt, i) => {
+    opt.classList.add('disabled');
+    if (i === q.correct) opt.classList.add('correct');
+    if (i === oi && oi !== q.correct) opt.classList.add('wrong');
+  });
+
+  const exp = document.getElementById('exp-' + qi);
+  exp.classList.add('show');
+  if (oi === q.correct) {
+    exp.classList.add('correct-exp');
+    card.classList.add('answered-correct');
+    quizScore++;
+  } else {
+    exp.classList.add('wrong-exp');
+    card.classList.add('answered-wrong');
+  }
+
+  const answered = Object.keys(quizAnswers).length;
+  updateQuizScore(answered);
+
+  if (answered === quizQuestions.length) showResults();
+}
+
+function updateQuizScore(answered) {
+  const total = quizQuestions.length;
+  const pct = answered > 0 ? Math.round((quizScore / answered) * 100) : 0;
+  document.getElementById('scoreText').textContent = pct + '%';
+  document.getElementById('scoreCircle').style.background = `conic-gradient(var(--primary) ${pct * 3.6}deg, var(--border) ${pct * 3.6}deg)`;
+  document.getElementById('quizProgress').textContent = `${answered} / ${total} answered`;
+}
+
+function showResults() {
+  const total = quizQuestions.length;
+  const pct = Math.round((quizScore / total) * 100);
+  const results = document.getElementById('quizResults');
+  const circle = document.getElementById('resultsCircle');
+  const msg = document.getElementById('resultsMsg');
+  const sub = document.getElementById('resultsSub');
+
+  circle.textContent = pct + '%';
+  circle.className = 'results-circle ' + (pct >= 80 ? 'great' : pct >= 50 ? 'ok' : 'bad');
+
+  if (pct >= 80) {
+    msg.textContent = 'Excellent work!';
+    sub.textContent = `You scored ${quizScore}/${total}. You're well prepared for the CA1!`;
+  } else if (pct >= 50) {
+    msg.textContent = 'Good effort!';
+    sub.textContent = `You scored ${quizScore}/${total}. Review the sessions where you made mistakes.`;
+  } else {
+    msg.textContent = 'Keep studying!';
+    sub.textContent = `You scored ${quizScore}/${total}. Go through the study material and flashcards again.`;
+  }
+
+  results.classList.add('show');
+}
+
+function resetQuiz() {
+  quizAnswers = {};
+  quizScore = 0;
+  localStorage.removeItem('ca1_quiz');
+  document.getElementById('quizResults').classList.remove('show');
+  renderQuiz();
+}
+
+// ===== KEYBOARD SHORTCUTS =====
+document.addEventListener('keydown', (e) => {
+  if (currentMode === 'flashcards') {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextCard(); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); prevCard(); }
+    if (e.key === 'Enter') { e.preventDefault(); flipCard(); }
+  }
+});
+
+// ===== INIT =====
+showCard();
+</script>
+</body>
+</html>
