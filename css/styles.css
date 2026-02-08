@@ -1374,39 +1374,3 @@ kbd {
   justify-content: center;
   margin-bottom: 16px;
 }
-
-/* ===== FLOATING POOP EMOJIS ===== */
-.poop-float {
-  position: absolute;
-  font-size: 2em;
-  opacity: 0.3;
-  z-index: 0;
-  animation: poopFloat 6s ease-in-out infinite;
-  pointer-events: none;
-}
-.poop-1 { top: 10%; left: 5%; animation-delay: 0s; font-size: 1.8em; }
-.poop-2 { top: 20%; right: 8%; animation-delay: 1.2s; font-size: 2.2em; }
-.poop-3 { bottom: 15%; left: 12%; animation-delay: 2.4s; font-size: 1.5em; }
-.poop-4 { top: 40%; right: 3%; animation-delay: 3.6s; font-size: 1.6em; }
-.poop-5 { bottom: 25%; right: 15%; animation-delay: 4.8s; font-size: 2em; }
-
-@keyframes poopFloat {
-  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
-  25% { transform: translateY(-15px) rotate(10deg); opacity: 0.5; }
-  50% { transform: translateY(-25px) rotate(-5deg); opacity: 0.4; }
-  75% { transform: translateY(-10px) rotate(8deg); opacity: 0.5; }
-}
-
-/* Poop cursor */
-body {
-  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><text y='24' font-size='24'>💩</text></svg>") 16 16, auto;
-}
-
-/* Poop separator for session cards */
-.session-number::after {
-  content: '💩';
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  font-size: 0.5em;
-}
