@@ -1385,7 +1385,7 @@ mark {
 </div><!-- end study section -->
 
 <!-- ==================== FLASHCARD MODE ==================== -->
-<div class="section" id="flashcardSection">
+<div class="section" id="flashcardsSection">
   <div class="fc-filter-row" id="fcFilterRow">
     <button class="fc-filter-btn active" onclick="filterFlashcards('all')">All</button>
     <button class="fc-filter-btn" onclick="filterFlashcards(1)">S1</button>
@@ -1567,76 +1567,86 @@ mark {
 <script>
 // ===== DATA =====
 const flashcards = [
-  // SESSION 1 (3)
-  { s:1, q: "What is Consumer Behaviour?", a: "The processes involved when individuals or groups select, purchase, use, or dispose of products, services, ideas, or experiences to satisfy needs and desires." },
-  { s:1, q: "What is a Market Study?", a: "The systematic and objective identification, collection, analysis, dissemination, and use of information for improving decision making related to marketing problems and opportunities." },
-  { s:1, q: "What is the Role of a Market Study?", a: "Three roles: 1) Assessing information needs, 2) Providing relevant information, 3) Helping management make informed marketing decisions. It reduces uncertainty with factual data." },
-  // SESSION 2 (10)
-  { s:2, q: "Define Behaviour (in consumer studies)", a: "What a consumer DOES. It is observed and factual - you can see it. Example: 'I buy organic food every week.'" },
-  { s:2, q: "Define Attitude", a: "What a consumer thinks or feels. It cannot be directly observed. It is an overall evaluation (positive or negative). Example: 'I think organic food is healthier.'" },
-  { s:2, q: "Define Belief", a: "The cognitive information a consumer holds about an attitude object. What the consumer knows or thinks they know. Example: 'Organic food contains no pesticides.'" },
-  { s:2, q: "What is the Consumer's Black Box?", a: "The middle part of the consumer behaviour model. It contains: 1) Consumer characteristics and 2) the Decision process. Inputs are environmental stimuli, outputs are consumer responses." },
-  { s:2, q: "What are the 3 components of Attitude?", a: "1) Cognition (what you KNOW/believe), 2) Affect (what you FEEL), 3) Intention to act / Conation (what you intend to DO). Together they form the ABC model of attitudes." },
-  { s:2, q: "How do attitudes form: Direct Experience?", a: "Attitudes formed through personal interaction with the attitude object. Direct experience leads to stronger, more confidently held attitudes." },
-  { s:2, q: "How do attitudes form: Classical Conditioning?", a: "A stimulus that naturally elicits a response is paired with a neutral stimulus until the neutral stimulus alone triggers the response. Example: pleasant music paired with a brand." },
-  { s:2, q: "How do attitudes form: Operant/Instrumental Conditioning?", a: "Attitudes are shaped by rewards and punishments. Positive reinforcement (rewards) encourages certain attitudes; negative outcomes discourage them." },
-  { s:2, q: "What are Consumer Characteristics in the Black Box?", a: "Personal characteristics (age, lifestyle, personality), Psychological characteristics (motivation, perception, learning, attitude), and Socio-cultural characteristics (culture, social class, family)." },
-  { s:2, q: "Properties of Beliefs?", a: "Beliefs are resistant to change, can be positive, neutral, or negative. They represent cognitive knowledge about an attitude object and inform attitudes." },
-  // SESSION 3 (14)
-  { s:3, q: "What is Perception?", a: "The process by which sensory information is selected, organized, and interpreted. It is how people make sense of the world around them." },
-  { s:3, q: "What is Sensation?", a: "The immediate response of sensory receptors (eyes, ears, nose, mouth, skin) to basic stimuli such as light, colour, sound, odour, and texture." },
-  { s:3, q: "What is the Perceptual Process? (Solomon, 2018)", a: "Sensory stimuli -> Sensory receptors -> Exposure -> Attention -> Interpretation" },
-  { s:3, q: "Functional vs. Symbolic Attributes?", a: "Functional: tangible, measurable (taste, price, weight). Symbolic: intangible (brand image, quality perception, status)." },
-  { s:3, q: "Absolute Threshold vs. Differential Threshold?", a: "Absolute threshold: minimum amount of stimulation detected on a sensory channel. Differential threshold (JND): ability to detect changes or differences between two stimuli." },
-  { s:3, q: "What is Subliminal Perception?", a: "Stimuli that fall below the absolute threshold (consumer is not consciously aware). The stimulus is below the level of conscious awareness but may still influence behaviour." },
-  { s:3, q: "What is Sensory Overload?", a: "When consumers are exposed to far more information than they can process. In a multitasking environment, people are exposed to much more stimuli than they can attend to." },
-  { s:3, q: "Perceptual Vigilance vs. Perceptual Defence?", a: "Perceptual vigilance: consumers are more likely to notice stimuli related to their current needs. Perceptual defence: people see what they want to see and block threatening or unpleasant stimuli." },
-  { s:3, q: "What is Motivation?", a: "The process that leads people to behave as they do. It occurs when a need is aroused that the consumer wishes to satisfy, creating tension that drives action." },
-  { s:3, q: "Maslow's Hierarchy of Needs?", a: "5 levels (bottom to top): 1) Physiological, 2) Safety, 3) Belongingness/Love, 4) Esteem, 5) Self-actualization. Lower needs must be satisfied before higher needs become motivating." },
-  { s:3, q: "Murray's Psychogenic Needs (6 categories)?", a: "1) Ambition needs, 2) Materialistic needs, 3) Power needs, 4) Affection needs, 5) Information needs, 6) Other (play, order). Used to understand consumer motivations beyond basic needs." },
-  { s:3, q: "3 Types of Motivational Conflicts?", a: "1) Approach-Approach: choosing between 2 desirable options. 2) Approach-Avoidance: product has both positive and negative qualities. 3) Avoidance-Avoidance: choosing between 2 undesirable options." },
-  { s:3, q: "Moods vs. Emotions?", a: "Moods: mild, diffuse affective states without a clear cause, last longer. Emotions: intense, specific reactions to a particular event, short-lived, clearly identified cause." },
-  { s:3, q: "What is Affect?", a: "An umbrella term encompassing both moods and emotions. It refers to the experience of emotionally laden states. Emotions are specific and intense; moods are diffuse and mild." },
-  // SESSION 4 (7)
-  { s:4, q: "What are the 5 stages of a Market Study?", a: "1. Formulate the problem -> 2. Determine study design -> 3. Data collection & sampling -> 4. Analyze & interpret -> 5. Report & delivery -> Make decisions" },
-  { s:4, q: "MDP vs. MSP?", a: "MDP (Management Decision Problem): What the decision maker needs to DO (action-oriented, focuses on symptoms). MSP (Marketing Study Problem): What INFORMATION is needed (research-oriented, focuses on underlying causes)." },
-  { s:4, q: "Brief vs. Proposal?", a: "Brief = from the CLIENT (background, objectives, scope, budget). Proposal = from the RESEARCH INSTITUTE/SUPPLIER (methodology, sample plan, timeline, budget, ethical concerns)." },
-  { s:4, q: "Exploratory vs. Conclusive studies?", a: "Exploratory: provide insights and understanding, flexible, unstructured, small sample. Conclusive: test specific hypotheses, examine relationships, structured, large sample." },
-  { s:4, q: "What is a Descriptive Study?", a: "A type of conclusive study that describes market characteristics or functions. E.g., describing user profiles, estimating percentages of behaviours, determining triggers." },
-  { s:4, q: "What is a Causal Study?", a: "A type of conclusive study to obtain evidence regarding cause-and-effect (causal) relationships. E.g., does service quality (cause) influence incivility (effect)?" },
-  { s:4, q: "Market Study Cost Factors?", a: "Based on: what you want to achieve, who is involved, time for data collection, methodology and technology. Cost: around 10,000 to 20,000 EUR. Key variables: methodology, sample size, survey length." },
-  // SESSION 5 (4)
-  { s:5, q: "Primary vs. Secondary Data?", a: "Primary: collected specifically for the current study (expensive, time-consuming). Secondary: already existing data collected for another purpose (cheap, fast, prerequisite to primary data)." },
-  { s:5, q: "Internal vs. External Secondary Data?", a: "Internal: within the organization (CRM, reports, previous studies). External: outside (government, associations, press, social media, syndicated services)." },
-  { s:5, q: "Three Sieves of Socrates?", a: "For evaluating secondary data: 1) Is it TRUE? 2) Is it GOOD? 3) Is it USEFUL? Also check methodology, accuracy, currency, content, purpose, credibility." },
-  { s:5, q: "Exploratory Research Method (5 steps)?", a: "1) Identify the object and field of study, 2) Use keywords, 3) Identify the nature and content required, 4) Consult appropriate resources, 5) Write up properly. Tools like NotebookLM can help with synthesis." },
-  // SESSION 6 (8)
-  { s:6, q: "What is a Qualitative Study?", a: "An unstructured, exploratory methodology based on small samples intended to provide insight and understanding. Focuses on words, concepts, ideas, opinions. Data is non-numerical." },
-  { s:6, q: "Qualitative Study Procedures?", a: "Direct (nondisguised): Focus Groups, Depth Interviews. Indirect (disguised): Projective Techniques." },
-  { s:6, q: "What is a Depth Interview?", a: "A direct, personal interview where a single respondent is probed by a skilled interviewer to uncover underlying opinions, motivations, beliefs, attitudes, and feelings. One-to-one, 30 min to 1 hour." },
-  { s:6, q: "What is the Saturation Effect?", a: "When you stop finding new insights, ideas, or patterns as you interview more participants. Signals the end of interviews. Exact sample size cannot be known beforehand." },
-  { s:6, q: "Interview Guide Structure (4 phases)?", a: "1) Introductory phase (build trust), 2) Subject centering phase, 3) Deepening phase, 4) Closing phase. It is a flexible canvas with topics and open-ended questions for each phase." },
-  { s:6, q: "Question Types in an Interview Guide?", a: "Descriptive questions: ask for facts. Casual questions: ask for reasons behind behaviour/opinions. Consequence questions: ask what happens as a result of behaviour." },
-  { s:6, q: "Semi-structured Interview: Do's and Don'ts?", a: "DO: listen actively, stay objective, show understanding, make summaries, record. DON'T: fear silence, interrupt, be directive, induce responses, interpret, give opinions/judgments." },
-  { s:6, q: "Qualitative Sampling Methods?", a: "Convenience sampling: take-them-where-you-find-them. Purposive sampling: select based on key characteristics. Snowball sampling: participants recruit others matching the profile." },
-  // SESSION 8 (6)
-  { s:8, q: "What is Thematic Analysis?", a: "A data analysis process: identifying patterns in data, systematically coding, deriving themes, and creating a narrative." },
-  { s:8, q: "Excerpt vs. Code vs. Theme?", a: "Excerpt = word-for-word verbatim. Code = word/phrase capturing the essence of an excerpt. Theme = grouping of codes that says something meaningful about the MSP." },
-  { s:8, q: "7 Steps of Qualitative Analysis?", a: "1. Familiarize with data, 2. Initial codes, 3. Decide what to code, 4. Merge codes with excerpts (codifying), 5. Group codes into themes, 6. Assess & revise themes, 7. Write results." },
-  { s:8, q: "Strong vs. Weak Themes?", a: "Strong themes = most recurring (high frequency, many respondents). Weak themes = less recurring. Based on frequency of excerpts, number of interviews, and length of verbatim." },
-  { s:8, q: "Use of AI in Qualitative Analysis?", a: "AI can be used under conditions: 1) You must understand what you are doing, 2) Read all transcripts yourself first, 3) Make your own analysis first, 4) Then use AI with right prompts, 5) Read AI output and adjust according to your analysis." },
-  { s:8, q: "Limitations of Qualitative Findings?", a: "Can't be generalized (sample too small, not representative). But they provide insights, better understanding, and help design the questionnaire for the quantitative phase." },
-  // SESSION 9 (10)
-  { s:9, q: "Qualitative vs. Quantitative Study?", a: "Qualitative: small sample, unstructured, insights, non-statistical. Quantitative: large sample, structured, generalize results, statistical analysis." },
-  { s:9, q: "What is Quantitative Data?", a: "Information that can be counted or measured with a numerical value. Either intrinsically quantitative (income) or imposed numeric structure (Likert scale 1-5)." },
-  { s:9, q: "Sampling Design Process (3 steps)?", a: "1. Define the population (and deduce the target), 2. Choose the sampling method (how to select participants), 3. Determine the sample size." },
-  { s:9, q: "Population vs. Sample?", a: "Population: the defined group of individuals from which a sample is drawn. Sample: members of a population selected to participate. Proper sampling allows estimating population characteristics." },
-  { s:9, q: "Probability vs. Non-probability Sampling?", a: "Probability (sampling frame available): simple random, stratified, cluster. Non-probability (no frame): convenience, purposive, snowball, quota." },
-  { s:9, q: "What is Quota Sampling?", a: "Most used non-probability method in marketing. Sample reflects numerical composition of subgroups. Uses quotas (age, gender, etc.) then convenience sampling within quotas." },
-  { s:9, q: "Single Quota vs. Cross Quota?", a: "Single quota: one criterion (e.g., gender only). Cross quota: two or more criteria crossed (e.g., gender x age group). Too many criteria (>2-3) makes it hard to find respondents." },
-  { s:9, q: "Sample Size Formula (probability)?", a: "n = t² * p * q / e² where t = confidence level value (1.96 for 95%), p = expected proportion, q = 1-p, e = margin of error. With p=q=0.5, simplified: n = 1/e²." },
-  { s:9, q: "Margin of Error and Sample Size Relationship?", a: "To double precision (halve e), you must quadruple the sample size (n x 4). E.g., e=4% needs n=600; e=2% needs n=2401. Heavy consequences on cost and time." },
-  { s:9, q: "Advantages & Disadvantages of Non-probability Sampling?", a: "Advantages: inexpensive, efficient, convenient. Disadvantages: likely to introduce bias, results may not be generalized to target population." }
+  // ===== SESSION 1: Intro (3) =====
+  { s:1, q: "What is Consumer Behaviour?", a: "The processes involved when individuals or groups SELECT, PURCHASE, USE, or DISPOSE of products, services, ideas, or experiences to SATISFY NEEDS AND DESIRES." },
+  { s:1, q: "What is a Market Study?", a: "The SYSTEMATIC and OBJECTIVE identification, collection, analysis, dissemination, and use of INFORMATION for IMPROVING DECISION MAKING related to marketing problems and opportunities." },
+  { s:1, q: "3 Roles of a Market Study?", a: "1) ASSESSING information needs, 2) PROVIDING relevant information, 3) Helping management make INFORMED DECISIONS. It reduces uncertainty with factual data." },
+  // ===== SESSION 2: Attitude, Behaviour, Belief (12) =====
+  { s:2, q: "Behaviour = ?", a: "What a consumer DOES. OBSERVED and FACTUAL. You can see it.\nEx: 'I buy organic food every week.'" },
+  { s:2, q: "Attitude = ?", a: "What a consumer THINKS or FEELS. CANNOT be directly observed. An overall EVALUATION (positive or negative).\nEx: 'I think organic food is healthier.'" },
+  { s:2, q: "Belief = ?", a: "The COGNITIVE INFORMATION a consumer holds about an attitude object. What the consumer KNOWS or thinks they know.\nEx: 'Organic food contains no pesticides.'" },
+  { s:2, q: "Quick distinction: Behaviour vs Attitude vs Belief?", a: "BEHAVIOUR = ACTION (observable)\nATTITUDE = EVALUATION (feeling/thinking, not observable)\nBELIEF = KNOWLEDGE (cognitive info, resistant to change)" },
+  { s:2, q: "The Consumer's Black Box contains?", a: "2 components:\n1) CONSUMER CHARACTERISTICS (personal, psychological, socio-cultural)\n2) DECISION PROCESS\nInputs = environment stimuli | Outputs = consumer responses" },
+  { s:2, q: "Consumer Behaviour Model flow?", a: "ENVIRONMENT (marketing stimuli + other stimuli) -> CONSUMER'S BLACK BOX (characteristics + decision process) -> CONSUMER RESPONSES (attitudes, purchase behaviour...)" },
+  { s:2, q: "3 Components of Attitude (ABC Model)?", a: "A = AFFECT (what you feel)\nB = BEHAVIOUR/Conation (intention to act)\nC = COGNITION (what you know/believe)" },
+  { s:2, q: "3 Ways Attitudes Form?", a: "1) DIRECT EXPERIENCE (personal interaction -> stronger attitudes)\n2) CLASSICAL CONDITIONING (pairing neutral + natural stimulus)\n3) OPERANT CONDITIONING (rewards/punishments shape attitudes)" },
+  { s:2, q: "Classical vs Operant Conditioning?", a: "CLASSICAL: neutral stimulus paired with one that naturally triggers response (e.g., music + brand)\nOPERANT: attitude shaped by REWARDS and PUNISHMENTS" },
+  { s:2, q: "3 Types of Consumer Characteristics?", a: "1) PERSONAL (age, lifestyle, personality)\n2) PSYCHOLOGICAL (motivation, perception, learning, attitude)\n3) SOCIO-CULTURAL (culture, social class, family)" },
+  { s:2, q: "Key Properties of Beliefs?", a: "- RESISTANT to change\n- Can be POSITIVE, NEUTRAL, or NEGATIVE\n- Represent cognitive knowledge\n- Inform attitudes" },
+  { s:2, q: "How to distinguish Attitude from Belief in an MCQ?", a: "ATTITUDE = overall evaluation (like/dislike, good/bad)\nBELIEF = factual claim (true/false knowledge)\nEx: 'Organic is healthier' = ATTITUDE | 'Organic has no pesticides' = BELIEF" },
+  // ===== SESSION 3: Perception, Motivation, Emotion (15) =====
+  { s:3, q: "Perception = ?", a: "The process by which sensory information is SELECTED, ORGANIZED, and INTERPRETED. How people make sense of the world." },
+  { s:3, q: "Sensation = ?", a: "The IMMEDIATE RESPONSE of sensory receptors (eyes, ears, nose, mouth, skin) to basic stimuli (light, colour, sound, odour, texture)." },
+  { s:3, q: "Perception vs Sensation?", a: "SENSATION = raw, immediate sensory response (input)\nPERCEPTION = selecting + organizing + interpreting that input (processing)" },
+  { s:3, q: "Perceptual Process (Solomon, 2018)?", a: "Sensory stimuli -> Sensory receptors -> EXPOSURE -> ATTENTION -> INTERPRETATION\n(5 stages, in this exact order)" },
+  { s:3, q: "Functional vs Symbolic Attributes?", a: "FUNCTIONAL = tangible, measurable (taste, price, weight, smell)\nSYMBOLIC = intangible (brand image, perceived quality, status, authenticity)" },
+  { s:3, q: "Absolute Threshold vs Differential Threshold (JND)?", a: "ABSOLUTE = minimum stimulation DETECTED on a sensory channel\nDIFFERENTIAL (JND) = ability to detect CHANGES or DIFFERENCES between two stimuli" },
+  { s:3, q: "What is Subliminal Perception?", a: "Stimuli BELOW the absolute threshold. Consumer is NOT consciously aware but behaviour may still be influenced." },
+  { s:3, q: "Perceptual Vigilance vs Perceptual Defence?", a: "VIGILANCE = notice stimuli related to CURRENT NEEDS\nDEFENCE = BLOCK threatening or unpleasant stimuli (see what you want to see)" },
+  { s:3, q: "Sensory Overload?", a: "Exposed to FAR MORE INFORMATION than can be processed. Common in multitasking environments." },
+  { s:3, q: "Motivation = ?", a: "The process that leads people to BEHAVE AS THEY DO. Occurs when a NEED IS AROUSED that the consumer wishes to satisfy, creating TENSION that drives action." },
+  { s:3, q: "Maslow's Hierarchy (5 levels)?", a: "Bottom to top:\n1) PHYSIOLOGICAL (food, water)\n2) SAFETY (security)\n3) BELONGINGNESS/Love\n4) ESTEEM (status, recognition)\n5) SELF-ACTUALIZATION" },
+  { s:3, q: "3 Motivational Conflicts?", a: "1) APPROACH-APPROACH = 2 desirable options\n2) APPROACH-AVOIDANCE = product has + AND - qualities\n3) AVOIDANCE-AVOIDANCE = 2 undesirable options" },
+  { s:3, q: "Approach-Avoidance conflict example?", a: "Wanting a chocolate cake (approach) but worrying about calories (avoidance). The product has BOTH positive and negative qualities." },
+  { s:3, q: "Moods vs Emotions?", a: "MOODS = mild, diffuse, NO clear cause, last LONGER\nEMOTIONS = intense, specific, CLEAR CAUSE, SHORT-LIVED" },
+  { s:3, q: "What is Affect?", a: "UMBRELLA TERM for moods + emotions. The experience of emotionally laden states." },
+  // ===== SESSION 4: Market Study Phases (8) =====
+  { s:4, q: "5 Stages of a Market Study?", a: "1. FORMULATE the problem\n2. DETERMINE study design\n3. DATA COLLECTION & sampling\n4. ANALYZE & interpret\n5. REPORT & delivery\n-> Make DECISIONS" },
+  { s:4, q: "MDP vs MSP?", a: "MDP = what the decision maker needs to DO (ACTION-oriented, focuses on SYMPTOMS)\nMSP = what INFORMATION is needed (RESEARCH-oriented, focuses on UNDERLYING CAUSES)" },
+  { s:4, q: "MDP example vs MSP example?", a: "MDP: 'Should Starbucks launch a drive-thru in France?'\nMSP: 'What are consumers beliefs, perceptions, motivations towards a drive-thru?'" },
+  { s:4, q: "Brief vs Proposal?", a: "BRIEF = from the CLIENT (background, objectives, scope, budget, timing)\nPROPOSAL = from the SUPPLIER/RESEARCH INSTITUTE (methodology, sample, timeline, budget, ethics)" },
+  { s:4, q: "Exploratory vs Conclusive Study?", a: "EXPLORATORY = insights, understanding, flexible, unstructured, small sample, qualitative\nCONCLUSIVE = test hypotheses, examine relationships, structured, large sample, quantitative" },
+  { s:4, q: "Descriptive Study = ?", a: "Type of CONCLUSIVE study. DESCRIBES market characteristics: user profiles, percentages of behaviours, triggers. It is EXPLANATORY." },
+  { s:4, q: "Causal Study = ?", a: "Type of CONCLUSIVE study. Evidence of CAUSE-AND-EFFECT relationships. Does X (cause) influence Y (effect)? It is CONFIRMATORY." },
+  { s:4, q: "3 Study Design Types and their purpose?", a: "1) EXPLORATORY (qualitative) = understand, explore\n2) DESCRIPTIVE (quantitative) = describe, measure, explain\n3) CAUSAL (quantitative) = confirm cause-effect relationships" },
+  // ===== SESSION 5: Secondary Data (5) =====
+  { s:5, q: "Primary vs Secondary Data?", a: "PRIMARY = collected FOR this study (expensive, slow, very involved)\nSECONDARY = already EXISTS, collected for other purposes (cheap, fast, prerequisite)" },
+  { s:5, q: "Key rule about Secondary Data?", a: "Examination of secondary data is a PREREQUISITE to primary data collection. A market study ALWAYS starts with secondary data." },
+  { s:5, q: "Internal vs External Secondary Data?", a: "INTERNAL = within organization (client database, CRM/ERP, internal reports)\nEXTERNAL = outside (government/census, professional associations, press, social media, syndicated services)" },
+  { s:5, q: "3 Sieves of Socrates?", a: "For evaluating secondary data:\n1) Is it TRUE?\n2) Is it GOOD?\n3) Is it USEFUL?\nAlso check: methodology, accuracy, currency, content, purpose, credibility." },
+  { s:5, q: "Uses of Secondary Data?", a: "Identify the problem, better define it, develop approach, formulate research design, answer study questions, interpret primary data more insightfully." },
+  // ===== SESSION 6: Qualitative Study (10) =====
+  { s:6, q: "Qualitative Study = ?", a: "UNSTRUCTURED, EXPLORATORY methodology. SMALL samples. Provides INSIGHT and UNDERSTANDING. Focus on WORDS, concepts, ideas, opinions. Data is NON-NUMERICAL." },
+  { s:6, q: "Qualitative Study Procedures?", a: "DIRECT (nondisguised): Focus Groups, Depth Interviews\nINDIRECT (disguised): Projective Techniques" },
+  { s:6, q: "Advantages of Qualitative Study?", a: "- Deeper insights than secondary data\n- Uncover UNDERLYING REASONS\n- Probe for motivations\n- Free exchange of information\n- Attribute responses to respondents" },
+  { s:6, q: "Disadvantages of Qualitative Study?", a: "- Skilled interviewers are EXPENSIVE\n- SMALL sample = not conclusive\n- Quality depends on INTERVIEWER" },
+  { s:6, q: "Depth Interview = ?", a: "DIRECT, PERSONAL, ONE-TO-ONE interview. Skilled interviewer probes for underlying opinions, motivations, beliefs, attitudes, feelings. Duration: 30 min to 1 hour." },
+  { s:6, q: "Saturation Effect = ?", a: "When NO NEW insights, ideas, or patterns emerge as you interview more participants. Signals the END of interviews. Sample size CANNOT be known beforehand." },
+  { s:6, q: "3 Interview Techniques?", a: "1) STRUCTURED = fixed questions, fixed order\n2) SEMI-STRUCTURED = set topics, FLEXIBLE order, follow-ups allowed\n3) NARRATIVE = open-ended, respondent tells story" },
+  { s:6, q: "Interview Guide (4 phases)?", a: "1) INTRODUCTORY (build trust, explain purpose)\n2) SUBJECT CENTERING (main topic)\n3) DEEPENING (probe deeper)\n4) CLOSING (thank, remind confidentiality)" },
+  { s:6, q: "3 Question Types in Interview Guide?", a: "1) DESCRIPTIVE = ask for FACTS\n2) CASUAL = ask for REASONS (why?)\n3) CONSEQUENCE = ask what HAPPENS as a result" },
+  { s:6, q: "Interviewer: Do's vs Don'ts?", a: "DO: listen actively, stay objective, show understanding, make summaries, record\nDON'T: fear silence, interrupt, be directive, induce responses, interpret, give opinions" },
+  // ===== SESSION 8: Qualitative Analysis (7) =====
+  { s:8, q: "Thematic Analysis = ?", a: "Delving through data, IDENTIFYING PATTERNS, systematically CODING, deriving THEMES, creating a NARRATIVE." },
+  { s:8, q: "7 Steps of Qualitative Analysis?", a: "1) Familiarize with data\n2) Initial codes\n3) Decide what to code\n4) Merge codes with excerpts (CODIFYING)\n5) Group codes into THEMES\n6) Assess & revise themes\n7) Write results" },
+  { s:8, q: "Excerpt vs Code vs Theme?", a: "EXCERPT = word-for-word verbatim\nCODE = word/phrase capturing essence of excerpt\nTHEME = grouping of codes that says something meaningful about the MSP" },
+  { s:8, q: "What is Codifying?", a: "GROUPING and CATEGORIZING data by codes to CONSOLIDATE MEANING and explanation. Step 4 of thematic analysis." },
+  { s:8, q: "Hierarchy: Excerpt -> Code -> ... -> ?", a: "Transcript -> EXCERPT -> CODE -> SUB-THEME -> THEME -> NARRATIVE" },
+  { s:8, q: "Strong vs Weak Themes?", a: "STRONG = most recurring (high frequency of excerpts, many respondents)\nWEAK = less recurring\nDepends on: frequency, # of interviews, length of verbatim" },
+  { s:8, q: "Can qualitative findings be generalized?", a: "NO. Sample too small, not statistically representative. BUT they provide INSIGHTS, better UNDERSTANDING, and help DESIGN THE QUESTIONNAIRE for quantitative phase." },
+  // ===== SESSION 9: Quantitative Study (12) =====
+  { s:9, q: "Quantitative Study = ?", a: "SYSTEMATIC investigation by gathering QUANTIFIABLE data + statistical techniques. It is EXPLANATORY (descriptive) and CONFIRMATORY (causal). Confirms relationships between variables." },
+  { s:9, q: "Qualitative vs Quantitative - Key Table?", a: "QUAL: small sample, unstructured, non-statistical, initial understanding\nQUANT: large sample, structured, statistical, recommend final course of action" },
+  { s:9, q: "Quantitative Data = ?", a: "Information that can be COUNTED or MEASURED with NUMERICAL value. Either intrinsically quantitative (income) or IMPOSED numeric structure (Likert scale 1-5)." },
+  { s:9, q: "Sampling Design Process (3 steps)?", a: "1) DEFINE the population (+ deduce target)\n2) CHOOSE the sampling METHOD\n3) DETERMINE the sample SIZE" },
+  { s:9, q: "Population vs Sample?", a: "POPULATION = defined group from which sample is drawn\nSAMPLE = members selected to participate\nProper sampling -> estimate population characteristics" },
+  { s:9, q: "When Probability vs Non-probability?", a: "Sampling frame AVAILABLE -> PROBABILITY sampling\nSampling frame NOT available -> NON-PROBABILITY sampling" },
+  { s:9, q: "3 Probability Sampling Methods?", a: "1) SIMPLE RANDOM = equal probability for each member\n2) STRATIFIED RANDOM = divide into subgroups (strata), random from each\n3) CLUSTER = identify geographic clusters, sample from those" },
+  { s:9, q: "4 Non-probability Sampling Methods?", a: "1) CONVENIENCE = haphazard\n2) PURPOSIVE = researcher's judgment\n3) SNOWBALL = participants recruit others\n4) QUOTA = sample reflects population subgroup composition" },
+  { s:9, q: "Quota Sampling?", a: "Most used non-probability method in marketing. Sample MIRRORS POPULATION STRUCTURE on key criteria (age, gender...). Reduces lack of representativeness." },
+  { s:9, q: "Single vs Cross Quota?", a: "SINGLE = 1 criterion (e.g., gender)\nCROSS = 2+ criteria crossed (e.g., gender x age)\nToo many criteria (>2-3) = hard to find respondents" },
+  { s:9, q: "Sample Size Formula?", a: "n = t²pq / e²\nt=1.96 (95% confidence), p=q=0.5\nSimplified: n = 1/e²\ne=4% -> n=600 | e=2% -> n=2401" },
+  { s:9, q: "Margin of Error & Sample Size Rule?", a: "To HALVE the margin of error: QUADRUPLE the sample size.\ne/2 -> n x 4\nHuge consequences on COST and TIME." }
 ];
 
 const quizQuestions = [
@@ -1692,7 +1702,13 @@ const quizQuestions = [
   { s:9, q: "If you want to halve the margin of error (e.g., from 4% to 2%), you need to:", options: ["Double the sample size", "Quadruple the sample size", "Keep the same sample size", "Halve the sample size"], correct: 1, explanation: "To double precision (halve e), you must quadruple the sample size: e/2 -> n x 4. E.g., e=4% n=600 vs e=2% n=2401. (Session 9)" },
   { s:9, q: "A confidence interval is:", options: ["The exact population value", "An interval of values within which there is a given level of confidence the population value lies", "The margin of error only", "The sample size formula"], correct: 1, explanation: "A confidence interval is an interval of values within which there is a given level of confidence that the population value lies. (Session 9)" },
   { s:9, q: "An advantage of quota sampling over other non-probability methods is:", options: ["It is a probability sampling technique", "It reduces the drawback of lack of representativeness by matching population structure", "It requires no knowledge of the population structure", "It is always free of bias"], correct: 1, explanation: "Quota sampling reduces the drawbacks of non-probability sampling (lack of representativeness) by ensuring the sample mirrors the population structure on key criteria. (Session 9)" },
-  { s:9, q: "The population in a market study is:", options: ["Only the people who respond to the survey", "The defined group of individuals from which a sample is drawn", "Always the entire country's population", "The same as the sample"], correct: 1, explanation: "The population is the defined group of individuals from which a sample is drawn. The sample is a subset selected to participate. (Session 9)" }
+  { s:9, q: "The population in a market study is:", options: ["Only the people who respond to the survey", "The defined group of individuals from which a sample is drawn", "Always the entire country's population", "The same as the sample"], correct: 1, explanation: "The population is the defined group of individuals from which a sample is drawn. The sample is a subset selected to participate. (Session 9)" },
+  // ADDITIONAL HIGH-YIELD QUESTIONS
+  { s:2, q: "In operant (instrumental) conditioning, attitudes are shaped by:", options: ["Pairing a neutral stimulus with an unconditioned stimulus", "Rewards and punishments following a behaviour", "Personal direct experience with the product", "Subliminal messages"], correct: 1, explanation: "Operant/instrumental conditioning: attitudes are formed through rewards (positive reinforcement) and punishments. Classical conditioning uses pairing of stimuli. (Session 2)" },
+  { s:3, q: "Murray's psychogenic needs include categories such as:", options: ["Physiological, safety, and love needs", "Ambition, materialism, power, affection, information, and snobbery", "Only achievement and affiliation needs", "The 5 levels of Maslow's hierarchy"], correct: 1, explanation: "Murray identified 6 categories of psychogenic needs: ambition, materialism, power, affection, information, and snobbery. These differ from Maslow's hierarchy. (Session 3)" },
+  { s:4, q: "The first stage of the market study process is:", options: ["Determine the study design", "Data collection and sampling", "Formulate the problem (MDP + MSP)", "Report preparation and delivery"], correct: 2, explanation: "Stage 1 is formulating the problem, which includes defining the MDP (Management Decision Problem) and MSP (Marketing Study Problem). (Session 4)" },
+  { s:6, q: "In qualitative research, sampling techniques include:", options: ["Simple random, stratified, and cluster sampling", "Convenience, purposive, and snowball sampling", "Quota sampling only", "Cross-quota and single-quota sampling"], correct: 1, explanation: "Qualitative research uses convenience, purposive, and snowball sampling. Probability methods (simple random, stratified, cluster) require a sampling frame. Quota sampling is for quantitative studies. (Session 6)" },
+  { s:9, q: "For a non-probability sampling technique at national scope (general public), the recommended sample size is:", options: ["50 to 100 respondents", "300 to 600 respondents", "1000 to 2000 respondents", "Over 5000 respondents"], correct: 2, explanation: "For non-probability sampling, general public at national scope: n = 1000 to 2000. At city scope: n = 300 to 600. (Session 9)" }
 ];
 
 // ===== STATE =====
