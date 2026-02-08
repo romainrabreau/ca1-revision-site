@@ -674,34 +674,20 @@
 <!-- ==================== FLASHCARD MODE ==================== -->
 <div class="section" id="flashcardsSection">
 
-  <!-- Stats bar -->
-  <div class="fc-stats-bar" id="fcStatsBar">
-    <div class="fc-stat">
-      <span class="fc-stat-value" id="fcStatTotal">72</span>
-      <span class="fc-stat-label">Total</span>
+  <!-- Flashcard panel: stats + search + filters -->
+  <div class="fc-panel">
+    <div class="fc-panel-stats" id="fcStatsBar">
+      <div class="fc-stat"><span class="fc-stat-value" id="fcStatTotal">72</span><span class="fc-stat-label">Total</span></div>
+      <div class="fc-stat"><span class="fc-stat-value fc-stat-success" id="fcStatMastered">0</span><span class="fc-stat-label">Mastered</span></div>
+      <div class="fc-stat"><span class="fc-stat-value fc-stat-warning" id="fcStatRemaining">72</span><span class="fc-stat-label">Remaining</span></div>
+      <div class="fc-stat"><span class="fc-stat-value fc-stat-info" id="fcStatQuizAvg">--</span><span class="fc-stat-label">Quiz Avg</span></div>
     </div>
-    <div class="fc-stat">
-      <span class="fc-stat-value fc-stat-success" id="fcStatMastered">0</span>
-      <span class="fc-stat-label">Mastered</span>
-    </div>
-    <div class="fc-stat">
-      <span class="fc-stat-value fc-stat-warning" id="fcStatRemaining">72</span>
-      <span class="fc-stat-label">Remaining</span>
-    </div>
-    <div class="fc-stat">
-      <span class="fc-stat-value fc-stat-info" id="fcStatQuizAvg">--</span>
-      <span class="fc-stat-label">Quiz Avg</span>
-    </div>
-  </div>
-
-  <!-- Toolbar: search + filters unified -->
-  <div class="fc-toolbar">
-    <div class="fc-toolbar-search">
+    <div class="fc-panel-search">
       <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
-      <input type="text" id="fcSearchInput" placeholder="Search..." oninput="searchFlashcards(this.value)">
+      <input type="text" id="fcSearchInput" placeholder="Search flashcards..." oninput="searchFlashcards(this.value)">
       <span class="fc-search-count" id="fcSearchCount"></span>
     </div>
-    <div class="fc-toolbar-filters" id="fcFilterRow">
+    <div class="fc-panel-filters" id="fcFilterRow">
       <button class="fc-filter-btn active" onclick="filterFlashcards('all')">All</button>
       <button class="fc-filter-btn" onclick="filterFlashcards(1)">S1</button>
       <button class="fc-filter-btn" onclick="filterFlashcards(2)">S2</button>
