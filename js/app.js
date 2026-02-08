@@ -7,7 +7,6 @@ let filteredFlashcards = [...Array(flashcards.length).keys()];
 let fcOrder = [...filteredFlashcards];
 let quizAnswers = {};
 let quizScore = 0;
-let sessionsRead = new Set();
 let currentQuizMode = null;
 let activeQuizQuestions = [];
 let timerInterval = null;
@@ -21,8 +20,6 @@ let autoplaySpeed = 5;
 
 // Load from localStorage
 try {
-  const saved = localStorage.getItem('ca1_progress');
-  if (saved) sessionsRead = new Set(JSON.parse(saved));
   const savedTheme = localStorage.getItem('ca1_theme');
   if (savedTheme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
   const savedMastered = localStorage.getItem('ca1_mastered');
@@ -57,12 +54,6 @@ function switchMode(mode) {
 function toggleSession(header) {
   const card = header.closest('.session-card');
   card.classList.toggle('open');
-  const sessionNum = card.dataset.session;
-  if (card.classList.contains('open')) {
-    sessionsRead.add(sessionNum);
-    localStorage.setItem('ca1_progress', JSON.stringify([...sessionsRead]));
-    updateProgress();
-  }
 }
 
 // ===== FILTER SESSIONS =====
@@ -94,12 +85,13 @@ function handleSearch(query) {
   });
 }
 
-// ===== PROGRESS =====
+// ===== PROGRESS (flashcard mastery) =====
 function updateProgress() {
-  const total = 8; const read = sessionsRead.size;
-  const pct = Math.round((read / total) * 100);
+  const total = flashcards.length;
+  const mastered = masteredCards.size;
+  const pct = total > 0 ? Math.round((mastered / total) * 100) : 0;
   document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progressText').textContent = pct + '%';
+  document.getElementById('progressText').textContent = mastered + '/' + total;
 }
 updateProgress();
 
@@ -197,7 +189,7 @@ function markCard(action) {
   const idx = fcOrder[fcIndex];
   if (action === 'gotit') masteredCards.add(idx); else masteredCards.delete(idx);
   localStorage.setItem('ca1_mastered', JSON.stringify([...masteredCards]));
-  updateMasteryCounter(); updateMasteryDashboard();
+  updateMasteryCounter(); updateMasteryDashboard(); updateProgress();
   if (fcOrder.length > 1) nextCard();
 }
 
@@ -398,9 +390,9 @@ function toggleBookmark(qi, btn) {
 // ===== RESET ALL =====
 function resetAllProgress() {
   if (!confirm('Reset all progress? (mastered cards, quiz history, session progress, bookmarks, weak spots)')) return;
-  localStorage.removeItem('ca1_progress'); localStorage.removeItem('ca1_mastered'); localStorage.removeItem('ca1_quiz_history');
+  localStorage.removeItem('ca1_mastered'); localStorage.removeItem('ca1_quiz_history');
   localStorage.removeItem('ca1_wrong'); localStorage.removeItem('ca1_bookmarks');
-  sessionsRead = new Set(); masteredCards = new Set(); quizHistory = []; wrongAnswers = new Set(); bookmarkedQuestions = new Set();
+  masteredCards = new Set(); quizHistory = []; wrongAnswers = new Set(); bookmarkedQuestions = new Set();
   updateProgress(); updateMasteryCounter(); updateMasteryDashboard();
 }
 
