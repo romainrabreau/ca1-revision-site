@@ -808,6 +808,79 @@ mark {
   border-radius: 3px;
 }
 .hidden { display: none !important; }
+
+/* ===== FLASHCARD SESSION FILTER ===== */
+.fc-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.fc-filter-btn {
+  padding: 6px 14px;
+  border-radius: 50px;
+  border: 2px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-size: 0.8em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.fc-filter-btn:hover { border-color: var(--primary); color: var(--primary); }
+.fc-filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+/* ===== QUIZ MODE SELECTOR ===== */
+.quiz-mode-selector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.quiz-mode-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.quiz-mode-card:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+.quiz-mode-card.active { border-color: var(--primary); background: rgba(227,6,19,0.05); }
+.quiz-mode-card h4 { font-size: 1em; margin-bottom: 6px; color: var(--text); }
+.quiz-mode-card p { font-size: 0.8em; color: var(--text-secondary); line-height: 1.4; }
+.quiz-mode-icon { font-size: 2em; margin-bottom: 8px; }
+
+/* ===== QUIZ TIMER ===== */
+.quiz-timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--error-bg);
+  color: var(--error);
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.1em;
+  border: 2px solid var(--error);
+}
+.quiz-timer.warning { animation: timerPulse 1s ease-in-out infinite; }
+@keyframes timerPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.quiz-timer.hidden-timer { display: none; }
+
+/* ===== QUIZ SESSION FILTER ===== */
+.quiz-session-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
 </style>
 </head>
 <body>
@@ -1313,6 +1386,17 @@ mark {
 
 <!-- ==================== FLASHCARD MODE ==================== -->
 <div class="section" id="flashcardSection">
+  <div class="fc-filter-row" id="fcFilterRow">
+    <button class="fc-filter-btn active" onclick="filterFlashcards('all')">All</button>
+    <button class="fc-filter-btn" onclick="filterFlashcards(1)">S1</button>
+    <button class="fc-filter-btn" onclick="filterFlashcards(2)">S2</button>
+    <button class="fc-filter-btn" onclick="filterFlashcards(3)">S3</button>
+    <button class="fc-filter-btn" onclick="filterFlashcards(4)">S4</button>
+    <button class="fc-filter-btn" onclick="filterFlashcards(5)">S5</button>
+    <button class="fc-filter-btn" onclick="filterFlashcards(6)">S6</button>
+    <button class="fc-filter-btn" onclick="filterFlashcards(8)">S8</button>
+    <button class="fc-filter-btn" onclick="filterFlashcards(9)">S9</button>
+  </div>
   <div class="flashcard-container">
     <div class="flashcard" id="flashcard" onclick="flipCard()">
       <div class="flashcard-face flashcard-front">
@@ -1340,18 +1424,57 @@ mark {
 
 <!-- ==================== QUIZ MODE ==================== -->
 <div class="section" id="quizSection">
-  <div class="quiz-header">
+  <div class="quiz-mode-selector" id="quizModeSelector">
+    <div class="quiz-mode-card" onclick="startQuizMode('quick10')">
+      <div class="quiz-mode-icon">&#9889;</div>
+      <h4>Quick 10</h4>
+      <p>10 random questions. Fast practice.</p>
+    </div>
+    <div class="quiz-mode-card" onclick="startQuizMode('exam')">
+      <div class="quiz-mode-icon">&#127891;</div>
+      <h4>Exam Simulation</h4>
+      <p>15 questions, 15 minutes timer. Like the real CA1.</p>
+    </div>
+    <div class="quiz-mode-card" onclick="startQuizMode('session')">
+      <div class="quiz-mode-icon">&#128218;</div>
+      <h4>By Session</h4>
+      <p>Pick a session and practice its questions.</p>
+    </div>
+    <div class="quiz-mode-card" onclick="startQuizMode('full')">
+      <div class="quiz-mode-icon">&#128170;</div>
+      <h4>Full Practice</h4>
+      <p>All questions. Complete review.</p>
+    </div>
+  </div>
+  <div class="quiz-session-filter hidden" id="quizSessionFilter">
+    <button class="fc-filter-btn" onclick="startSessionQuiz(1)">S1</button>
+    <button class="fc-filter-btn" onclick="startSessionQuiz(2)">S2</button>
+    <button class="fc-filter-btn" onclick="startSessionQuiz(3)">S3</button>
+    <button class="fc-filter-btn" onclick="startSessionQuiz(4)">S4</button>
+    <button class="fc-filter-btn" onclick="startSessionQuiz(5)">S5</button>
+    <button class="fc-filter-btn" onclick="startSessionQuiz(6)">S6</button>
+    <button class="fc-filter-btn" onclick="startSessionQuiz(8)">S8</button>
+    <button class="fc-filter-btn" onclick="startSessionQuiz(9)">S9</button>
+  </div>
+  <div class="quiz-header hidden" id="quizHeader">
     <div class="quiz-score">
       <div class="score-circle" id="scoreCircle">
         <span class="score-text" id="scoreText">0%</span>
       </div>
       <div class="quiz-info">
-        <h3>Practice Quiz</h3>
-        <p id="quizProgress">0 / 20 answered</p>
+        <h3 id="quizTitle">Practice Quiz</h3>
+        <p id="quizProgress">0 / 0 answered</p>
       </div>
     </div>
-    <div class="quiz-actions">
-      <button class="quiz-btn reset-btn" onclick="resetQuiz()">Reset Quiz</button>
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="quiz-timer hidden-timer" id="quizTimer">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+        <span id="timerDisplay">15:00</span>
+      </div>
+      <div class="quiz-actions">
+        <button class="quiz-btn reset-btn" onclick="backToModeSelect()">Back</button>
+        <button class="quiz-btn reset-btn" onclick="resetQuiz()">Reset</button>
+      </div>
     </div>
   </div>
   <div id="quizContainer"></div>
@@ -1359,7 +1482,7 @@ mark {
     <div class="results-circle" id="resultsCircle"></div>
     <div class="results-msg" id="resultsMsg"></div>
     <div class="results-sub" id="resultsSub"></div>
-    <button class="fc-btn primary-btn" onclick="resetQuiz()" style="margin:0 auto">Try Again</button>
+    <button class="fc-btn primary-btn" onclick="backToModeSelect()" style="margin:0 auto">Back to Modes</button>
   </div>
 </div>
 
@@ -1444,76 +1567,153 @@ mark {
 <script>
 // ===== DATA =====
 const flashcards = [
-  { q: "What is Consumer Behaviour?", a: "The processes involved when individuals or groups select, purchase, use, or dispose of products, services, ideas, or experiences to satisfy needs and desires." },
-  { q: "What is a Market Study?", a: "The systematic and objective identification, collection, analysis, dissemination, and use of information for improving decision making related to marketing problems and opportunities." },
-  { q: "Define Behaviour (in consumer studies)", a: "What a consumer DOES. It is observed and factual - you can see it. Example: 'I buy organic food every week.'" },
-  { q: "Define Attitude", a: "What a consumer thinks or feels. It cannot be directly observed. It is an overall evaluation (positive or negative). Example: 'I think organic food is healthier.'" },
-  { q: "Define Belief", a: "The cognitive information a consumer holds about an attitude object. What the consumer knows or thinks they know. Example: 'Organic food contains no pesticides.'" },
-  { q: "What is the Consumer's Black Box?", a: "The middle part of the consumer behaviour model. It contains: 1) Consumer characteristics and 2) the Decision process. Inputs are environmental stimuli, outputs are consumer responses." },
-  { q: "What is Perception?", a: "The process by which sensory information is selected, organized, and interpreted. It is how people make sense of the world around them." },
-  { q: "What is Sensation?", a: "The immediate response of sensory receptors (eyes, ears, nose, mouth, skin) to basic stimuli such as light, colour, sound, odour, and texture." },
-  { q: "What is the Perceptual Process? (Solomon, 2018)", a: "Sensory stimuli -> Sensory receptors -> Exposure -> Attention -> Interpretation" },
-  { q: "Functional vs. Symbolic Attributes?", a: "Functional: tangible, measurable (taste, price, weight). Symbolic: intangible (brand image, quality perception, status)." },
-  { q: "What is Motivation?", a: "The process that leads people to behave as they do. It occurs when a need is aroused that the consumer wishes to satisfy, creating tension that drives action." },
-  { q: "What are the 5 stages of a Market Study?", a: "1. Formulate the problem -> 2. Determine study design -> 3. Data collection & sampling -> 4. Analyze & interpret -> 5. Report & delivery -> Make decisions" },
-  { q: "MDP vs. MSP?", a: "MDP (Management Decision Problem): What the decision maker needs to DO (action-oriented). MSP (Marketing Study Problem): What INFORMATION is needed (research-oriented)." },
-  { q: "Brief vs. Proposal?", a: "Brief = from the CLIENT (background, objectives, scope, budget). Proposal = from the RESEARCH INSTITUTE (methodology, sample plan, timeline, budget)." },
-  { q: "Exploratory vs. Conclusive studies?", a: "Exploratory: provide insights and understanding, flexible, unstructured. Conclusive: test specific hypotheses, examine relationships, structured, quantitative." },
-  { q: "Primary vs. Secondary Data?", a: "Primary: collected specifically for the current study (expensive, time-consuming). Secondary: already existing data collected for another purpose (cheap, fast, prerequisite to primary data)." },
-  { q: "Internal vs. External Secondary Data?", a: "Internal: within the organization (CRM, reports, previous studies). External: outside (government, associations, press, social media, syndicated services)." },
-  { q: "Three Sieves of Socrates?", a: "For evaluating secondary data: 1) Is it TRUE? 2) Is it GOOD? 3) Is it USEFUL? Also check methodology, accuracy, currency, content, purpose, credibility." },
-  { q: "What is a Qualitative Study?", a: "An unstructured, exploratory methodology based on small samples intended to provide insight and understanding. Focuses on words, concepts, ideas, opinions. Data is non-numerical." },
-  { q: "What is a Depth Interview?", a: "A direct, personal interview where a single respondent is probed by a skilled interviewer to uncover underlying opinions, motivations, beliefs, attitudes, and feelings. One-to-one, 30 min to 1 hour." },
-  { q: "What is the Saturation Effect?", a: "When you stop finding new insights, ideas, or patterns as you interview more participants. Signals the end of interviews. Exact sample size cannot be known beforehand." },
-  { q: "Semi-structured Interview?", a: "Set topics/questions but no imposed sequence. The interviewer is free to ask follow-up questions. Flexible yet focused." },
-  { q: "What is Thematic Analysis?", a: "A data analysis process: identifying patterns in data, systematically coding, deriving themes, and creating a narrative." },
-  { q: "Excerpt vs. Code vs. Theme?", a: "Excerpt = word-for-word verbatim. Code = word/phrase capturing the essence of an excerpt. Theme = grouping of codes that says something meaningful about the MSP." },
-  { q: "7 Steps of Qualitative Analysis?", a: "1. Familiarize with data, 2. Initial codes, 3. Decide what to code, 4. Merge codes with excerpts, 5. Group codes into themes, 6. Assess & revise themes, 7. Write results." },
-  { q: "Strong vs. Weak Themes?", a: "Strong themes = most recurring (high frequency, many respondents). Weak themes = less recurring. Based on frequency, number of interviews, and length of verbatim." },
-  { q: "Qualitative vs. Quantitative Study?", a: "Qualitative: small sample, unstructured, insights, non-statistical. Quantitative: large sample, structured, generalize results, statistical analysis." },
-  { q: "What is Quantitative Data?", a: "Information that can be counted or measured with a numerical value. Either intrinsically quantitative (income) or imposed numeric structure (Likert scale 1-5)." },
-  { q: "Probability vs. Non-probability Sampling?", a: "Probability (sampling frame available): simple random, stratified, cluster. Non-probability (no frame): convenience, purposive, snowball, quota." },
-  { q: "What is Quota Sampling?", a: "A non-probability method where the sample reflects the numerical composition of subgroups in the population." }
+  // SESSION 1 (3)
+  { s:1, q: "What is Consumer Behaviour?", a: "The processes involved when individuals or groups select, purchase, use, or dispose of products, services, ideas, or experiences to satisfy needs and desires." },
+  { s:1, q: "What is a Market Study?", a: "The systematic and objective identification, collection, analysis, dissemination, and use of information for improving decision making related to marketing problems and opportunities." },
+  { s:1, q: "What is the Role of a Market Study?", a: "Three roles: 1) Assessing information needs, 2) Providing relevant information, 3) Helping management make informed marketing decisions. It reduces uncertainty with factual data." },
+  // SESSION 2 (10)
+  { s:2, q: "Define Behaviour (in consumer studies)", a: "What a consumer DOES. It is observed and factual - you can see it. Example: 'I buy organic food every week.'" },
+  { s:2, q: "Define Attitude", a: "What a consumer thinks or feels. It cannot be directly observed. It is an overall evaluation (positive or negative). Example: 'I think organic food is healthier.'" },
+  { s:2, q: "Define Belief", a: "The cognitive information a consumer holds about an attitude object. What the consumer knows or thinks they know. Example: 'Organic food contains no pesticides.'" },
+  { s:2, q: "What is the Consumer's Black Box?", a: "The middle part of the consumer behaviour model. It contains: 1) Consumer characteristics and 2) the Decision process. Inputs are environmental stimuli, outputs are consumer responses." },
+  { s:2, q: "What are the 3 components of Attitude?", a: "1) Cognition (what you KNOW/believe), 2) Affect (what you FEEL), 3) Intention to act / Conation (what you intend to DO). Together they form the ABC model of attitudes." },
+  { s:2, q: "How do attitudes form: Direct Experience?", a: "Attitudes formed through personal interaction with the attitude object. Direct experience leads to stronger, more confidently held attitudes." },
+  { s:2, q: "How do attitudes form: Classical Conditioning?", a: "A stimulus that naturally elicits a response is paired with a neutral stimulus until the neutral stimulus alone triggers the response. Example: pleasant music paired with a brand." },
+  { s:2, q: "How do attitudes form: Operant/Instrumental Conditioning?", a: "Attitudes are shaped by rewards and punishments. Positive reinforcement (rewards) encourages certain attitudes; negative outcomes discourage them." },
+  { s:2, q: "What are Consumer Characteristics in the Black Box?", a: "Personal characteristics (age, lifestyle, personality), Psychological characteristics (motivation, perception, learning, attitude), and Socio-cultural characteristics (culture, social class, family)." },
+  { s:2, q: "Properties of Beliefs?", a: "Beliefs are resistant to change, can be positive, neutral, or negative. They represent cognitive knowledge about an attitude object and inform attitudes." },
+  // SESSION 3 (14)
+  { s:3, q: "What is Perception?", a: "The process by which sensory information is selected, organized, and interpreted. It is how people make sense of the world around them." },
+  { s:3, q: "What is Sensation?", a: "The immediate response of sensory receptors (eyes, ears, nose, mouth, skin) to basic stimuli such as light, colour, sound, odour, and texture." },
+  { s:3, q: "What is the Perceptual Process? (Solomon, 2018)", a: "Sensory stimuli -> Sensory receptors -> Exposure -> Attention -> Interpretation" },
+  { s:3, q: "Functional vs. Symbolic Attributes?", a: "Functional: tangible, measurable (taste, price, weight). Symbolic: intangible (brand image, quality perception, status)." },
+  { s:3, q: "Absolute Threshold vs. Differential Threshold?", a: "Absolute threshold: minimum amount of stimulation detected on a sensory channel. Differential threshold (JND): ability to detect changes or differences between two stimuli." },
+  { s:3, q: "What is Subliminal Perception?", a: "Stimuli that fall below the absolute threshold (consumer is not consciously aware). The stimulus is below the level of conscious awareness but may still influence behaviour." },
+  { s:3, q: "What is Sensory Overload?", a: "When consumers are exposed to far more information than they can process. In a multitasking environment, people are exposed to much more stimuli than they can attend to." },
+  { s:3, q: "Perceptual Vigilance vs. Perceptual Defence?", a: "Perceptual vigilance: consumers are more likely to notice stimuli related to their current needs. Perceptual defence: people see what they want to see and block threatening or unpleasant stimuli." },
+  { s:3, q: "What is Motivation?", a: "The process that leads people to behave as they do. It occurs when a need is aroused that the consumer wishes to satisfy, creating tension that drives action." },
+  { s:3, q: "Maslow's Hierarchy of Needs?", a: "5 levels (bottom to top): 1) Physiological, 2) Safety, 3) Belongingness/Love, 4) Esteem, 5) Self-actualization. Lower needs must be satisfied before higher needs become motivating." },
+  { s:3, q: "Murray's Psychogenic Needs (6 categories)?", a: "1) Ambition needs, 2) Materialistic needs, 3) Power needs, 4) Affection needs, 5) Information needs, 6) Other (play, order). Used to understand consumer motivations beyond basic needs." },
+  { s:3, q: "3 Types of Motivational Conflicts?", a: "1) Approach-Approach: choosing between 2 desirable options. 2) Approach-Avoidance: product has both positive and negative qualities. 3) Avoidance-Avoidance: choosing between 2 undesirable options." },
+  { s:3, q: "Moods vs. Emotions?", a: "Moods: mild, diffuse affective states without a clear cause, last longer. Emotions: intense, specific reactions to a particular event, short-lived, clearly identified cause." },
+  { s:3, q: "What is Affect?", a: "An umbrella term encompassing both moods and emotions. It refers to the experience of emotionally laden states. Emotions are specific and intense; moods are diffuse and mild." },
+  // SESSION 4 (7)
+  { s:4, q: "What are the 5 stages of a Market Study?", a: "1. Formulate the problem -> 2. Determine study design -> 3. Data collection & sampling -> 4. Analyze & interpret -> 5. Report & delivery -> Make decisions" },
+  { s:4, q: "MDP vs. MSP?", a: "MDP (Management Decision Problem): What the decision maker needs to DO (action-oriented, focuses on symptoms). MSP (Marketing Study Problem): What INFORMATION is needed (research-oriented, focuses on underlying causes)." },
+  { s:4, q: "Brief vs. Proposal?", a: "Brief = from the CLIENT (background, objectives, scope, budget). Proposal = from the RESEARCH INSTITUTE/SUPPLIER (methodology, sample plan, timeline, budget, ethical concerns)." },
+  { s:4, q: "Exploratory vs. Conclusive studies?", a: "Exploratory: provide insights and understanding, flexible, unstructured, small sample. Conclusive: test specific hypotheses, examine relationships, structured, large sample." },
+  { s:4, q: "What is a Descriptive Study?", a: "A type of conclusive study that describes market characteristics or functions. E.g., describing user profiles, estimating percentages of behaviours, determining triggers." },
+  { s:4, q: "What is a Causal Study?", a: "A type of conclusive study to obtain evidence regarding cause-and-effect (causal) relationships. E.g., does service quality (cause) influence incivility (effect)?" },
+  { s:4, q: "Market Study Cost Factors?", a: "Based on: what you want to achieve, who is involved, time for data collection, methodology and technology. Cost: around 10,000 to 20,000 EUR. Key variables: methodology, sample size, survey length." },
+  // SESSION 5 (4)
+  { s:5, q: "Primary vs. Secondary Data?", a: "Primary: collected specifically for the current study (expensive, time-consuming). Secondary: already existing data collected for another purpose (cheap, fast, prerequisite to primary data)." },
+  { s:5, q: "Internal vs. External Secondary Data?", a: "Internal: within the organization (CRM, reports, previous studies). External: outside (government, associations, press, social media, syndicated services)." },
+  { s:5, q: "Three Sieves of Socrates?", a: "For evaluating secondary data: 1) Is it TRUE? 2) Is it GOOD? 3) Is it USEFUL? Also check methodology, accuracy, currency, content, purpose, credibility." },
+  { s:5, q: "Exploratory Research Method (5 steps)?", a: "1) Identify the object and field of study, 2) Use keywords, 3) Identify the nature and content required, 4) Consult appropriate resources, 5) Write up properly. Tools like NotebookLM can help with synthesis." },
+  // SESSION 6 (8)
+  { s:6, q: "What is a Qualitative Study?", a: "An unstructured, exploratory methodology based on small samples intended to provide insight and understanding. Focuses on words, concepts, ideas, opinions. Data is non-numerical." },
+  { s:6, q: "Qualitative Study Procedures?", a: "Direct (nondisguised): Focus Groups, Depth Interviews. Indirect (disguised): Projective Techniques." },
+  { s:6, q: "What is a Depth Interview?", a: "A direct, personal interview where a single respondent is probed by a skilled interviewer to uncover underlying opinions, motivations, beliefs, attitudes, and feelings. One-to-one, 30 min to 1 hour." },
+  { s:6, q: "What is the Saturation Effect?", a: "When you stop finding new insights, ideas, or patterns as you interview more participants. Signals the end of interviews. Exact sample size cannot be known beforehand." },
+  { s:6, q: "Interview Guide Structure (4 phases)?", a: "1) Introductory phase (build trust), 2) Subject centering phase, 3) Deepening phase, 4) Closing phase. It is a flexible canvas with topics and open-ended questions for each phase." },
+  { s:6, q: "Question Types in an Interview Guide?", a: "Descriptive questions: ask for facts. Casual questions: ask for reasons behind behaviour/opinions. Consequence questions: ask what happens as a result of behaviour." },
+  { s:6, q: "Semi-structured Interview: Do's and Don'ts?", a: "DO: listen actively, stay objective, show understanding, make summaries, record. DON'T: fear silence, interrupt, be directive, induce responses, interpret, give opinions/judgments." },
+  { s:6, q: "Qualitative Sampling Methods?", a: "Convenience sampling: take-them-where-you-find-them. Purposive sampling: select based on key characteristics. Snowball sampling: participants recruit others matching the profile." },
+  // SESSION 8 (6)
+  { s:8, q: "What is Thematic Analysis?", a: "A data analysis process: identifying patterns in data, systematically coding, deriving themes, and creating a narrative." },
+  { s:8, q: "Excerpt vs. Code vs. Theme?", a: "Excerpt = word-for-word verbatim. Code = word/phrase capturing the essence of an excerpt. Theme = grouping of codes that says something meaningful about the MSP." },
+  { s:8, q: "7 Steps of Qualitative Analysis?", a: "1. Familiarize with data, 2. Initial codes, 3. Decide what to code, 4. Merge codes with excerpts (codifying), 5. Group codes into themes, 6. Assess & revise themes, 7. Write results." },
+  { s:8, q: "Strong vs. Weak Themes?", a: "Strong themes = most recurring (high frequency, many respondents). Weak themes = less recurring. Based on frequency of excerpts, number of interviews, and length of verbatim." },
+  { s:8, q: "Use of AI in Qualitative Analysis?", a: "AI can be used under conditions: 1) You must understand what you are doing, 2) Read all transcripts yourself first, 3) Make your own analysis first, 4) Then use AI with right prompts, 5) Read AI output and adjust according to your analysis." },
+  { s:8, q: "Limitations of Qualitative Findings?", a: "Can't be generalized (sample too small, not representative). But they provide insights, better understanding, and help design the questionnaire for the quantitative phase." },
+  // SESSION 9 (10)
+  { s:9, q: "Qualitative vs. Quantitative Study?", a: "Qualitative: small sample, unstructured, insights, non-statistical. Quantitative: large sample, structured, generalize results, statistical analysis." },
+  { s:9, q: "What is Quantitative Data?", a: "Information that can be counted or measured with a numerical value. Either intrinsically quantitative (income) or imposed numeric structure (Likert scale 1-5)." },
+  { s:9, q: "Sampling Design Process (3 steps)?", a: "1. Define the population (and deduce the target), 2. Choose the sampling method (how to select participants), 3. Determine the sample size." },
+  { s:9, q: "Population vs. Sample?", a: "Population: the defined group of individuals from which a sample is drawn. Sample: members of a population selected to participate. Proper sampling allows estimating population characteristics." },
+  { s:9, q: "Probability vs. Non-probability Sampling?", a: "Probability (sampling frame available): simple random, stratified, cluster. Non-probability (no frame): convenience, purposive, snowball, quota." },
+  { s:9, q: "What is Quota Sampling?", a: "Most used non-probability method in marketing. Sample reflects numerical composition of subgroups. Uses quotas (age, gender, etc.) then convenience sampling within quotas." },
+  { s:9, q: "Single Quota vs. Cross Quota?", a: "Single quota: one criterion (e.g., gender only). Cross quota: two or more criteria crossed (e.g., gender x age group). Too many criteria (>2-3) makes it hard to find respondents." },
+  { s:9, q: "Sample Size Formula (probability)?", a: "n = t² * p * q / e² where t = confidence level value (1.96 for 95%), p = expected proportion, q = 1-p, e = margin of error. With p=q=0.5, simplified: n = 1/e²." },
+  { s:9, q: "Margin of Error and Sample Size Relationship?", a: "To double precision (halve e), you must quadruple the sample size (n x 4). E.g., e=4% needs n=600; e=2% needs n=2401. Heavy consequences on cost and time." },
+  { s:9, q: "Advantages & Disadvantages of Non-probability Sampling?", a: "Advantages: inexpensive, efficient, convenient. Disadvantages: likely to introduce bias, results may not be generalized to target population." }
 ];
 
 const quizQuestions = [
-  { q: "What is the correct definition of 'behaviour' in consumer studies?", options: ["A consumer's overall evaluation of a product", "The cognitive information a consumer holds about an object", "An observed and factual action toward an object", "The process of interpreting sensory information"], correct: 2, explanation: "Behaviour is observed and factual - it is what a consumer actually does. (Session 2)" },
-  { q: "In the consumer behaviour model, what are the two components of the 'Consumer's Black Box'?", options: ["Marketing stimuli and other stimuli", "Consumer characteristics and decision process", "Attitudes and purchase behaviour", "Perception and motivation"], correct: 1, explanation: "The black box contains consumer characteristics and the decision process. (Session 2)" },
-  { q: "What is 'perception' according to the course?", options: ["The immediate response of sensory receptors to stimuli", "The process by which sensory information is selected, organized, and interpreted", "A consumer's overall feeling about a product", "The act of purchasing a product"], correct: 1, explanation: "Perception is the process of selecting, organizing, and interpreting sensory info. Option a) is the definition of 'sensation.' (Session 3)" },
-  { q: "What is the correct order of the perceptual process (Solomon, 2018)?", options: ["Attention > Exposure > Interpretation > Sensory stimuli", "Sensory stimuli > Sensory receptors > Exposure > Attention > Interpretation", "Interpretation > Attention > Exposure > Sensory receptors", "Sensory receptors > Motivation > Attention > Behaviour"], correct: 1, explanation: "Stimuli > Receptors > Exposure > Attention > Interpretation. (Session 3)" },
-  { q: "The Management Decision Problem (MDP) asks:", options: ["What information is needed and how to obtain it", "What the decision maker needs to do", "How to analyze the data collected", "Who should conduct the study"], correct: 1, explanation: "The MDP asks what the decision maker needs to do. The MSP asks what information is needed. (Session 4)" },
-  { q: "A 'brief' in the market study process comes from:", options: ["The research institute", "The government", "The client", "The consumers"], correct: 2, explanation: "The brief is from the client. The proposal is from the supplier/research institute. (Session 4)" },
-  { q: "Secondary data is:", options: ["Data collected specifically for the current study", "Data collected for some other purpose than the problem at hand", "Data that is always unreliable", "Data from depth interviews"], correct: 1, explanation: "Secondary data was collected for a different purpose. It is existing data and a prerequisite to primary data collection. (Session 5)" },
-  { q: "Which of the following is NOT a characteristic of secondary data compared to primary data?", options: ["Relatively low cost", "Short collection time", "Very involved collection process", "Rapid and easy collection"], correct: 2, explanation: "'Very involved' describes primary data, not secondary data. Secondary data is rapid, easy, low cost, short time. (Session 5)" },
-  { q: "A qualitative study focuses on:", options: ["Numerical data and statistical tests", "Words, concepts, ideas, and opinions", "Large, representative samples", "Confirming hypotheses"], correct: 1, explanation: "Qualitative study focuses on words, concepts, ideas, and opinions. It is non-numerical. (Session 6)" },
-  { q: "The 'saturation effect' in qualitative research means:", options: ["The interviewer is too tired to continue", "You stop finding new insights as you interview more participants", "The sample size has reached 100 respondents", "All respondents give the same demographic profile"], correct: 1, explanation: "Saturation = no new insights, ideas, or patterns emerge. This signals the end of interviews. (Session 6)" },
-  { q: "In a semi-structured interview, the interviewer:", options: ["Follows a strict order of pre-determined questions", "Does not impose a specific sequence and can ask follow-up questions", "Only listens and never asks questions", "Uses a questionnaire with closed-ended questions"], correct: 1, explanation: "Semi-structured: topics/questions are set, but no imposed sequence. Free to ask additional questions. (Session 6)" },
-  { q: "In thematic analysis, a 'code' is:", options: ["A full paragraph from the transcript", "A word or short phrase that captures the essence of an excerpt", "The name of a respondent", "A statistical formula"], correct: 1, explanation: "A code is a word or short phrase that symbolically assigns a summative, essence-capturing attribute to an excerpt. (Session 8)" },
-  { q: "Which is the correct hierarchy in thematic analysis?", options: ["Theme > Code > Excerpt > Narrative", "Narrative > Theme > Excerpt > Code", "Excerpt > Code > Theme > Narrative", "Code > Excerpt > Narrative > Theme"], correct: 2, explanation: "Transcript > Excerpts > Codes > Themes > Narrative. (Session 8)" },
-  { q: "Quota sampling is a type of:", options: ["Probability sampling", "Non-probability sampling", "Cluster sampling", "Stratified sampling"], correct: 1, explanation: "Quota sampling is a non-probability sampling method where the sample reflects the numerical composition of subgroups. (Session 9)" },
-  { q: "The main difference between a quantitative and qualitative study outcome is:", options: ["Qualitative recommends a final course of action, quantitative develops initial understanding", "Qualitative develops initial understanding, quantitative recommends a final course of action", "Both aim to develop initial understanding", "Both recommend a final course of action"], correct: 1, explanation: "Qualitative = develop initial understanding. Quantitative = recommend a final course of action. (Session 9)" },
-  { q: "'Brand image' and 'perceived quality' are examples of:", options: ["Functional attributes", "Symbolic attributes", "Primary data", "Sampling methods"], correct: 1, explanation: "Brand image and perceived quality are symbolic (intangible) attributes. Functional attributes are tangible like price, weight, taste. (Session 3)" },
-  { q: "When should you use probability sampling?", options: ["When you have no sampling frame available", "When a sampling frame representing the target population is available and accessible", "When the study is qualitative", "When the budget is very limited"], correct: 1, explanation: "Probability sampling is used when a sampling frame (list of the target population) is available and accessible. (Session 9)" },
-  { q: "Motivation occurs when:", options: ["A consumer sees an advertisement", "A need is aroused that the consumer wishes to satisfy", "A consumer compares two brands", "The price of a product decreases"], correct: 1, explanation: "Motivation is the process that leads people to behave as they do; it occurs when a need is aroused. (Session 3)" },
-  { q: "Findings from a qualitative study:", options: ["Can be generalized to the entire population", "Cannot be generalized but provide insights and help design the questionnaire", "Are always confirmed by quantitative data", "Replace the need for quantitative studies"], correct: 1, explanation: "Qualitative findings can't be generalized (too small/not representative) but they provide insights and help in questionnaire design. (Session 8)" },
-  { q: "'Codifying' in thematic analysis means:", options: ["Recording the interviews", "Grouping and categorizing data to consolidate meaning", "Writing the final report", "Selecting participants for interviews"], correct: 1, explanation: "Codifying is the process of grouping and categorizing data by codes to consolidate meaning and explanation. (Session 8)" }
+  // SESSION 1 (3)
+  { s:1, q: "What is the role of a market study?", options: ["Only to collect data for competitors", "Assessing info needs, providing relevant info, and helping management make decisions", "Only to create advertising campaigns", "To replace management decision-making"], correct: 1, explanation: "A market study has 3 roles: assessing information needs, providing relevant information, and helping management make informed decisions. (Session 1)" },
+  { s:1, q: "Which of the following is NOT part of the definition of consumer behaviour?", options: ["Select and purchase products", "Dispose of products or experiences", "Setting the price of products", "Satisfying needs and desires"], correct: 2, explanation: "Consumer behaviour involves selecting, purchasing, using, and disposing of products to satisfy needs. Setting prices is a marketing decision, not consumer behaviour. (Session 1)" },
+  { s:1, q: "A market study is described as:", options: ["A subjective and creative process", "The systematic and objective identification, collection, analysis and use of information", "A simple customer satisfaction survey", "An advertising campaign evaluation"], correct: 1, explanation: "A market study is the systematic and objective identification, collection, analysis, dissemination, and use of information for decision making. (Session 1)" },
+  // SESSION 2 (6)
+  { s:2, q: "What is the correct definition of 'behaviour' in consumer studies?", options: ["A consumer's overall evaluation of a product", "The cognitive information a consumer holds about an object", "An observed and factual action toward an object", "The process of interpreting sensory information"], correct: 2, explanation: "Behaviour is observed and factual - it is what a consumer actually does. (Session 2)" },
+  { s:2, q: "In the consumer behaviour model, what are the two components of the 'Consumer's Black Box'?", options: ["Marketing stimuli and other stimuli", "Consumer characteristics and decision process", "Attitudes and purchase behaviour", "Perception and motivation"], correct: 1, explanation: "The black box contains consumer characteristics and the decision process. (Session 2)" },
+  { s:2, q: "The 3 components of attitude (ABC model) are:", options: ["Awareness, Behaviour, Consumption", "Cognition, Affect, Intention to act (Conation)", "Analysis, Belief, Choice", "Cost, Availability, Brand"], correct: 1, explanation: "The ABC model: Cognition (what you know), Affect (what you feel), Conation/Intention to act (what you intend to do). (Session 2)" },
+  { s:2, q: "In classical conditioning, attitudes are formed by:", options: ["Rewards and punishments", "Pairing a neutral stimulus with a stimulus that naturally elicits a response", "Direct personal interaction with the product", "Reading product reviews online"], correct: 1, explanation: "Classical conditioning pairs a neutral stimulus with one that naturally elicits a response, until the neutral stimulus alone triggers the response. (Session 2)" },
+  { s:2, q: "Beliefs are:", options: ["Easy to change with a single advertisement", "Resistant to change and can be positive, neutral, or negative", "Always factually correct", "The same as attitudes"], correct: 1, explanation: "Beliefs are cognitive information, resistant to change, and can be positive, neutral, or negative. They are not the same as attitudes. (Session 2)" },
+  { s:2, q: "Consumer personal characteristics include:", options: ["Age, lifestyle, personality", "Only income and education", "Only culture and social class", "Marketing stimuli"], correct: 0, explanation: "Personal characteristics include age, lifestyle, and personality. Income/education are also personal but the most complete answer includes age, lifestyle, personality. (Session 2)" },
+  // SESSION 3 (8)
+  { s:3, q: "What is 'perception' according to the course?", options: ["The immediate response of sensory receptors to stimuli", "The process by which sensory information is selected, organized, and interpreted", "A consumer's overall feeling about a product", "The act of purchasing a product"], correct: 1, explanation: "Perception is the process of selecting, organizing, and interpreting sensory info. Option a) is the definition of 'sensation.' (Session 3)" },
+  { s:3, q: "What is the correct order of the perceptual process (Solomon, 2018)?", options: ["Attention > Exposure > Interpretation > Sensory stimuli", "Sensory stimuli > Sensory receptors > Exposure > Attention > Interpretation", "Interpretation > Attention > Exposure > Sensory receptors", "Sensory receptors > Motivation > Attention > Behaviour"], correct: 1, explanation: "Stimuli > Receptors > Exposure > Attention > Interpretation. (Session 3)" },
+  { s:3, q: "The absolute threshold is:", options: ["The ability to detect differences between two stimuli", "The minimum amount of stimulation detected on a sensory channel", "The maximum amount of sensory input a person can handle", "The point where subliminal messages become conscious"], correct: 1, explanation: "Absolute threshold is the minimum amount of stimulation that can be detected on a sensory channel. The differential threshold (JND) detects differences. (Session 3)" },
+  { s:3, q: "Subliminal perception refers to:", options: ["Stimuli that are very loud and obvious", "Stimuli below the level of conscious awareness that may still influence behaviour", "A marketing strategy using bright colors", "Perception through taste only"], correct: 1, explanation: "Subliminal perception: stimuli fall below the absolute threshold, so the consumer is not consciously aware, but they may still influence behaviour. (Session 3)" },
+  { s:3, q: "Which is a limitation of Maslow's hierarchy of needs?", options: ["It has too few levels", "The order of needs is always strictly followed by all individuals", "It is culture-specific and the hierarchy may not apply universally", "It only applies to children"], correct: 2, explanation: "Maslow's hierarchy is criticized for being culture-specific. The strict order may not apply universally - some people may prioritize esteem over belongingness. (Session 3)" },
+  { s:3, q: "In an approach-avoidance motivational conflict, a consumer:", options: ["Must choose between two equally desirable options", "Wants a product but it also has negative aspects", "Must choose between two equally undesirable options", "Has no conflict at all"], correct: 1, explanation: "Approach-avoidance: the product has both positive and negative qualities. E.g., wanting a dessert (approach) but worrying about calories (avoidance). (Session 3)" },
+  { s:3, q: "The difference between moods and emotions is:", options: ["There is no difference", "Moods are intense and specific; emotions are mild and diffuse", "Moods are mild and diffuse; emotions are intense and specific with a clear cause", "Moods last only seconds while emotions last days"], correct: 2, explanation: "Moods: mild, diffuse, no clear cause, last longer. Emotions: intense, specific, clearly identified cause, short-lived. (Session 3)" },
+  { s:3, q: "'Brand image' and 'perceived quality' are examples of:", options: ["Functional attributes", "Symbolic attributes", "Primary data", "Sampling methods"], correct: 1, explanation: "Brand image and perceived quality are symbolic (intangible) attributes. Functional attributes are tangible like price, weight, taste. (Session 3)" },
+  // SESSION 4 (5)
+  { s:4, q: "The Management Decision Problem (MDP) asks:", options: ["What information is needed and how to obtain it", "What the decision maker needs to do", "How to analyze the data collected", "Who should conduct the study"], correct: 1, explanation: "The MDP asks what the decision maker needs to do (action-oriented). The MSP asks what information is needed (research-oriented). (Session 4)" },
+  { s:4, q: "A 'brief' in the market study process comes from:", options: ["The research institute", "The government", "The client", "The consumers"], correct: 2, explanation: "The brief is from the client. The proposal is from the supplier/research institute. (Session 4)" },
+  { s:4, q: "A descriptive study is used to:", options: ["Provide insights and initial understanding", "Describe market characteristics, estimate percentages, and determine triggers", "Test only cause-and-effect relationships", "Replace the need for a qualitative study"], correct: 1, explanation: "Descriptive study = describe market characteristics (e.g., user profiles, percentages exhibiting a behaviour, determining triggers). It is a type of conclusive study. (Session 4)" },
+  { s:4, q: "A causal study aims to:", options: ["Describe the characteristics of respondents", "Obtain evidence regarding cause-and-effect relationships between variables", "Provide insights and understanding only", "Collect secondary data"], correct: 1, explanation: "Causal study = obtain evidence regarding cause-and-effect (causal) relationships. E.g., does X (cause) influence Y (effect)? (Session 4)" },
+  { s:4, q: "In the Starbucks case, which study design is needed to identify the triggers that impact attitude and behaviour?", options: ["Exploratory study only", "Descriptive study only", "Causal/confirmatory study (quantitative via survey)", "No study is needed"], correct: 2, explanation: "Identifying triggers that impact attitude and behaviour requires a causal/confirmatory study using a quantitative survey. (Session 4)" },
+  // SESSION 5 (4)
+  { s:5, q: "Secondary data is:", options: ["Data collected specifically for the current study", "Data collected for some other purpose than the problem at hand", "Data that is always unreliable", "Data from depth interviews"], correct: 1, explanation: "Secondary data was collected for a different purpose. It is existing data and a prerequisite to primary data collection. (Session 5)" },
+  { s:5, q: "Which of the following is NOT a characteristic of secondary data compared to primary data?", options: ["Relatively low cost", "Short collection time", "Very involved collection process", "Rapid and easy collection"], correct: 2, explanation: "'Very involved' describes primary data, not secondary data. Secondary data is rapid, easy, low cost, short time. (Session 5)" },
+  { s:5, q: "Which is NOT a use of secondary data?", options: ["Identify and better define the problem", "Interpret primary data more insightfully", "Replace all need for primary data collection", "Formulate an appropriate research design"], correct: 2, explanation: "Secondary data helps identify/define problems, develop approaches, formulate designs, and interpret primary data - but it does NOT replace primary data. (Session 5)" },
+  { s:5, q: "Internal secondary data includes:", options: ["Government census data", "Professional press articles", "Client database, CRM/ERP, internal reports", "Syndicated services from external providers"], correct: 2, explanation: "Internal data = within the organization (client database, CRM/ERP, internal reports, previous studies). The others are external sources. (Session 5)" },
+  // SESSION 6 (6)
+  { s:6, q: "A qualitative study focuses on:", options: ["Numerical data and statistical tests", "Words, concepts, ideas, and opinions", "Large, representative samples", "Confirming hypotheses"], correct: 1, explanation: "Qualitative study focuses on words, concepts, ideas, and opinions. It is non-numerical. (Session 6)" },
+  { s:6, q: "The 'saturation effect' in qualitative research means:", options: ["The interviewer is too tired to continue", "You stop finding new insights as you interview more participants", "The sample size has reached 100 respondents", "All respondents give the same demographic profile"], correct: 1, explanation: "Saturation = no new insights, ideas, or patterns emerge. This signals the end of interviews. (Session 6)" },
+  { s:6, q: "In a semi-structured interview, the interviewer:", options: ["Follows a strict order of pre-determined questions", "Does not impose a specific sequence and can ask follow-up questions", "Only listens and never asks questions", "Uses a questionnaire with closed-ended questions"], correct: 1, explanation: "Semi-structured: topics/questions are set, but no imposed sequence. Free to ask additional questions. (Session 6)" },
+  { s:6, q: "The interview guide is structured in:", options: ["2 phases: introduction and conclusion", "4 phases: introductory, subject centering, deepening, closing", "6 phases matching the market study process", "No specific structure is needed"], correct: 1, explanation: "The interview guide has 4 phases: introductory (build trust), subject centering, deepening, and closing (thank respondent). (Session 6)" },
+  { s:6, q: "Which type of question asks for reasons behind a behaviour or opinion?", options: ["Descriptive question", "Casual question", "Consequence question", "Closed-ended question"], correct: 1, explanation: "Casual questions ask for reasons why a behaviour/opinion exists. Descriptive questions ask for facts. Consequence questions ask what happens as a result. (Session 6)" },
+  { s:6, q: "During an interview, the interviewer should NOT:", options: ["Listen actively and stay objective", "Fear silence and interrupt the interviewee", "Show understanding without interpretation", "Record the interview and take notes"], correct: 1, explanation: "The interviewer should NOT fear silence, interrupt, be directive, induce responses, interpret, or give opinions/judgments. (Session 6)" },
+  // SESSION 8 (5)
+  { s:8, q: "In thematic analysis, a 'code' is:", options: ["A full paragraph from the transcript", "A word or short phrase that captures the essence of an excerpt", "The name of a respondent", "A statistical formula"], correct: 1, explanation: "A code is a word or short phrase that symbolically assigns a summative, essence-capturing attribute to an excerpt. (Session 8)" },
+  { s:8, q: "Which is the correct hierarchy in thematic analysis?", options: ["Theme > Code > Excerpt > Narrative", "Narrative > Theme > Excerpt > Code", "Excerpt > Code > Theme > Narrative", "Code > Excerpt > Narrative > Theme"], correct: 2, explanation: "Transcript > Excerpts > Codes > Themes > Narrative. (Session 8)" },
+  { s:8, q: "'Codifying' in thematic analysis means:", options: ["Recording the interviews", "Grouping and categorizing data by codes to consolidate meaning", "Writing the final report", "Selecting participants for interviews"], correct: 1, explanation: "Codifying = grouping and categorizing data by codes to consolidate meaning and explanation. (Session 8)" },
+  { s:8, q: "Step 6 of qualitative analysis (assess and revise themes) requires:", options: ["Deleting all themes and starting over", "Checking relevance, ensuring enough data per theme, merging similar themes", "Only adding more themes", "Sending themes to respondents for validation"], correct: 1, explanation: "Step 6: evaluate relevance, ensure enough data per theme, themes must be mutually exclusive. Merge similar ones, delete non-contributing ones. Iterative process. (Session 8)" },
+  { s:8, q: "Strong themes depend on:", options: ["The researcher's personal opinion only", "Frequency of excerpts, number of interviews addressing the code, and length of verbatim", "The number of pages in the transcript", "Whether the theme has a catchy name"], correct: 1, explanation: "Strong themes = most recurring content based on frequency of excerpts, number of respondents addressing the idea, and length of verbatim. (Session 8)" },
+  // SESSION 9 (8)
+  { s:9, q: "Quota sampling is a type of:", options: ["Probability sampling", "Non-probability sampling", "Cluster sampling", "Stratified sampling"], correct: 1, explanation: "Quota sampling is a non-probability sampling method where the sample reflects the numerical composition of subgroups. (Session 9)" },
+  { s:9, q: "The main difference between a quantitative and qualitative study outcome is:", options: ["Qualitative recommends a final course of action, quantitative develops initial understanding", "Qualitative develops initial understanding, quantitative recommends a final course of action", "Both aim to develop initial understanding", "Both recommend a final course of action"], correct: 1, explanation: "Qualitative = develop initial understanding. Quantitative = recommend a final course of action. (Session 9)" },
+  { s:9, q: "When should you use probability sampling?", options: ["When you have no sampling frame available", "When a sampling frame representing the target population is available and accessible", "When the study is qualitative", "When the budget is very limited"], correct: 1, explanation: "Probability sampling is used when a sampling frame (list of the target population) is available and accessible. (Session 9)" },
+  { s:9, q: "The difference between single quota and cross quota sampling is:", options: ["There is no difference", "Single quota uses one criterion; cross quota crosses two or more criteria", "Single quota is probability sampling; cross quota is not", "Cross quota uses only one criterion"], correct: 1, explanation: "Single quota: one criterion (e.g., gender). Cross quota: two or more crossed criteria (e.g., gender x age). Too many (>2-3) makes it difficult. (Session 9)" },
+  { s:9, q: "If you want to halve the margin of error (e.g., from 4% to 2%), you need to:", options: ["Double the sample size", "Quadruple the sample size", "Keep the same sample size", "Halve the sample size"], correct: 1, explanation: "To double precision (halve e), you must quadruple the sample size: e/2 -> n x 4. E.g., e=4% n=600 vs e=2% n=2401. (Session 9)" },
+  { s:9, q: "A confidence interval is:", options: ["The exact population value", "An interval of values within which there is a given level of confidence the population value lies", "The margin of error only", "The sample size formula"], correct: 1, explanation: "A confidence interval is an interval of values within which there is a given level of confidence that the population value lies. (Session 9)" },
+  { s:9, q: "An advantage of quota sampling over other non-probability methods is:", options: ["It is a probability sampling technique", "It reduces the drawback of lack of representativeness by matching population structure", "It requires no knowledge of the population structure", "It is always free of bias"], correct: 1, explanation: "Quota sampling reduces the drawbacks of non-probability sampling (lack of representativeness) by ensuring the sample mirrors the population structure on key criteria. (Session 9)" },
+  { s:9, q: "The population in a market study is:", options: ["Only the people who respond to the survey", "The defined group of individuals from which a sample is drawn", "Always the entire country's population", "The same as the sample"], correct: 1, explanation: "The population is the defined group of individuals from which a sample is drawn. The sample is a subset selected to participate. (Session 9)" }
 ];
 
 // ===== STATE =====
 let currentMode = 'study';
 let currentSession = 'all';
 let fcIndex = 0;
-let fcOrder = [...Array(flashcards.length).keys()];
+let fcFilterSession = 'all';
+let filteredFlashcards = [...Array(flashcards.length).keys()];
+let fcOrder = [...filteredFlashcards];
 let quizAnswers = {};
 let quizScore = 0;
 let sessionsRead = new Set();
+let currentQuizMode = null;
+let activeQuizQuestions = [];
+let timerInterval = null;
+let timerSeconds = 0;
 
 // Load progress from localStorage
 try {
   const saved = localStorage.getItem('ca1_progress');
   if (saved) sessionsRead = new Set(JSON.parse(saved));
-  const savedQuiz = localStorage.getItem('ca1_quiz');
-  if (savedQuiz) quizAnswers = JSON.parse(savedQuiz);
   const savedTheme = localStorage.getItem('ca1_theme');
   if (savedTheme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
 } catch(e) {}
@@ -1533,7 +1733,7 @@ function switchMode(mode) {
   document.getElementById(mode + 'Section').classList.add('active');
   document.getElementById('navTabs').style.display = (mode === 'study') ? 'flex' : 'none';
   if (mode === 'flashcards') showCard();
-  if (mode === 'quiz') renderQuiz();
+  if (mode === 'quiz') backToModeSelect();
 }
 
 // ===== SESSION TOGGLE =====
@@ -1548,7 +1748,7 @@ function toggleSession(header) {
   }
 }
 
-// ===== FILTER SESSIONS =====
+// ===== FILTER SESSIONS (Study mode) =====
 function filterSession(session) {
   currentSession = session;
   document.querySelectorAll('.nav-tab').forEach((t, i) => {
@@ -1562,7 +1762,6 @@ function filterSession(session) {
       card.classList.toggle('hidden', card.dataset.session !== String(session));
     }
   });
-  // Open selected session
   if (session !== 'all') {
     document.querySelectorAll('.session-card').forEach(card => {
       if (card.dataset.session === String(session)) card.classList.add('open');
@@ -1576,10 +1775,7 @@ function handleSearch(query) {
   if (!q) {
     document.querySelectorAll('.session-card').forEach(c => c.classList.remove('hidden'));
     document.querySelectorAll('.concept, .table-wrap, .tip').forEach(el => el.classList.remove('hidden'));
-    // Remove highlights
-    document.querySelectorAll('mark').forEach(m => {
-      m.replaceWith(document.createTextNode(m.textContent));
-    });
+    document.querySelectorAll('mark').forEach(m => { m.replaceWith(document.createTextNode(m.textContent)); });
     return;
   }
   document.querySelectorAll('.session-card').forEach(card => {
@@ -1592,7 +1788,7 @@ function handleSearch(query) {
 
 // ===== PROGRESS =====
 function updateProgress() {
-  const total = 8; // 8 sessions
+  const total = 8;
   const read = sessionsRead.size;
   const pct = Math.round((read / total) * 100);
   document.getElementById('progressFill').style.width = pct + '%';
@@ -1601,22 +1797,45 @@ function updateProgress() {
 updateProgress();
 
 // ===== FLASHCARDS =====
+function filterFlashcards(session) {
+  fcFilterSession = session;
+  document.querySelectorAll('#fcFilterRow .fc-filter-btn').forEach((b, i) => {
+    if (session === 'all') b.classList.toggle('active', i === 0);
+    else b.classList.toggle('active', b.textContent === 'S' + session);
+  });
+  if (session === 'all') {
+    filteredFlashcards = [...Array(flashcards.length).keys()];
+  } else {
+    filteredFlashcards = [];
+    flashcards.forEach((c, i) => { if (c.s === session) filteredFlashcards.push(i); });
+  }
+  fcOrder = [...filteredFlashcards];
+  fcIndex = 0;
+  showCard();
+}
+
 function showCard() {
+  if (fcOrder.length === 0) {
+    document.getElementById('fcQuestion').textContent = 'No cards for this session';
+    document.getElementById('fcAnswer').textContent = '';
+    document.getElementById('fcProgress').textContent = '0 / 0';
+    return;
+  }
   const card = flashcards[fcOrder[fcIndex]];
   document.getElementById('fcQuestion').textContent = card.q;
   document.getElementById('fcAnswer').textContent = card.a;
   document.getElementById('flashcard').classList.remove('flipped');
-  document.getElementById('fcProgress').textContent = `${fcIndex + 1} / ${flashcards.length}`;
+  document.getElementById('fcProgress').textContent = `${fcIndex + 1} / ${fcOrder.length}`;
 }
-function flipCard() {
-  document.getElementById('flashcard').classList.toggle('flipped');
-}
+function flipCard() { document.getElementById('flashcard').classList.toggle('flipped'); }
 function nextCard() {
-  fcIndex = (fcIndex + 1) % flashcards.length;
+  if (fcOrder.length === 0) return;
+  fcIndex = (fcIndex + 1) % fcOrder.length;
   showCard();
 }
 function prevCard() {
-  fcIndex = (fcIndex - 1 + flashcards.length) % flashcards.length;
+  if (fcOrder.length === 0) return;
+  fcIndex = (fcIndex - 1 + fcOrder.length) % fcOrder.length;
   showCard();
 }
 function shuffleCards() {
@@ -1629,35 +1848,116 @@ function shuffleCards() {
 }
 
 // ===== QUIZ =====
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function backToModeSelect() {
+  stopTimer();
+  currentQuizMode = null;
+  activeQuizQuestions = [];
+  quizAnswers = {};
+  quizScore = 0;
+  document.getElementById('quizModeSelector').classList.remove('hidden');
+  document.getElementById('quizSessionFilter').classList.add('hidden');
+  document.getElementById('quizHeader').classList.add('hidden');
+  document.getElementById('quizContainer').innerHTML = '';
+  document.getElementById('quizResults').classList.remove('show');
+  document.getElementById('quizTimer').classList.add('hidden-timer');
+}
+
+function startQuizMode(mode) {
+  currentQuizMode = mode;
+  quizAnswers = {};
+  quizScore = 0;
+
+  if (mode === 'session') {
+    document.getElementById('quizModeSelector').classList.add('hidden');
+    document.getElementById('quizSessionFilter').classList.remove('hidden');
+    return;
+  }
+
+  let indices = [...Array(quizQuestions.length).keys()];
+  if (mode === 'quick10') {
+    indices = shuffleArray(indices).slice(0, 10);
+    activeQuizQuestions = indices;
+  } else if (mode === 'exam') {
+    indices = shuffleArray(indices).slice(0, 15);
+    activeQuizQuestions = indices;
+  } else {
+    activeQuizQuestions = indices;
+  }
+
+  document.getElementById('quizModeSelector').classList.add('hidden');
+  document.getElementById('quizSessionFilter').classList.add('hidden');
+  document.getElementById('quizHeader').classList.remove('hidden');
+
+  const titles = { quick10: 'Quick 10', exam: 'Exam Simulation (15 min)', full: 'Full Practice' };
+  document.getElementById('quizTitle').textContent = titles[mode] || 'Quiz';
+
+  if (mode === 'exam') {
+    document.getElementById('quizTimer').classList.remove('hidden-timer');
+    startTimer(15 * 60);
+  } else {
+    document.getElementById('quizTimer').classList.add('hidden-timer');
+  }
+
+  renderQuiz();
+}
+
+function startSessionQuiz(session) {
+  activeQuizQuestions = [];
+  quizQuestions.forEach((q, i) => { if (q.s === session) activeQuizQuestions.push(i); });
+
+  if (activeQuizQuestions.length === 0) {
+    alert('No questions for session ' + session);
+    return;
+  }
+
+  document.getElementById('quizSessionFilter').classList.add('hidden');
+  document.getElementById('quizHeader').classList.remove('hidden');
+  document.getElementById('quizTitle').textContent = 'Session ' + session + ' Quiz';
+  document.getElementById('quizTimer').classList.add('hidden-timer');
+  quizAnswers = {};
+  quizScore = 0;
+  renderQuiz();
+}
+
 function renderQuiz() {
   const container = document.getElementById('quizContainer');
   container.innerHTML = '';
+  document.getElementById('quizResults').classList.remove('show');
   quizScore = 0;
   let answered = 0;
 
-  quizQuestions.forEach((q, qi) => {
+  activeQuizQuestions.forEach((qIdx, displayIdx) => {
+    const q = quizQuestions[qIdx];
     const div = document.createElement('div');
     div.className = 'question-card';
-    div.id = 'qcard-' + qi;
+    div.id = 'qcard-' + qIdx;
 
     const letters = ['A', 'B', 'C', 'D'];
     let optionsHtml = q.options.map((opt, oi) => {
       let cls = 'option';
-      const savedAnswer = quizAnswers[qi];
+      const savedAnswer = quizAnswers[qIdx];
       if (savedAnswer !== undefined) {
         cls += ' disabled';
         if (oi === q.correct) cls += ' correct';
         if (oi === savedAnswer && savedAnswer !== q.correct) cls += ' wrong';
       }
-      return `<div class="${cls}" onclick="selectOption(${qi}, ${oi})" data-qi="${qi}" data-oi="${oi}">
+      return `<div class="${cls}" onclick="selectOption(${qIdx}, ${oi})" data-qi="${qIdx}" data-oi="${oi}">
         <div class="option-letter">${letters[oi]}</div>
         <div>${opt}</div>
       </div>`;
     }).join('');
 
-    const savedAnswer = quizAnswers[qi];
+    const savedAnswer = quizAnswers[qIdx];
     let expClass = 'explanation';
-    let expShow = '';
     if (savedAnswer !== undefined) {
       answered++;
       expClass += savedAnswer === q.correct ? ' correct-exp show' : ' wrong-exp show';
@@ -1666,10 +1966,10 @@ function renderQuiz() {
     }
 
     div.innerHTML = `
-      <div class="question-num">Question ${qi + 1}</div>
+      <div class="question-num">Question ${displayIdx + 1} <span style="font-weight:400;opacity:0.6">(S${q.s})</span></div>
       <div class="question-text">${q.q}</div>
       ${optionsHtml}
-      <div class="${expClass}" id="exp-${qi}">${q.explanation}</div>
+      <div class="${expClass}" id="exp-${qIdx}">${q.explanation}</div>
     `;
     container.appendChild(div);
   });
@@ -1680,7 +1980,6 @@ function renderQuiz() {
 function selectOption(qi, oi) {
   if (quizAnswers[qi] !== undefined) return;
   quizAnswers[qi] = oi;
-  localStorage.setItem('ca1_quiz', JSON.stringify(quizAnswers));
 
   const q = quizQuestions[qi];
   const card = document.getElementById('qcard-' + qi);
@@ -1706,11 +2005,11 @@ function selectOption(qi, oi) {
   const answered = Object.keys(quizAnswers).length;
   updateQuizScore(answered);
 
-  if (answered === quizQuestions.length) showResults();
+  if (answered === activeQuizQuestions.length) { stopTimer(); showResults(); }
 }
 
 function updateQuizScore(answered) {
-  const total = quizQuestions.length;
+  const total = activeQuizQuestions.length;
   const pct = answered > 0 ? Math.round((quizScore / answered) * 100) : 0;
   document.getElementById('scoreText').textContent = pct + '%';
   document.getElementById('scoreCircle').style.background = `conic-gradient(var(--primary) ${pct * 3.6}deg, var(--border) ${pct * 3.6}deg)`;
@@ -1718,7 +2017,7 @@ function updateQuizScore(answered) {
 }
 
 function showResults() {
-  const total = quizQuestions.length;
+  const total = activeQuizQuestions.length;
   const pct = Math.round((quizScore / total) * 100);
   const results = document.getElementById('quizResults');
   const circle = document.getElementById('resultsCircle');
@@ -1738,16 +2037,61 @@ function showResults() {
     msg.textContent = 'Keep studying!';
     sub.textContent = `You scored ${quizScore}/${total}. Go through the study material and flashcards again.`;
   }
-
   results.classList.add('show');
 }
 
 function resetQuiz() {
   quizAnswers = {};
   quizScore = 0;
-  localStorage.removeItem('ca1_quiz');
   document.getElementById('quizResults').classList.remove('show');
+  if (currentQuizMode === 'exam') startTimer(15 * 60);
   renderQuiz();
+}
+
+// ===== TIMER =====
+function startTimer(seconds) {
+  stopTimer();
+  timerSeconds = seconds;
+  updateTimerDisplay();
+  timerInterval = setInterval(() => {
+    timerSeconds--;
+    if (timerSeconds <= 0) {
+      stopTimer();
+      timerSeconds = 0;
+      updateTimerDisplay();
+      // Auto-finish: mark unanswered as wrong
+      activeQuizQuestions.forEach(qi => {
+        if (quizAnswers[qi] === undefined) {
+          quizAnswers[qi] = -1;
+          const card = document.getElementById('qcard-' + qi);
+          if (card) {
+            card.querySelectorAll('.option').forEach((opt, i) => {
+              opt.classList.add('disabled');
+              if (i === quizQuestions[qi].correct) opt.classList.add('correct');
+            });
+            const exp = document.getElementById('exp-' + qi);
+            if (exp) { exp.classList.add('show', 'wrong-exp'); }
+            card.classList.add('answered-wrong');
+          }
+        }
+      });
+      showResults();
+      return;
+    }
+    updateTimerDisplay();
+    if (timerSeconds <= 60) document.getElementById('quizTimer').classList.add('warning');
+  }, 1000);
+}
+
+function stopTimer() {
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+  document.getElementById('quizTimer').classList.remove('warning');
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(timerSeconds / 60);
+  const s = timerSeconds % 60;
+  document.getElementById('timerDisplay').textContent = `${m}:${s.toString().padStart(2, '0')}`;
 }
 
 // ===== KEYBOARD SHORTCUTS =====
