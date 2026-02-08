@@ -83,6 +83,11 @@
 <!-- ==================== STUDY MODE ==================== -->
 <div class="section active" id="studySection">
 
+<!-- Mastery Dashboard -->
+<div class="mastery-dashboard" id="masteryDashboard">
+  <h4>Session Mastery (flashcards)</h4>
+</div>
+
 <!-- SESSION 1 -->
 <div class="session-card open" data-session="1">
   <div class="session-header" onclick="toggleSession(this)">
@@ -668,6 +673,10 @@
 
 <!-- ==================== FLASHCARD MODE ==================== -->
 <div class="section" id="flashcardsSection">
+  <div class="fc-search">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+    <input type="text" id="fcSearchInput" placeholder="Search flashcards..." oninput="searchFlashcards(this.value)">
+  </div>
   <div class="fc-filter-row" id="fcFilterRow">
     <button class="fc-filter-btn active" onclick="filterFlashcards('all')">All</button>
     <button class="fc-filter-btn" onclick="filterFlashcards(1)">S1</button>
@@ -708,6 +717,18 @@
     </div>
     <div class="flashcard-progress" id="fcProgress"></div>
     <div class="fc-mastery-counter" id="fcMastery">Mastered: 0 / 72</div>
+    <div class="autoplay-controls">
+      <button class="autoplay-btn" id="autoplayBtn" onclick="toggleAutoplay()">Auto-play</button>
+      <div class="autoplay-speed">
+        <span>Speed:</span>
+        <select id="autoplaySpeed" onchange="updateAutoplaySpeed()">
+          <option value="3">3s</option>
+          <option value="5" selected>5s</option>
+          <option value="8">8s</option>
+          <option value="12">12s</option>
+        </select>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -733,6 +754,16 @@
       <div class="quiz-mode-icon">&#128170;</div>
       <h4>Full Practice</h4>
       <p>All questions. Complete review.</p>
+    </div>
+    <div class="quiz-mode-card" onclick="startQuizMode('bookmarked')">
+      <div class="quiz-mode-icon">&#11088;</div>
+      <h4>Bookmarked</h4>
+      <p>Review your starred questions.</p>
+    </div>
+    <div class="quiz-mode-card" onclick="startQuizMode('weakspots')">
+      <div class="quiz-mode-icon">&#9888;&#65039;</div>
+      <h4>Weak Spots</h4>
+      <p>Questions you got wrong before.</p>
     </div>
   </div>
   <div class="quiz-session-filter hidden" id="quizSessionFilter">
@@ -985,7 +1016,7 @@
 <!-- FOOTER -->
 <div class="footer">
   Consumer and Market Studies - Y3S6 - <span>ESSCA</span> 2025/2026 - Prof. Aude RYCHALSKI<br>
-  Revision document prepared for <span>Romain RABREAU</span><br>
+  Revision document prepared for <span>Maxence ARAUD</span><br>
   <button onclick="resetAllProgress()" style="margin-top:8px;padding:6px 16px;border-radius:20px;border:1px solid rgba(255,255,255,0.3);background:transparent;color:rgba(255,255,255,0.6);font-size:0.75em;cursor:pointer">Reset all progress</button>
 </div>
 

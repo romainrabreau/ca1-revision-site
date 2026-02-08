@@ -14,6 +14,10 @@ let timerInterval = null;
 let timerSeconds = 0;
 let masteredCards = new Set();
 let quizHistory = [];
+let wrongAnswers = new Set();
+let bookmarkedQuestions = new Set();
+let autoplayInterval = null;
+let autoplaySpeed = 5;
 
 // Load from localStorage
 try {
@@ -25,6 +29,10 @@ try {
   if (savedMastered) masteredCards = new Set(JSON.parse(savedMastered));
   const savedHistory = localStorage.getItem('ca1_quiz_history');
   if (savedHistory) quizHistory = JSON.parse(savedHistory);
+  const savedWrong = localStorage.getItem('ca1_wrong');
+  if (savedWrong) wrongAnswers = new Set(JSON.parse(savedWrong));
+  const savedBookmarks = localStorage.getItem('ca1_bookmarks');
+  if (savedBookmarks) bookmarkedQuestions = new Set(JSON.parse(savedBookmarks));
 } catch(e) {}
 
 // ===== THEME =====
@@ -95,6 +103,54 @@ function updateProgress() {
 }
 updateProgress();
 
+// ===== MASTERY DASHBOARD =====
+function updateMasteryDashboard() {
+  const dash = document.getElementById('masteryDashboard');
+  if (!dash) return;
+  const sessions = [1,2,3,4,5,6,8,9];
+  let html = '<h4>Session Mastery (flashcards)</h4>';
+  sessions.forEach(s => {
+    const total = flashcards.filter(c => c.s === s).length;
+    if (total === 0) return;
+    const mastered = flashcards.filter((c, i) => c.s === s && masteredCards.has(i)).length;
+    const pct = Math.round((mastered / total) * 100);
+    const cls = pct >= 80 ? 'high' : pct >= 40 ? 'mid' : 'low';
+    html += '<div class="mastery-item ' + cls + '"><div class="mastery-label">S' + s + '</div><div class="mastery-pct">' + pct + '%</div></div>';
+  });
+  dash.innerHTML = html;
+}
+
+// ===== FLASHCARD SEARCH =====
+function searchFlashcards(query) {
+  const q = query.toLowerCase().trim();
+  if (!q) { filterFlashcards(fcFilterSession === 'notmastered' ? 'notmastered' : 'all'); return; }
+  filteredFlashcards = [];
+  flashcards.forEach((c, i) => {
+    if (c.q.toLowerCase().includes(q) || c.a.toLowerCase().includes(q)) filteredFlashcards.push(i);
+  });
+  fcOrder = [...filteredFlashcards]; fcIndex = 0; showCard();
+}
+
+// ===== AUTOPLAY =====
+function toggleAutoplay() {
+  const btn = document.getElementById('autoplayBtn');
+  if (autoplayInterval) {
+    clearInterval(autoplayInterval); autoplayInterval = null;
+    btn.classList.remove('active'); btn.textContent = 'Auto-play';
+  } else {
+    btn.classList.add('active'); btn.textContent = 'Stop';
+    autoplayInterval = setInterval(() => {
+      const fc = document.getElementById('flashcard');
+      if (fc.classList.contains('flipped')) { nextCard(); }
+      else { flipCard(); }
+    }, autoplaySpeed * 1000 / 2);
+  }
+}
+function updateAutoplaySpeed() {
+  autoplaySpeed = parseInt(document.getElementById('autoplaySpeed').value);
+  if (autoplayInterval) { toggleAutoplay(); toggleAutoplay(); }
+}
+
 // ===== FLASHCARDS =====
 function filterFlashcards(session) {
   fcFilterSession = session;
@@ -141,7 +197,7 @@ function markCard(action) {
   const idx = fcOrder[fcIndex];
   if (action === 'gotit') masteredCards.add(idx); else masteredCards.delete(idx);
   localStorage.setItem('ca1_mastered', JSON.stringify([...masteredCards]));
-  updateMasteryCounter();
+  updateMasteryCounter(); updateMasteryDashboard();
   if (fcOrder.length > 1) nextCard();
 }
 
@@ -189,11 +245,19 @@ function startQuizMode(mode) {
   let indices = [...Array(quizQuestions.length).keys()];
   if (mode === 'quick10') { activeQuizQuestions = shuffleArray(indices).slice(0, 10); }
   else if (mode === 'exam') { activeQuizQuestions = shuffleArray(indices).slice(0, 15); }
+  else if (mode === 'weakspots') {
+    activeQuizQuestions = [...wrongAnswers];
+    if (activeQuizQuestions.length === 0) { alert('No weak spots yet! Take a quiz first.'); return; }
+  }
+  else if (mode === 'bookmarked') {
+    activeQuizQuestions = [...bookmarkedQuestions];
+    if (activeQuizQuestions.length === 0) { alert('No bookmarked questions yet! Star questions during a quiz.'); return; }
+  }
   else { activeQuizQuestions = indices; }
   document.getElementById('quizModeSelector').classList.add('hidden');
   document.getElementById('quizSessionFilter').classList.add('hidden');
   document.getElementById('quizHeader').classList.remove('hidden');
-  const titles = { quick10: 'Quick 10', exam: 'Exam Simulation (15 min)', full: 'Full Practice' };
+  const titles = { quick10: 'Quick 10', exam: 'Exam Simulation (15 min)', full: 'Full Practice', weakspots: 'Weak Spots Review', bookmarked: 'Bookmarked Questions' };
   document.getElementById('quizTitle').textContent = titles[mode] || 'Quiz';
   if (mode === 'exam') { document.getElementById('quizTimer').classList.remove('hidden-timer'); startTimer(15 * 60); }
   else { document.getElementById('quizTimer').classList.add('hidden-timer'); }
@@ -227,7 +291,9 @@ function renderQuiz() {
     }).join('');
     const savedAnswer = quizAnswers[qIdx]; let expClass = 'explanation';
     if (savedAnswer !== undefined) { answered++; expClass += savedAnswer === q.correct ? ' correct-exp show' : ' wrong-exp show'; if (savedAnswer === q.correct) quizScore++; div.className += savedAnswer === q.correct ? ' answered-correct' : ' answered-wrong'; }
-    div.innerHTML = '<div class="question-num">Question ' + (displayIdx + 1) + ' <span style="font-weight:400;opacity:0.6">(S' + q.s + ')</span></div><div class="question-text">' + q.q + '</div>' + optionsHtml + '<div class="' + expClass + '" id="exp-' + qIdx + '">' + q.explanation + '</div>';
+    const bmCls = bookmarkedQuestions.has(qIdx) ? 'bookmark-btn bookmarked' : 'bookmark-btn';
+    div.innerHTML = '<button class="' + bmCls + '" onclick="toggleBookmark(' + qIdx + ',this)" title="Bookmark this question">&#9733;</button>' +
+      '<div class="question-num">Question ' + (displayIdx + 1) + ' <span style="font-weight:400;opacity:0.6">(S' + q.s + ')</span></div><div class="question-text">' + q.q + '</div>' + optionsHtml + '<div class="' + expClass + '" id="exp-' + qIdx + '">' + q.explanation + '</div>';
     container.appendChild(div);
   });
   updateQuizScore(answered);
@@ -239,8 +305,13 @@ function selectOption(qi, oi) {
   const q = quizQuestions[qi]; const card = document.getElementById('qcard-' + qi);
   card.querySelectorAll('.option').forEach((opt, i) => { opt.classList.add('disabled'); if (i === q.correct) opt.classList.add('correct'); if (i === oi && oi !== q.correct) opt.classList.add('wrong'); });
   const exp = document.getElementById('exp-' + qi); exp.classList.add('show');
-  if (oi === q.correct) { exp.classList.add('correct-exp'); card.classList.add('answered-correct'); quizScore++; }
-  else { exp.classList.add('wrong-exp'); card.classList.add('answered-wrong'); }
+  if (oi === q.correct) {
+    exp.classList.add('correct-exp'); card.classList.add('answered-correct'); quizScore++;
+    wrongAnswers.delete(qi); localStorage.setItem('ca1_wrong', JSON.stringify([...wrongAnswers]));
+  } else {
+    exp.classList.add('wrong-exp'); card.classList.add('answered-wrong');
+    wrongAnswers.add(qi); localStorage.setItem('ca1_wrong', JSON.stringify([...wrongAnswers]));
+  }
   const answered = Object.keys(quizAnswers).length; updateQuizScore(answered);
   if (answered === activeQuizQuestions.length) { stopTimer(); showResults(); }
 }
@@ -317,12 +388,20 @@ function updateTimerDisplay() {
   document.getElementById('timerDisplay').textContent = m + ':' + s.toString().padStart(2, '0');
 }
 
+// ===== BOOKMARK =====
+function toggleBookmark(qi, btn) {
+  if (bookmarkedQuestions.has(qi)) { bookmarkedQuestions.delete(qi); btn.classList.remove('bookmarked'); }
+  else { bookmarkedQuestions.add(qi); btn.classList.add('bookmarked'); }
+  localStorage.setItem('ca1_bookmarks', JSON.stringify([...bookmarkedQuestions]));
+}
+
 // ===== RESET ALL =====
 function resetAllProgress() {
-  if (!confirm('Reset all progress? (mastered cards, quiz history, session progress)')) return;
+  if (!confirm('Reset all progress? (mastered cards, quiz history, session progress, bookmarks, weak spots)')) return;
   localStorage.removeItem('ca1_progress'); localStorage.removeItem('ca1_mastered'); localStorage.removeItem('ca1_quiz_history');
-  sessionsRead = new Set(); masteredCards = new Set(); quizHistory = [];
-  updateProgress(); updateMasteryCounter();
+  localStorage.removeItem('ca1_wrong'); localStorage.removeItem('ca1_bookmarks');
+  sessionsRead = new Set(); masteredCards = new Set(); quizHistory = []; wrongAnswers = new Set(); bookmarkedQuestions = new Set();
+  updateProgress(); updateMasteryCounter(); updateMasteryDashboard();
 }
 
 // ===== KEYBOARD =====
@@ -361,4 +440,5 @@ window.addEventListener('scroll', () => { const btn = document.getElementById('b
 
 // ===== INIT =====
 updateMasteryCounter();
+updateMasteryDashboard();
 showCard();
