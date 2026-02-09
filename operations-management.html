@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operations Management - Revision Guide | ESSCA</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9881;</text></svg>">
+<link rel="stylesheet" href="css/styles.css">
+<style>
+/* ===== OM-SPECIFIC OVERRIDES ===== */
+:root {
+  --primary: #1a3a6b;
+  --primary-dark: #0f2548;
+  --primary-light: #2d5aa0;
+  --gradient: linear-gradient(135deg, #1a3a6b 0%, #2d5aa0 50%, #1a3a6b 100%);
+  --gradient-dark: linear-gradient(135deg, #0f2548 0%, #1a3a6b 100%);
+  --accent: #e30613;
+  --accent-light: #ff4d5a;
+}
+[data-theme="dark"] {
+  --primary: #2d5aa0;
+  --primary-dark: #1a3a6b;
+  --primary-light: #4a7fd4;
+}
+
+.hero { background: linear-gradient(135deg, #1a3a6b 0%, #2d5aa0 40%, #e30613 100%); background-size: 200% 200%; }
+.session-number { background: var(--gradient-dark); }
+
+/* Formula blocks */
+.formula-block {
+  background: var(--info-bg);
+  border: 1px solid var(--info);
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+  margin: 10px 0;
+  font-family: 'Courier New', monospace;
+  font-size: 1.05em;
+  text-align: center;
+  line-height: 2;
+}
+.formula-block .formula-label {
+  display: block;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.82em;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  font-style: italic;
+}
+
+/* Comparison tables */
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 10px 0;
+}
+.comparison-box {
+  background: var(--bg-card-alt);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  border-left: 4px solid var(--primary);
+}
+.comparison-box.danger { border-left-color: var(--error); }
+.comparison-box.success { border-left-color: var(--success); }
+.comparison-box.warning { border-left-color: var(--warning); }
+.comparison-box.info { border-left-color: var(--info); }
+.comparison-box h5 {
+  font-size: 0.9em;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+.comparison-box ul {
+  list-style: none;
+  padding: 0;
+  font-size: 0.88em;
+  color: var(--text-secondary);
+}
+.comparison-box ul li::before {
+  content: "- ";
+  color: var(--text-light);
+}
+
+@media (max-width: 600px) {
+  .comparison-grid { grid-template-columns: 1fr; }
+}
+
+/* Decision levels table */
+.decision-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+  font-size: 0.88em;
+}
+.decision-table th, .decision-table td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.decision-table th {
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+}
+.decision-table tr:nth-child(even) { background: var(--bg-card-alt); }
+.decision-table tr:hover { background: var(--border); }
+
+/* Key concept highlight */
+.key-highlight {
+  background: linear-gradient(135deg, var(--warning-bg), transparent);
+  border-left: 4px solid var(--warning);
+  padding: 12px 16px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin: 10px 0;
+  font-size: 0.92em;
+}
+
+/* Flow method cards */
+.flow-methods {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 10px 0;
+}
+.flow-method-card {
+  background: var(--bg-card-alt);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  text-align: center;
+  border-top: 3px solid var(--primary);
+  transition: var(--transition);
+}
+.flow-method-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+.flow-method-card h5 { font-size: 0.88em; margin-bottom: 6px; color: var(--primary); }
+.flow-method-card p { font-size: 0.82em; color: var(--text-secondary); }
+@media (max-width: 700px) { .flow-methods { grid-template-columns: 1fr; } }
+
+/* SCOR model */
+.scor-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin: 10px 0;
+}
+.scor-box {
+  background: #2d7d46;
+  color: white;
+  border-radius: var(--radius-sm);
+  padding: 10px 8px;
+  text-align: center;
+  font-size: 0.78em;
+}
+.scor-box h5 { font-size: 0.95em; margin-bottom: 4px; }
+@media (max-width: 700px) { .scor-grid { grid-template-columns: repeat(3, 1fr); } }
+
+/* Back link */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: white;
+  text-decoration: none;
+  font-size: 0.9em;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+  margin-bottom: 10px;
+}
+.back-link:hover { opacity: 1; }
+
+/* Flashcard overrides for OM */
+.fc-filter-btn.active { background: var(--primary); }
+.fc-btn.primary-btn { background: var(--gradient-dark); }
+.fc-mastery-btn.got-it { background: var(--success); color: white; }
+.mode-btn.active { background: var(--primary); color: white; }
+.nav-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+.quiz-mode-card:hover { border-color: var(--primary); }
+.score-circle { border-color: var(--primary); }
+
+/* Accent color on scrollbar */
+::-webkit-scrollbar-thumb { background: var(--primary); }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <a href="index.html" class="back-link">
+    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
+    Back to Consumer Studies
+  </a>
+  <h1>Operations Management</h1>
+  <p class="subtitle">Interactive Revision Guide - Sessions 1 to 4</p>
+  <div class="exam-badge">
+    <span>Demand Forecasting</span>
+    <div class="badge-dot"></div>
+    <span>Supply Chain</span>
+    <div class="badge-dot"></div>
+    <span>Flow Management</span>
+    <div class="badge-dot"></div>
+    <span>ESSCA</span>
+  </div>
+</div>
+
+<!-- CONTROLS BAR -->
+<div class="controls-bar">
+  <div class="controls-left">
+    <div class="search-box">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+      <input type="text" id="searchInput" placeholder="Search concepts, formulas, methods..." oninput="handleSearch(this.value)">
+    </div>
+    <div class="progress-container">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <span id="progressText">0%</span>
+    </div>
+  </div>
+  <div class="controls-right">
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode"></button>
+  </div>
+</div>
+
+<!-- MODE SWITCHER -->
+<div class="mode-switcher">
+  <button class="mode-btn active" onclick="switchMode('study')" data-mode="study">
+    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg>
+    Study
+  </button>
+  <button class="mode-btn" onclick="switchMode('flashcards')" data-mode="flashcards">
+    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/></svg>
+    Flashcards
+  </button>
+  <button class="mode-btn" onclick="switchMode('quiz')" data-mode="quiz">
+    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"/></svg>
+    Quiz
+  </button>
+  <button class="mode-btn" onclick="switchMode('cheatsheet')" data-mode="cheatsheet">
+    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z"/></svg>
+    Cheat Sheet
+  </button>
+</div>
+
+<!-- NAV TABS (Session filter) -->
+<div class="nav-tabs" id="navTabs">
+  <button class="nav-tab active" onclick="filterSession('all')">All Sessions</button>
+  <button class="nav-tab" onclick="filterSession(1)">S1 - Demand Forecasting</button>
+  <button class="nav-tab" onclick="filterSession(2)">S2 - Intro to OM</button>
+  <button class="nav-tab" onclick="filterSession(3)">S3 - SCM & Flow</button>
+  <button class="nav-tab" onclick="filterSession(4)">S4 - Flow Approaches</button>
+</div>
+
+<div class="container">
+
+<!-- ==================== STUDY MODE ==================== -->
+<div class="section active" id="studySection">
+
+<!-- SESSION 1: DEMAND FORECASTING -->
+<div class="session-card open" data-session="1">
+  <div class="session-header" onclick="toggleSession(this)">
+    <div style="display:flex;align-items:center;gap:16px;flex:1;min-width:0">
+      <div class="session-number">1</div>
+      <div class="session-info">
+        <h3>Demand Forecasting</h3>
+        <p>Why forecast, types of forecast, qualitative &amp; quantitative methods, time series, forecast errors, linear regression</p>
+      </div>
+    </div>
+    <div class="session-toggle">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+    </div>
+  </div>
+  <div class="session-body">
+    <div class="session-content">
+
+      <div class="concept">
+        <div class="concept-title">Why Forecast in Operations?</div>
+        <p>Forecasting is essential for: <strong>Production plans</strong>, <strong>Personnel needs</strong> (full time, part time, contractual), <strong>Capacity levels</strong> (equipment, machines, buildings), <strong>Purchase requirements</strong> (raw materials, components, services), <strong>Subcontractor requirements</strong>, and <strong>Transportation requirements</strong>.</p>
+        <div class="key-highlight">
+          <strong>Objective:</strong> Satisfy the demand while maximising the service level and minimising costs. Decisions: <em>When, What, and How Much?</em>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Types of Forecast: Optimistic vs. Pessimistic</div>
+        <div class="comparison-grid">
+          <div class="comparison-box success">
+            <h5>Optimistic Forecast (overestimate)</h5>
+            <ul>
+              <li>Excessive inventory of finished product</li>
+              <li>High storage costs</li>
+              <li>Plant capacity used unnecessarily</li>
+              <li>Finished product sold at a loss</li>
+            </ul>
+          </div>
+          <div class="comparison-box danger">
+            <h5>Pessimistic Forecast (underestimate)</h5>
+            <ul>
+              <li>Inadequate stock, lost orders</li>
+              <li>Insufficient raw material stops production</li>
+              <li>Excessive subcontracting &amp; overtime costs</li>
+              <li>Poor customer relationships</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tip">It is considered <strong>better to be Optimistic</strong> rather than Pessimistic. Pessimistic forecasts lead to loss of customers, idle production lines, demotivated staff, and high costs from insufficient raw material.</div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Two Forecasting Approaches</div>
+        <div class="comparison-grid">
+          <div class="comparison-box info">
+            <h5>Qualitative (Judgemental) Methods</h5>
+            <ul>
+              <li>Based on experience, judgement, knowledge</li>
+              <li>Subjective, not based on quantitative model</li>
+              <li>Expert Judgement, Data Gathering, Delphi</li>
+              <li>Used when little data is available (new product, new technology)</li>
+            </ul>
+          </div>
+          <div class="comparison-box warning">
+            <h5>Quantitative Methods</h5>
+            <ul>
+              <li>Based on data and statistics</li>
+              <li>Causal methods (regression)</li>
+              <li>Extrapolative methods (time series)</li>
+              <li>Used when historical data is available</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Qualitative Methods: Data Gathering</div>
+        <p><strong>Market Research:</strong> Assess demand for a new product by survey.<br>
+        <strong>Historical Comparisons:</strong> Review available information about similar products or processes.<br>
+        <strong>Delphi Method:</strong> Pool separate knowledge of different experts, wait for an agreement to emerge.</p>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Analysis of Time Series</div>
+        <p>A time series has multiple components:</p>
+        <div class="process-flow">
+          <span class="process-step">Demand</span>
+          <span class="process-arrow">=</span>
+          <span class="process-step">Trend</span>
+          <span class="process-arrow">+</span>
+          <span class="process-step">Seasonality</span>
+          <span class="process-arrow">+</span>
+          <span class="process-step">Cyclic demand</span>
+          <span class="process-arrow">+</span>
+          <span class="process-step">Random noise</span>
+        </div>
+        <p style="margin-top:10px"><strong>Steps:</strong> 1) Analyse the time series &rarr; 2) Select an accurate method (Performance) &rarr; 3) Apply the forecasting method</p>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Detecting Outliers: Confidence Interval Method</div>
+        <div class="formula-block">
+          Mean: x&#772; = (1/n) &times; &sum; x<sub>i</sub><br>
+          Standard Deviation: &sigma;<sub>x</sub> = &radic;[(1/(n-1)) &times; &sum;(x<sub>i</sub> - x&#772;)&sup2;]<br>
+          Confidence Interval (95%): IC = x&#772; &plusmn; 1.96 &times; &sigma;<sub>x</sub>
+          <span class="formula-label">An outlier is an observation outside the confidence interval. 1.96 = Normal distribution at 5% risk.</span>
+        </div>
+        <div class="key-highlight">
+          <strong>Example:</strong> Demand data: 28, 37, 29, 32, 49, 38, 29, 36, 21, 35, 14, 31<br>
+          Mean = 31.58 | Std Dev = 8.80 | CI = [14.32 ; 48.84]<br>
+          &rArr; <strong>May (49) and November (14)</strong> are outliers.
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Forecasting Performance: Error Measures</div>
+        <div class="formula-block">
+          <strong>MFE (Bias)</strong> = (1/n) &times; &sum;(D<sub>t</sub> - F<sub>t</sub>)<br>
+          <span class="formula-label">Average deviation. Want close to 0. Positive = undershoot, Negative = overshoot. Zero MFE does NOT mean perfect forecast.</span>
+        </div>
+        <div class="formula-block">
+          <strong>MAD</strong> = (1/n) &times; &sum;|D<sub>t</sub> - F<sub>t</sub>|<br>
+          <span class="formula-label">Mean Absolute Deviation. Positive &amp; negative errors don't cancel. Want as small as possible.</span>
+        </div>
+        <div class="formula-block">
+          <strong>MAPE</strong> = (100/n) &times; &sum;|D<sub>t</sub> - F<sub>t</sub>| / D<sub>t</sub><br>
+          <span class="formula-label">Mean Absolute Percentage Error. Measures deviation as % of actual data. Allows comparison across products.</span>
+        </div>
+        <div class="formula-block">
+          <strong>MSE</strong> = (1/n) &times; &sum;(D<sub>t</sub> - F<sub>t</sub>)&sup2;<br>
+          <span class="formula-label">Mean Squared Error. Penalizes large errors more. Not as intuitive as MAD/MAPE.</span>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Causal Methods</div>
+        <p>Based on identification of <strong>related variables</strong> that can predict the variable of interest.</p>
+        <p><strong>Examples:</strong></p>
+        <ul style="margin-left:20px;color:var(--text-secondary)">
+          <li>Mountain bike sales &harr; % young population in area</li>
+          <li>Ice cream sales &harr; Temperature</li>
+          <li>Home Depot sales &harr; Mortgage refinancing rates</li>
+          <li>Energy cost increase &rarr; Price increases in products/services</li>
+        </ul>
+        <p style="margin-top:8px"><strong>Relationship:</strong> y = a + bx where y = dependent (predicted) variable, x = independent (predictor) variable.</p>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Linear Regression Method</div>
+        <p>Find an association between the <strong>predictor</strong> and the <strong>predicted</strong>. Objective: obtain a straight line that <strong>minimizes the sum of squared vertical deviations</strong> of data points from the line.</p>
+        <div class="formula-block">
+          y = a + bx<br>
+          b = &sum;(y<sub>t</sub> - y&#772;)(x<sub>t</sub> - x&#772;) / &sum;(x<sub>t</sub> - x&#772;)&sup2;<br>
+          a = y&#772; - b &times; x&#772;
+          <span class="formula-label">b = slope of the line | a = y-intercept (value of y when x = 0)</span>
+        </div>
+        <div class="key-highlight">
+          <strong>Example:</strong> Sales vs Advertising budget &rarr; a = 36.74, b = 8.78<br>
+          y<sub>t</sub> = 8.78x + 36.74<br>
+          Q9 (x=12): 142 | Q10 (x=17): 186 | Q11 (x=20): 212 | Q12 (x=14): 160
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- SESSION 2: INTRO TO OPERATIONS MANAGEMENT -->
+<div class="session-card" data-session="2">
+  <div class="session-header" onclick="toggleSession(this)">
+    <div style="display:flex;align-items:center;gap:16px;flex:1;min-width:0">
+      <div class="session-number">2</div>
+      <div class="session-info">
+        <h3>Introduction to Operations Management</h3>
+        <p>What is SCM, definition, complexity, uncertainty, conflicting objectives, SCOR model, career paths</p>
+      </div>
+    </div>
+    <div class="session-toggle">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+    </div>
+  </div>
+  <div class="session-body">
+    <div class="session-content">
+
+      <div class="concept">
+        <div class="concept-title">Supply Chain Management: Definition (MIT)</div>
+        <p>Supply Chain Management is primarily concerned with the <strong>efficient integration</strong> of suppliers, factories, warehouses and stores so that merchandise is produced and distributed in the <strong>right quantities</strong>, to the <strong>right locations</strong> and at the <strong>right time</strong>, and so as to <strong>minimize total system cost</strong> subject to satisfying <strong>service requirements</strong>.</p>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Supply Chain Flow: Suppliers to Demand</div>
+        <div class="process-flow">
+          <span class="process-step">Suppliers</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">Production</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">Assembly</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">Transport</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">Deployment</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">Customer Demand</span>
+        </div>
+        <p style="margin-top:8px">Key decisions at each stage: <strong>Replenishment, Production, Transportation, Assembly, Deployment</strong></p>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Complexity of SCM: Uncertainty &amp; Conflicting Objectives</div>
+        <p><strong>Uncertainty:</strong> Randomness exists at every point in the supply chain (supplier delays, production breakdowns, demand fluctuations, transport issues).</p>
+        <div class="comparison-grid">
+          <div class="comparison-box">
+            <h5>Suppliers' Goals</h5>
+            <ul><li>Large quantities, stable volumes, flexible delivery dates</li></ul>
+          </div>
+          <div class="comparison-box warning">
+            <h5>Manufacturers' Goals</h5>
+            <ul><li>Large production batches</li><li>Flexibility to changing customer demands</li></ul>
+          </div>
+        </div>
+        <div class="comparison-grid" style="margin-top:8px">
+          <div class="comparison-box info">
+            <h5>Distribution Centers' Goals</h5>
+            <ul><li>Reduce inventory</li></ul>
+          </div>
+          <div class="comparison-box danger">
+            <h5>Variation Over Time</h5>
+            <ul><li>Seasonal fluctuations, trends, promotions, competitors' pricing</li></ul>
+          </div>
+        </div>
+        <div class="tip">Difficulty: determine the most effective supply chain strategy that minimizes systemwide costs AND conforms to customer requirements.</div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">SCOR Model: Supply Chain Operations Reference</div>
+        <p>Breakdown of job titles and functions based on the SCOR model:</p>
+        <div class="scor-grid">
+          <div class="scor-box"><h5>Plan</h5>Demand Planner, Inventory Manager, Materials Manager, Production Planner</div>
+          <div class="scor-box"><h5>Source</h5>Buyer, Commodity Manager, Procurement Manager, Purchasing Manager</div>
+          <div class="scor-box"><h5>Make</h5>Production Planner, Operations Manager, Plant Manager, Master Scheduler</div>
+          <div class="scor-box"><h5>Deliver</h5>Logistics Manager, Warehouse Manager, Operations Manager, Distribution Manager</div>
+          <div class="scor-box"><h5>Return</h5>Logistics Manager, Operations Manager, Inventory Manager, Buyer</div>
+          <div class="scor-box"><h5>Enable</h5>Business Analyst, Solution Architect, Consultant, Project Manager</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Decision Levels &amp; Horizons</div>
+        <table class="decision-table">
+          <tr><th>Horizon</th><th>Decision Type</th><th>Level</th><th>Examples</th></tr>
+          <tr><td><strong>Long term</strong></td><td>Design (Investments)</td><td>Strategic</td><td>Facility layout, Warehouse location, Distribution network</td></tr>
+          <tr><td><strong>Mid term</strong></td><td>Planning (Capacity)</td><td>Tactical</td><td>Production planning, Resource planning</td></tr>
+          <tr><td><strong>Short term</strong></td><td>Flow Management</td><td>Operational</td><td>Inventory management, Production management, Distribution</td></tr>
+          <tr><td><strong>Very short term</strong></td><td>Scheduling</td><td>Operational</td><td>Machine allocation, Staff allocation, Jobs priority</td></tr>
+        </table>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Michelin Group: Real-World Example</div>
+        <p>Approximately <strong>700,000 Tons shipped in 50,000 containers</strong> (2008). Decision horizons at Michelin:</p>
+        <ul style="margin-left:20px;color:var(--text-secondary)">
+          <li><strong>Long term (10 years):</strong> Strategic capacity planning</li>
+          <li><strong>Mid term (18 months):</strong> Demand forecasting, phase in/out processes, S&amp;OP</li>
+          <li><strong>Short term (4 months):</strong> Production planning, Deployment</li>
+          <li><strong>Very short term (Today):</strong> Taking orders, driving delivery and deployment</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- SESSION 3: SCM & FLOW MANAGEMENT INTRO -->
+<div class="session-card" data-session="3">
+  <div class="session-header" onclick="toggleSession(this)">
+    <div style="display:flex;align-items:center;gap:16px;flex:1;min-width:0">
+      <div class="session-number">3</div>
+      <div class="session-info">
+        <h3>Flow Management: Introduction</h3>
+        <p>Flow management decisions, constraints, independent vs dependent demands, coordination, supplier/customer relationships</p>
+      </div>
+    </div>
+    <div class="session-toggle">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+    </div>
+  </div>
+  <div class="session-body">
+    <div class="session-content">
+
+      <div class="concept">
+        <div class="concept-title">Decisions in Flow Management</div>
+        <p><strong>Decision:</strong> For each entity, at each level, <em>when</em> and <em>in what quantity</em> to perform an activity:</p>
+        <ul style="margin-left:20px;color:var(--text-secondary)">
+          <li>Manufacturing activity</li>
+          <li>Assembly activity</li>
+          <li>Transportation activity</li>
+        </ul>
+        <p style="margin-top:8px"><strong>Entity</strong> = raw material, components, semi-finished products, finished products</p>
+        <div class="key-highlight">
+          <strong>Objective:</strong> Manage material flow to achieve a required <strong>service level</strong> for the customer while <strong>minimizing costs</strong>.<br>
+          Example service level: 99% of demands satisfied within customer lead time.<br>
+          Decisions are materialized by: production orders, assembly orders, transportation orders.
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Constraints in Flow Management</div>
+        <div class="comparison-grid">
+          <div class="comparison-box">
+            <h5>Manufacturing Level</h5>
+            <ul>
+              <li>Production process (manufacturing routing)</li>
+              <li>Production capacity (physical &amp; human resources)</li>
+            </ul>
+          </div>
+          <div class="comparison-box info">
+            <h5>Transportation Level</h5>
+            <ul>
+              <li>Transportation lead time</li>
+              <li>Truck capacity</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Independent vs. Dependent Demands</div>
+        <div class="comparison-grid">
+          <div class="comparison-box success">
+            <h5>Independent Demands</h5>
+            <ul>
+              <li>Demands on <strong>finished products</strong></li>
+              <li>Driven by external customer demand</li>
+              <li>Needs forecasting</li>
+            </ul>
+          </div>
+          <div class="comparison-box warning">
+            <h5>Dependent Demands</h5>
+            <ul>
+              <li>Demands on <strong>components</strong></li>
+              <li>Function of demands on finished products</li>
+              <li>Directly from the <strong>Bill of Material</strong> (BOM)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tip"><strong>Mix:</strong> Some items have both - components needed for end-products (dependent) AND sold as spare parts (independent).</div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Importance of Coordination (Synchronization)</div>
+        <p>Production structures require careful coordination:</p>
+        <ul style="margin-left:20px;color:var(--text-secondary)">
+          <li><strong>Serial structure (single product):</strong> Fab 1 &rarr; Fab 2 &rarr; Fab 3 &rarr; Fab 4</li>
+          <li><strong>Serial structure (multi-product):</strong> Multiple product lines sharing resources</li>
+          <li><strong>Assembly structure:</strong> Multiple fabrication units feeding into an assembly point</li>
+        </ul>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Supplier / Customer Relationship Questions</div>
+        <p>Key questions in any supplier-customer relationship:</p>
+        <ul style="margin-left:20px;color:var(--text-secondary)">
+          <li>Who makes the <strong>replenishment decision</strong>?</li>
+          <li>Who <strong>owns the stock</strong>?</li>
+          <li>Who pays the <strong>transportation cost</strong>?</li>
+          <li>Who supports the <strong>warehouse costs</strong>?</li>
+        </ul>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Forecast &amp; Inventory Relationship</div>
+        <p>Companies <strong>produce regarding forecast</strong> then <strong>sell what they have in stock</strong>.</p>
+        <div class="key-highlight">
+          <strong>Warning:</strong> If forecasts are inaccurate, the result is either <strong>overstock</strong> (waste, storage costs) or <strong>lost sales</strong> (unhappy customers, missed revenue).
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- SESSION 4: FLOW MANAGEMENT APPROACHES -->
+<div class="session-card" data-session="4">
+  <div class="session-header" onclick="toggleSession(this)">
+    <div style="display:flex;align-items:center;gap:16px;flex:1;min-width:0">
+      <div class="session-number">4</div>
+      <div class="session-info">
+        <h3>Flow Management: Approaches</h3>
+        <p>Make to stock vs make to order, firm orders vs forecasts vs inventory consumption, Kanban, MRP, DRP</p>
+      </div>
+    </div>
+    <div class="session-toggle">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+    </div>
+  </div>
+  <div class="session-body">
+    <div class="session-content">
+
+      <div class="concept">
+        <div class="concept-title">Three Types of Demand Information</div>
+        <div class="flow-methods">
+          <div class="flow-method-card">
+            <h5>Firm Orders</h5>
+            <p>Customer orders received. Known quantities for each product type per week.</p>
+          </div>
+          <div class="flow-method-card">
+            <h5>Demand Forecast</h5>
+            <p>Estimated future needs per product type. From internal forecasting or customer expected orders.</p>
+          </div>
+          <div class="flow-method-card">
+            <h5>No Advance Info</h5>
+            <p>Only real-time inventory consumption data available.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Three Flow Management Methods</div>
+        <div class="flow-methods">
+          <div class="flow-method-card" style="border-top-color: #2d7d46">
+            <h5>Based on Firm Orders</h5>
+            <p>Activities managed based on <strong>future requirements given by firm orders</strong>. Demand is smooth and predictable.</p>
+          </div>
+          <div class="flow-method-card" style="border-top-color: #e30613">
+            <h5>Based on Forecasts</h5>
+            <p>Activities managed based on <strong>future requirements given by forecasts</strong>. Demand has trends and variability.</p>
+          </div>
+          <div class="flow-method-card" style="border-top-color: #f59e0b">
+            <h5>Based on Inventory Consumption</h5>
+            <p>Activities managed based on <strong>actual consumption</strong> of finished goods inventory. Demand is noisy/random.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Demand Characterization for Parameter Setting</div>
+        <table class="decision-table">
+          <tr><th>Method</th><th>Data Needed</th><th>Demand Pattern</th></tr>
+          <tr><td><strong>Inventory consumption</strong></td><td>Average demand + Demand variability (variance)</td><td>Random, noisy fluctuations</td></tr>
+          <tr><td><strong>Forecasts</strong></td><td>Variability of forecast uncertainty (variance)</td><td>Trends, seasonality with variability</td></tr>
+          <tr><td><strong>Firm orders</strong></td><td>None (orders are known)</td><td>Smooth, predictable</td></tr>
+        </table>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Forecast Reliability &amp; Method Choice</div>
+        <div class="key-highlight">
+          <strong>If forecasts are accurate:</strong> Use methods based on <strong>future requirements (MRP type)</strong> - more efficient.<br>
+          <strong>If forecasts are NOT reliable:</strong> Use methods based on <strong>inventory consumption</strong> - more robust to inaccuracy.
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Make to Stock vs. Make to Order</div>
+        <table class="decision-table">
+          <tr><th></th><th>Make to Stock</th><th>Make to Order</th></tr>
+          <tr><td><strong>Driving info</strong></td><td>Inventory consumption OR Demand forecasts</td><td>Firm orders</td></tr>
+          <tr><td><strong>Approach</strong></td><td>Methods based on inventory consumption OR future requirements</td><td>Methods based on future requirements</td></tr>
+          <tr><td><strong>Methods</strong></td><td>Standard inventory mgmt, Kanban, Forecast-based inventory mgmt, MRP</td><td>MRP type methods</td></tr>
+        </table>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Kanban System</div>
+        <p><strong>Kanban</strong> = "card" in Japanese. Used to control intermediate stocks.</p>
+        <ul style="margin-left:20px;color:var(--text-secondary)">
+          <li>A card summarizes <strong>Production Lot characteristics</strong> (e.g., a container)</li>
+          <li>Movement of cards generates <strong>orders from downstream to upstream</strong> (pull system)</li>
+          <li>The <strong>number of cards in circulation</strong> controls stock levels</li>
+        </ul>
+        <div class="tip">Kanban is a <strong>pull system</strong>: production is triggered by actual consumption, not by forecasts.</div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">MRP (Material Requirements Planning)</div>
+        <p>By knowing the <strong>Master Production Schedule (MPS)</strong>, the MRP method determines:</p>
+        <ul style="margin-left:20px;color:var(--text-secondary)">
+          <li>For each product (purchased component, intermediate component, or finished product)</li>
+          <li>The <strong>time periods and quantities</strong> ("How much and When") of:</li>
+          <li>&rarr; Production orders (at different production stages)</li>
+          <li>&rarr; Replenishment orders</li>
+        </ul>
+        <div class="key-highlight"><strong>Objective:</strong> Satisfy the Master Production Schedule while minimising costs.</div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">Supply Chain Flow Coordination: MRP + MPS + DRP</div>
+        <div class="process-flow">
+          <span class="process-step">MRP</span>
+          <span class="process-arrow">&larr;</span>
+          <span class="process-step">Factory (Manufacturing)</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">MPS</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">FGI</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">DRP</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">Distribution Warehouse</span>
+        </div>
+        <p style="margin-top:8px"><strong>MRP</strong> = Material Requirements Planning (upstream, raw materials to factory)<br>
+        <strong>MPS</strong> = Master Production Schedule (central, finished goods inventory)<br>
+        <strong>DRP</strong> = Distribution Requirements Planning (downstream, warehouses to customers)</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</div><!-- end study section -->
+
+<!-- ==================== FLASHCARD MODE ==================== -->
+<div class="section" id="flashcardsSection">
+  <div class="fc-panel">
+    <div class="fc-panel-stats" id="fcStatsBar">
+      <div class="fc-stat"><span class="fc-stat-value" id="fcStatTotal">0</span><span class="fc-stat-label">Total</span></div>
+      <div class="fc-stat"><span class="fc-stat-value fc-stat-success" id="fcStatMastered">0</span><span class="fc-stat-label">Mastered</span></div>
+      <div class="fc-stat"><span class="fc-stat-value fc-stat-warning" id="fcStatRemaining">0</span><span class="fc-stat-label">Remaining</span></div>
+    </div>
+    <div class="fc-panel-search">
+      <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+      <input type="text" id="fcSearchInput" placeholder="Search flashcards..." oninput="searchFlashcards(this.value)">
+      <span class="fc-search-count" id="fcSearchCount"></span>
+    </div>
+    <div class="fc-panel-filters" id="fcFilterRow">
+      <button class="fc-filter-btn active" onclick="filterFlashcards('all')">All</button>
+      <button class="fc-filter-btn" onclick="filterFlashcards(1)">S1</button>
+      <button class="fc-filter-btn" onclick="filterFlashcards(2)">S2</button>
+      <button class="fc-filter-btn" onclick="filterFlashcards(3)">S3</button>
+      <button class="fc-filter-btn" onclick="filterFlashcards(4)">S4</button>
+      <button class="fc-filter-btn mastered-filter" onclick="filterFlashcards('notmastered')">To Review</button>
+    </div>
+  </div>
+  <div class="flashcard-container">
+    <div class="fc-mastery-indicator" id="fcMasteryIndicator" title="Card mastered"></div>
+    <div class="flashcard" id="flashcard" onclick="flipCard()">
+      <div class="fc-session-badge" id="fcBadge">S1</div>
+      <div class="flashcard-face flashcard-front"><h3 id="fcQuestion"></h3><p>Tap to reveal answer</p></div>
+      <div class="flashcard-face flashcard-back"><p id="fcAnswer"></p></div>
+    </div>
+    <div class="fc-mastery-row">
+      <button class="fc-mastery-btn review" onclick="markCard('review')">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182"/></svg>
+        Review
+      </button>
+      <button class="fc-mastery-btn got-it" onclick="markCard('gotit')">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
+        Got it!
+      </button>
+    </div>
+    <div class="flashcard-controls">
+      <button class="fc-btn" onclick="prevCard()"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg> Prev</button>
+      <button class="fc-btn" onclick="shuffleCards()">Shuffle</button>
+      <button class="fc-btn primary-btn" onclick="nextCard()">Next <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg></button>
+    </div>
+    <div class="flashcard-progress" id="fcProgress"></div>
+    <div class="fc-mastery-counter" id="fcMastery"></div>
+  </div>
+  <div class="fc-shortcuts">
+    <span><kbd>&larr;</kbd><kbd>&rarr;</kbd> Navigate</span>
+    <span><kbd>Enter</kbd> Flip</span>
+    <span><kbd>Space</kbd> Next</span>
+  </div>
+</div>
+
+<!-- ==================== QUIZ MODE ==================== -->
+<div class="section" id="quizSection">
+  <div class="quiz-mode-selector" id="quizModeSelector">
+    <div class="quiz-mode-card" onclick="startQuizMode('quick10')"><div class="quiz-mode-icon">&#9889;</div><h4>Quick 10</h4><p>10 random questions.</p></div>
+    <div class="quiz-mode-card" onclick="startQuizMode('full')"><div class="quiz-mode-icon">&#128170;</div><h4>Full Practice</h4><p>All questions.</p></div>
+    <div class="quiz-mode-card" onclick="startQuizMode('session')"><div class="quiz-mode-icon">&#128218;</div><h4>By Session</h4><p>Pick a session.</p></div>
+    <div class="quiz-mode-card" onclick="startQuizMode('weakspots')"><div class="quiz-mode-icon">&#9888;&#65039;</div><h4>Weak Spots</h4><p>Previously wrong answers.</p></div>
+  </div>
+  <div class="quiz-session-filter hidden" id="quizSessionFilter">
+    <button class="fc-filter-btn" onclick="startSessionQuiz(1)">S1</button>
+    <button class="fc-filter-btn" onclick="startSessionQuiz(2)">S2</button>
+    <button class="fc-filter-btn" onclick="startSessionQuiz(3)">S3</button>
+    <button class="fc-filter-btn" onclick="startSessionQuiz(4)">S4</button>
+  </div>
+  <div class="quiz-header hidden" id="quizHeader">
+    <div class="quiz-score">
+      <div class="score-circle" id="scoreCircle"><span class="score-text" id="scoreText">0%</span></div>
+      <div class="quiz-info"><h3 id="quizTitle">Quiz</h3><p id="quizProgress">0 / 0</p></div>
+    </div>
+    <div class="quiz-actions">
+      <button class="quiz-btn reset-btn" onclick="backToModeSelect()">Back</button>
+      <button class="quiz-btn reset-btn" onclick="resetQuiz()">Reset</button>
+    </div>
+  </div>
+  <div id="quizContainer"></div>
+  <div class="quiz-results" id="quizResults">
+    <div class="results-circle" id="resultsCircle"></div>
+    <div class="results-msg" id="resultsMsg"></div>
+    <div class="results-sub" id="resultsSub"></div>
+    <button class="fc-btn primary-btn" onclick="backToModeSelect()" style="margin:0 auto">Back to Modes</button>
+  </div>
+</div>
+
+<!-- ==================== CHEAT SHEET MODE ==================== -->
+<div class="section" id="cheatsheetSection">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+    <div class="fc-filter-row" id="csFilterRow" style="margin:0">
+      <button class="fc-filter-btn active" onclick="filterCheatSheet('all')">All</button>
+      <button class="fc-filter-btn" onclick="filterCheatSheet(1)">S1</button>
+      <button class="fc-filter-btn" onclick="filterCheatSheet(2)">S2</button>
+      <button class="fc-filter-btn" onclick="filterCheatSheet(3)">S3</button>
+      <button class="fc-filter-btn" onclick="filterCheatSheet(4)">S4</button>
+    </div>
+    <button class="fc-btn" onclick="window.print()" style="padding:8px 18px;font-size:0.8em">Print</button>
+  </div>
+  <div class="cheat-grid">
+    <!-- S1 -->
+    <div class="cheat-card" data-cs="1"><h4>Why Forecast?</h4><p>Production plans, personnel, capacity, purchasing, transport. Objective: <strong>right qty, right time, min cost</strong>.</p></div>
+    <div class="cheat-card" data-cs="1"><h4>Optimistic vs Pessimistic</h4><p><strong>Optimistic</strong> = overstock &rarr; storage costs<br><strong>Pessimistic</strong> = lost sales, idle lines<br>Better to be <strong>optimistic</strong></p></div>
+    <div class="cheat-card" data-cs="1"><h4>Qualitative vs Quantitative</h4><p><strong>Qualitative</strong> = experience, judgement (Delphi, expert)<br><strong>Quantitative</strong> = data, stats (regression, time series)</p></div>
+    <div class="cheat-card" data-cs="1"><h4>Confidence Interval</h4><p>IC = x&#772; &plusmn; 1.96&sigma;<br>Outlier = outside IC<br>1.96 = 5% risk (Normal dist.)</p></div>
+    <div class="cheat-card" data-cs="1"><h4>4 Error Measures</h4><p><strong>MFE</strong> (Bias): avg error, want &asymp; 0<br><strong>MAD</strong>: avg |error|<br><strong>MAPE</strong>: % of actual<br><strong>MSE</strong>: squared error, penalizes large</p></div>
+    <div class="cheat-card" data-cs="1"><h4>Linear Regression</h4><p>y = a + bx<br>b = &sum;(y-y&#772;)(x-x&#772;) / &sum;(x-x&#772;)&sup2;<br>a = y&#772; - b&middot;x&#772;</p></div>
+    <div class="cheat-card" data-cs="1"><h4>Time Series Components</h4><p>Demand = <strong>Trend</strong> + <strong>Seasonality</strong> + <strong>Cyclic</strong> + <strong>Random noise</strong></p></div>
+    <!-- S2 -->
+    <div class="cheat-card" data-cs="2"><h4>SCM Definition (MIT)</h4><p>Efficient integration of suppliers, factories, warehouses &rarr; <strong>right qty, right location, right time</strong>, minimize total cost, satisfy service.</p></div>
+    <div class="cheat-card" data-cs="2"><h4>SCOR Model</h4><p><strong>Plan</strong> | <strong>Source</strong> | <strong>Make</strong> | <strong>Deliver</strong> | <strong>Return</strong> | <strong>Enable</strong></p></div>
+    <div class="cheat-card" data-cs="2"><h4>Decision Horizons</h4><p><strong>Long</strong> = Strategic (design)<br><strong>Mid</strong> = Tactical (planning)<br><strong>Short</strong> = Operational (flow mgmt)<br><strong>Very short</strong> = Scheduling</p></div>
+    <div class="cheat-card" data-cs="2"><h4>SCM Complexity</h4><p><strong>Uncertainty</strong>: randomness everywhere<br><strong>Conflicting objectives</strong>: suppliers vs manufacturers vs distributors<br><strong>Variation over time</strong></p></div>
+    <!-- S3 -->
+    <div class="cheat-card" data-cs="3"><h4>Flow Management Goal</h4><p>Manage material flow to achieve <strong>service level</strong> while <strong>minimizing costs</strong>. Decisions = orders (production, assembly, transport).</p></div>
+    <div class="cheat-card" data-cs="3"><h4>Independent vs Dependent Demand</h4><p><strong>Independent</strong> = finished products (customer demand)<br><strong>Dependent</strong> = components (from BOM)<br>Some items = both</p></div>
+    <div class="cheat-card" data-cs="3"><h4>Constraints</h4><p><strong>Manufacturing</strong>: process routing + capacity<br><strong>Transportation</strong>: lead time + truck capacity</p></div>
+    <div class="cheat-card" data-cs="3"><h4>Supplier/Customer Questions</h4><p>Who decides replenishment? Who owns stock? Who pays transport? Who pays warehouse?</p></div>
+    <!-- S4 -->
+    <div class="cheat-card" data-cs="4"><h4>3 Flow Methods</h4><p><strong>Firm orders</strong> &rarr; known demand<br><strong>Forecasts</strong> &rarr; estimated demand<br><strong>Inventory consumption</strong> &rarr; real-time data</p></div>
+    <div class="cheat-card" data-cs="4"><h4>Forecast Reliable?</h4><p><strong>Yes</strong> &rarr; MRP (future requirements)<br><strong>No</strong> &rarr; Inventory consumption methods</p></div>
+    <div class="cheat-card" data-cs="4"><h4>Kanban</h4><p>"Card" in Japanese. <strong>Pull system</strong>. Cards control stock. Downstream triggers upstream production.</p></div>
+    <div class="cheat-card" data-cs="4"><h4>MRP</h4><p>From Master Production Schedule, determines <strong>what, when, how much</strong> to produce/order. Objective: satisfy MPS, minimize costs.</p></div>
+    <div class="cheat-card" data-cs="4"><h4>MRP + MPS + DRP</h4><p><strong>MRP</strong> = upstream (materials)<br><strong>MPS</strong> = central (production schedule)<br><strong>DRP</strong> = downstream (distribution)</p></div>
+    <div class="cheat-card" data-cs="4"><h4>Make to Stock vs Order</h4><p><strong>MTS</strong>: inventory consumption or forecasts &rarr; Kanban, inventory mgmt, MRP<br><strong>MTO</strong>: firm orders &rarr; MRP</p></div>
+  </div>
+</div>
+
+</div><!-- end container -->
+
+<!-- BACK TO TOP -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
+
+<!-- FOOTER -->
+<div class="footer">
+  Operations Management - Sessions 1-4 - <span>ESSCA</span> 2025/2026<br>
+  Revision document prepared for <span>Romain</span><br>
+  <button onclick="resetAllProgress()" style="margin-top:8px;padding:6px 16px;border-radius:20px;border:1px solid rgba(255,255,255,0.3);background:transparent;color:rgba(255,255,255,0.6);font-size:0.75em;cursor:pointer">Reset all progress</button>
+</div>
+
+<!-- ===== INLINE DATA & SCRIPTS ===== -->
+<script>
+// ===== FLASHCARDS DATA =====
+const flashcards = [
+  // S1 - Demand Forecasting
+  {s:1, q:"Why do we need forecasting in operations?", a:"For production plans, personnel needs, capacity levels, purchase requirements, subcontractor requirements, and transportation requirements."},
+  {s:1, q:"What is the objective of operations in the supply chain?", a:"To satisfy the demand while maximising the service level and minimising costs. Decisions: When, What, and How Much."},
+  {s:1, q:"What are the consequences of an optimistic forecast?", a:"Excessive inventory, high storage costs, plant capacity used unnecessarily, finished product sold at a loss."},
+  {s:1, q:"What are the consequences of a pessimistic forecast?", a:"Inadequate stock, lost orders, insufficient raw material stops production, excessive subcontracting/overtime costs, poor customer relationships."},
+  {s:1, q:"Is it better to be optimistic or pessimistic in forecasting?", a:"Optimistic. Pessimistic forecasts lead to loss of customers, demotivated staff, idle production lines, and high costs from insufficient materials."},
+  {s:1, q:"What are the two main forecasting approaches?", a:"1) Qualitative (Judgemental): based on experience, judgement, knowledge. 2) Quantitative: based on data & statistics (causal + extrapolative methods)."},
+  {s:1, q:"When do we use qualitative/judgemental methods?", a:"When little information is available: launching a new product (need to know likely demand) or installing new automated production line (need to know reliability)."},
+  {s:1, q:"Name 3 data gathering methods for qualitative forecasting.", a:"1) Market Research (surveys). 2) Historical Comparisons (similar products/processes). 3) Delphi Method (pool expert knowledge, wait for agreement)."},
+  {s:1, q:"What are the 4 components of a time series?", a:"Demand = Trend + Seasonality + Cyclic demand + Random noise."},
+  {s:1, q:"How do you detect outliers using the confidence interval method?", a:"Calculate mean (x̄), standard deviation (σ), then CI = x̄ ± 1.96σ (at 5% risk). Any observation outside the CI is an outlier."},
+  {s:1, q:"What is MFE (Mean Forecast Error)?", a:"MFE = (1/n) × Σ(Dt - Ft). Also called Bias. Want close to 0. Positive = undershooting, Negative = overshooting. Zero MFE does NOT mean perfect forecast."},
+  {s:1, q:"What is MAD (Mean Absolute Deviation)?", a:"MAD = (1/n) × Σ|Dt - Ft|. Measures absolute error. Positive and negative errors don't cancel out (unlike MFE). Want as small as possible."},
+  {s:1, q:"What is MAPE (Mean Absolute Percentage Error)?", a:"MAPE = (100/n) × Σ|Dt - Ft|/Dt. Like MAD but as a percentage of actual data. Allows comparison across different products/scales."},
+  {s:1, q:"What is MSE (Mean Squared Error)?", a:"MSE = (1/n) × Σ(Dt - Ft)². Penalizes large errors disproportionately (\"expensive\"). Not as easily interpreted as MAD/MAPE."},
+  {s:1, q:"What are causal methods in forecasting?", a:"Based on identification of related variables to predict the variable of interest. Uses known relationships between the factor to forecast and external/internal factors. Example: y = a + bx (linear regression)."},
+  {s:1, q:"What is the linear regression formula?", a:"y = a + bx. b = Σ(yt - ȳ)(xt - x̄) / Σ(xt - x̄)². a = ȳ - b·x̄. y = predicted variable, x = predictor variable, b = slope, a = y-intercept."},
+
+  // S2 - Introduction to OM
+  {s:2, q:"What is the MIT definition of Supply Chain Management?", a:"The efficient integration of suppliers, factories, warehouses and stores so merchandise is produced and distributed in the right quantities, to the right locations, at the right time, to minimize total system cost subject to satisfying service requirements."},
+  {s:2, q:"What are the key decisions in a supply chain flow?", a:"Replenishment decisions, Production decisions, Transportation decisions, Assembly decisions, and Deployment decisions."},
+  {s:2, q:"What are the two main sources of complexity in SCM?", a:"1) Uncertainty: randomness at every point (supplier delays, demand fluctuations, production breakdowns). 2) Conflicting objectives: suppliers want large stable orders, manufacturers want flexibility, distributors want low inventory."},
+  {s:2, q:"What are the 4 decision levels/horizons in SCM?", a:"Long term = Strategic (Design/Investments). Mid term = Tactical (Planning/Capacity). Short term = Operational (Flow Management). Very short term = Operational (Scheduling)."},
+  {s:2, q:"Give examples of strategic (long-term) decisions.", a:"Facility layout, warehouses location, distribution network design."},
+  {s:2, q:"Give examples of tactical (mid-term) decisions.", a:"Production planning, resource planning."},
+  {s:2, q:"Give examples of operational (short-term) decisions.", a:"Inventory management, production management, distribution management."},
+  {s:2, q:"Give examples of scheduling (very short-term) decisions.", a:"Machine allocation, staff allocation, jobs priority."},
+  {s:2, q:"What are the 6 SCOR model functions?", a:"Plan, Source, Make, Deliver, Return, Enable."},
+  {s:2, q:"What are the suppliers', manufacturers' and distributors' conflicting goals?", a:"Suppliers: large quantities, stable volumes, flexible dates. Manufacturers: large batches + flexibility. Distribution centers: reduce inventory. These goals conflict with each other."},
+
+  // S3 - Flow Management Introduction
+  {s:3, q:"What is the objective of flow management?", a:"Manage the material flow to achieve a required service level for the customer while minimizing costs. Example: 99% of demands satisfied within customer lead time."},
+  {s:3, q:"What types of activities are managed in flow management?", a:"Manufacturing activity, Assembly activity, and Transportation activity. For each entity (raw material, components, semi-finished, finished products)."},
+  {s:3, q:"What are the constraints in flow management?", a:"Manufacturing level: production process (routing) + production capacity (physical & human). Transportation level: transportation lead time + truck capacity."},
+  {s:3, q:"What is the difference between independent and dependent demand?", a:"Independent = demands on finished products (from customers). Dependent = demands on components as a function of finished product demands (from Bill of Material). Some items have both."},
+  {s:3, q:"What is dependent demand driven by?", a:"Directly by the Bill of Material (BOM). If you know how many finished products are needed, you can calculate exactly how many components are required."},
+  {s:3, q:"Why is coordination important in supply chains?", a:"Different production structures (serial, multi-product, assembly) require synchronization. Without coordination, bottlenecks occur, inventory builds up, and service levels drop."},
+  {s:3, q:"What are the key questions in supplier/customer relationships?", a:"Who makes the replenishment decision? Who owns the stock? Who pays transportation costs? Who supports warehouse costs?"},
+  {s:3, q:"What happens when forecasts are inaccurate?", a:"Companies produce regarding forecast then sell what they have in stock. Inaccurate forecasts lead to either overstock (waste, storage costs) or lost sales (unhappy customers, missed revenue)."},
+
+  // S4 - Flow Management Approaches
+  {s:4, q:"What are the 3 types of demand information for flow management?", a:"1) Firm orders (known customer orders). 2) Demand forecasts (estimated future needs). 3) No advance information (only real-time inventory consumption data)."},
+  {s:4, q:"What are the 3 flow management methods?", a:"1) Based on firm orders (future requirements from orders). 2) Based on forecasts (future requirements from predictions). 3) Based on inventory consumption (actual stock usage in real time)."},
+  {s:4, q:"When should you use MRP-type methods vs inventory consumption methods?", a:"If demand forecasts are accurate enough → use MRP (future requirements). If forecasts are not reliable → use inventory consumption methods (more robust)."},
+  {s:4, q:"What is Make to Stock vs Make to Order?", a:"Make to Stock: driven by inventory consumption or demand forecasts (Kanban, inventory mgmt, MRP). Make to Order: driven by firm orders (MRP type methods only)."},
+  {s:4, q:"What is Kanban?", a:"'Card' in Japanese. A pull system to control intermediate stocks. Cards summarize production lot characteristics. Downstream consumption triggers upstream production. Number of cards in circulation controls stock level."},
+  {s:4, q:"What does MRP determine?", a:"From the Master Production Schedule, MRP determines for each product: the time periods and quantities (how much and when) of production orders and replenishment orders. Objective: satisfy MPS while minimizing costs."},
+  {s:4, q:"What are MRP, MPS, and DRP?", a:"MRP = Material Requirements Planning (upstream, raw materials → factory). MPS = Master Production Schedule (central, finished goods). DRP = Distribution Requirements Planning (downstream, warehouses → customers)."},
+  {s:4, q:"What data is needed for each flow management method?", a:"Inventory consumption: average demand + variability (variance). Forecasts: variability/uncertainty of forecast. Firm orders: none (orders are known)."},
+  {s:4, q:"What is the difference between Kanban and MRP?", a:"Kanban = pull system based on actual consumption (inventory-driven). MRP = push system based on planned future requirements (forecast/order-driven). Kanban reacts; MRP plans ahead."},
+  {s:4, q:"What methods can be used in Make to Stock?", a:"Standard inventory management methods, Kanban type methods, Forecast-based inventory management, and MRP type methods."},
+];
+
+// ===== QUIZ DATA =====
+const quizQuestions = [
+  {s:1, q:"Why is it considered better to be optimistic rather than pessimistic when forecasting?", o:["Pessimistic forecasts lead to loss of customers, idle production, and high costs from insufficient materials","Optimistic forecasts always produce perfect predictions","Pessimistic forecasts generate more revenue","Optimistic forecasts require less data to compute"], a:0},
+  {s:1, q:"What does MFE = 0 indicate about a forecast?", o:["The forecast is perfect with no errors","The mean is 'on target' but individual forecasts may still have errors","There is no bias and no variance","The demand is constant"], a:1},
+  {s:1, q:"Which error measure penalizes large errors disproportionately?", o:["MFE (Bias)","MAD","MAPE","MSE"], a:3},
+  {s:1, q:"In the confidence interval method for outlier detection, what does 1.96 represent?", o:["The standard deviation","The value of the Normal distribution at 5% risk","The mean of the time series","The number of observations needed"], a:1},
+  {s:1, q:"When should qualitative (judgemental) forecasting methods be used?", o:["When abundant historical data is available","When little information is available, e.g., new product launch","When the demand is perfectly stable","Only when quantitative methods fail"], a:1},
+  {s:1, q:"In linear regression y = a + bx, what does 'b' represent?", o:["The y-intercept","The predicted variable","The slope of the regression line","The mean of x"], a:2},
+  {s:1, q:"Which is NOT a component of a time series?", o:["Trend","Seasonality","Regression coefficient","Cyclic demand"], a:2},
+  {s:1, q:"What is the Delphi Method?", o:["A statistical regression technique","Pooling knowledge of different experts and waiting for agreement to emerge","A machine learning algorithm for forecasting","A method to calculate safety stock"], a:1},
+  {s:1, q:"Which error measure expresses forecast accuracy as a percentage of actual data?", o:["MFE","MAD","MAPE","MSE"], a:2},
+  {s:1, q:"A positive MFE means the forecast is:", o:["Overshooting actual demand","Undershooting actual demand (demand > forecast)","Perfectly accurate","Biased towards seasonality"], a:1},
+
+  {s:2, q:"According to the MIT definition, SCM aims to minimize:", o:["Only production costs","Only transportation costs","Total system cost subject to satisfying service requirements","Only inventory holding costs"], a:2},
+  {s:2, q:"Which is a strategic (long-term) decision in SCM?", o:["Machine allocation","Staff scheduling","Warehouse location","Inventory replenishment"], a:2},
+  {s:2, q:"What are the 6 functions of the SCOR model?", o:["Plan, Source, Make, Deliver, Return, Enable","Plan, Buy, Build, Ship, Return, Support","Design, Source, Produce, Transport, Sell, Service","Forecast, Purchase, Manufacture, Store, Deliver, Recycle"], a:0},
+  {s:2, q:"What makes SCM complex?", o:["Only the number of products","Uncertainty (randomness) and conflicting objectives between supply chain actors","The distance between factories","The number of employees"], a:1},
+  {s:2, q:"Production planning is classified as which decision level?", o:["Strategic","Tactical (mid-term)","Operational","Very short-term scheduling"], a:1},
+  {s:2, q:"Suppliers want large quantities with stable volumes. This conflicts with:", o:["Distributors wanting to reduce inventory and manufacturers wanting flexibility","Other suppliers wanting the same materials","Government regulations","Customer preferences for luxury goods"], a:0},
+
+  {s:3, q:"What is the objective of flow management?", o:["Maximize production output at any cost","Manage material flow to achieve a required service level while minimizing costs","Eliminate all inventory from the supply chain","Produce only when customers complain about stockouts"], a:1},
+  {s:3, q:"Independent demand refers to:", o:["Demand on components calculated from the Bill of Material","Demand on finished products from external customers","Demand that does not follow any pattern","Internal transfers between warehouses"], a:1},
+  {s:3, q:"Dependent demand is directly a function of:", o:["Weather forecasts","The Bill of Material (BOM) and demand for finished products","Competitor pricing","Employee productivity"], a:1},
+  {s:3, q:"Which is a constraint at the manufacturing level?", o:["Truck capacity","Customer preferences","Production capacity (physical and human resources)","Advertising budget"], a:2},
+  {s:3, q:"What happens if forecasts are inaccurate?", o:["Nothing, as safety stock always covers the gap","Either overstock (waste, storage costs) or lost sales (unhappy customers)","Production automatically adjusts in real time","The supply chain becomes more efficient"], a:1},
+  {s:3, q:"In supplier/customer relationships, which is NOT a key question?", o:["Who makes the replenishment decision?","Who owns the stock?","What is the supplier's favorite color?","Who pays the transportation cost?"], a:2},
+
+  {s:4, q:"When demand forecasts are accurate, which method is more efficient?", o:["Methods based on inventory consumption","Methods based on future requirements (MRP type)","Kanban only","No method is needed"], a:1},
+  {s:4, q:"Kanban is a:", o:["Push system based on forecasts","Pull system based on actual downstream consumption","Strategic planning tool","Quality control method"], a:1},
+  {s:4, q:"What does MRP determine?", o:["Only the delivery schedule to customers","For each product: time periods and quantities of production orders and replenishment orders","Only the safety stock levels","The price of raw materials"], a:1},
+  {s:4, q:"In Make to Stock, the driving information can be:", o:["Only firm orders","Inventory consumption or demand forecasts","Only real-time sales data","Only historical data from 10 years ago"], a:1},
+  {s:4, q:"What does DRP stand for?", o:["Demand Resource Planning","Distribution Requirements Planning","Direct Replenishment Process","Data Recovery Protocol"], a:1},
+  {s:4, q:"Which method is used in Make to Order?", o:["Kanban","Standard inventory management","MRP type methods (based on firm orders)","No method needed"], a:2},
+  {s:4, q:"What data is needed for inventory consumption methods?", o:["Firm customer orders","Average demand and demand variability (variance)","Only the product price","The number of competitors"], a:1},
+  {s:4, q:"MPS stands for:", o:["Material Procurement System","Master Production Schedule","Manufacturing Process Simulation","Market Prediction Software"], a:1},
+  {s:4, q:"The number of Kanban cards in circulation controls:", o:["The price of products","The stock level","The number of employees","The delivery speed"], a:1},
+  {s:4, q:"If forecasts are NOT reliable, it is better to use:", o:["MRP methods","Methods based on inventory consumption","No methods at all","Only qualitative forecasting"], a:1},
+];
+
+// ===== STATE =====
+let currentMode = 'study';
+let currentSession = 'all';
+let fcIndex = 0;
+let fcFilterSession = 'all';
+let filteredFlashcards = [...Array(flashcards.length).keys()];
+let fcOrder = [...filteredFlashcards];
+let quizAnswers = {};
+let quizScore = 0;
+let currentQuizMode = null;
+let activeQuizQuestions = [];
+let masteredCards = new Set();
+let wrongAnswers = new Set();
+
+// Load from localStorage
+const LS_PREFIX = 'om_';
+try {
+  const savedTheme = localStorage.getItem('ca1_theme');
+  if (savedTheme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  const savedMastered = localStorage.getItem(LS_PREFIX + 'mastered');
+  if (savedMastered) masteredCards = new Set(JSON.parse(savedMastered));
+  const savedWrong = localStorage.getItem(LS_PREFIX + 'wrong');
+  if (savedWrong) wrongAnswers = new Set(JSON.parse(savedWrong));
+} catch(e) {}
+
+function saveMastered() { localStorage.setItem(LS_PREFIX + 'mastered', JSON.stringify([...masteredCards])); }
+function saveWrong() { localStorage.setItem(LS_PREFIX + 'wrong', JSON.stringify([...wrongAnswers])); }
+
+// ===== THEME =====
+function toggleTheme() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
+  localStorage.setItem('ca1_theme', isDark ? '' : 'dark');
+}
+
+// ===== MODES =====
+function switchMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(mode + 'Section').classList.add('active');
+  document.getElementById('navTabs').style.display = (mode === 'study') ? 'flex' : 'none';
+  if (mode === 'flashcards') { applyFlashcardFilter(); showCard(); }
+  if (mode === 'quiz') backToModeSelect();
+}
+
+// ===== SESSION TOGGLE =====
+function toggleSession(header) { header.closest('.session-card').classList.toggle('open'); }
+
+// ===== FILTER =====
+function filterSession(session) {
+  currentSession = session;
+  document.querySelectorAll('.nav-tab').forEach((t, i) => {
+    if (session === 'all') t.classList.toggle('active', i === 0);
+    else t.classList.toggle('active', t.textContent.includes('S' + session));
+  });
+  document.querySelectorAll('.session-card').forEach(card => {
+    if (session === 'all') card.classList.remove('hidden');
+    else card.classList.toggle('hidden', card.dataset.session !== String(session));
+  });
+  if (session !== 'all') {
+    document.querySelectorAll('.session-card').forEach(card => {
+      if (card.dataset.session === String(session)) card.classList.add('open');
+    });
+  }
+}
+
+// ===== SEARCH =====
+function handleSearch(query) {
+  const q = query.toLowerCase().trim();
+  if (!q) { document.querySelectorAll('.session-card').forEach(c => c.classList.remove('hidden')); return; }
+  document.querySelectorAll('.session-card').forEach(card => {
+    const text = card.textContent.toLowerCase();
+    card.classList.toggle('hidden', !text.includes(q));
+    if (text.includes(q)) card.classList.add('open');
+  });
+}
+
+// ===== FLASHCARDS =====
+function applyFlashcardFilter() {
+  if (fcFilterSession === 'all') filteredFlashcards = [...Array(flashcards.length).keys()];
+  else if (fcFilterSession === 'notmastered') filteredFlashcards = [...Array(flashcards.length).keys()].filter(i => !masteredCards.has(i));
+  else filteredFlashcards = flashcards.map((f, i) => f.s === fcFilterSession ? i : -1).filter(i => i >= 0);
+  fcOrder = [...filteredFlashcards];
+  fcIndex = 0;
+  updateFcStats();
+}
+
+function filterFlashcards(s) {
+  fcFilterSession = s;
+  document.querySelectorAll('#fcFilterRow .fc-filter-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  applyFlashcardFilter();
+  showCard();
+}
+
+function searchFlashcards(q) {
+  q = q.toLowerCase().trim();
+  if (!q) { applyFlashcardFilter(); showCard(); return; }
+  filteredFlashcards = flashcards.map((f, i) => (f.q.toLowerCase().includes(q) || f.a.toLowerCase().includes(q)) ? i : -1).filter(i => i >= 0);
+  fcOrder = [...filteredFlashcards];
+  fcIndex = 0;
+  document.getElementById('fcSearchCount').textContent = filteredFlashcards.length + ' found';
+  showCard();
+}
+
+function showCard() {
+  if (fcOrder.length === 0) {
+    document.getElementById('fcQuestion').textContent = 'No flashcards match';
+    document.getElementById('fcAnswer').textContent = '';
+    document.getElementById('fcProgress').textContent = '0 / 0';
+    return;
+  }
+  const idx = fcOrder[fcIndex];
+  const card = flashcards[idx];
+  document.getElementById('flashcard').classList.remove('flipped');
+  document.getElementById('fcQuestion').textContent = card.q;
+  document.getElementById('fcAnswer').innerHTML = card.a;
+  document.getElementById('fcBadge').textContent = 'S' + card.s;
+  document.getElementById('fcProgress').textContent = (fcIndex + 1) + ' / ' + fcOrder.length;
+  document.getElementById('fcMasteryIndicator').classList.toggle('active', masteredCards.has(idx));
+  updateMasteryCounter();
+}
+
+function flipCard() { document.getElementById('flashcard').classList.toggle('flipped'); }
+function nextCard() { fcIndex = (fcIndex + 1) % fcOrder.length; showCard(); }
+function prevCard() { fcIndex = (fcIndex - 1 + fcOrder.length) % fcOrder.length; showCard(); }
+function shuffleCards() { fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; showCard(); }
+
+function markCard(type) {
+  const idx = fcOrder[fcIndex];
+  if (type === 'gotit') masteredCards.add(idx);
+  else masteredCards.delete(idx);
+  saveMastered();
+  updateFcStats();
+  showCard();
+  nextCard();
+}
+
+function updateMasteryCounter() {
+  const total = flashcards.length;
+  const m = masteredCards.size;
+  document.getElementById('fcMastery').textContent = 'Mastered: ' + m + ' / ' + total;
+  const pct = Math.round(m / total * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = pct + '%';
+}
+
+function updateFcStats() {
+  const total = fcOrder.length;
+  const m = fcOrder.filter(i => masteredCards.has(i)).length;
+  document.getElementById('fcStatTotal').textContent = total;
+  document.getElementById('fcStatMastered').textContent = m;
+  document.getElementById('fcStatRemaining').textContent = total - m;
+  updateMasteryCounter();
+}
+
+// ===== QUIZ =====
+function backToModeSelect() {
+  document.getElementById('quizModeSelector').style.display = '';
+  document.getElementById('quizSessionFilter').classList.add('hidden');
+  document.getElementById('quizHeader').classList.add('hidden');
+  document.getElementById('quizContainer').innerHTML = '';
+  document.getElementById('quizResults').style.display = 'none';
+  quizAnswers = {};
+  quizScore = 0;
+}
+
+function startQuizMode(mode) {
+  currentQuizMode = mode;
+  if (mode === 'session') {
+    document.getElementById('quizModeSelector').style.display = 'none';
+    document.getElementById('quizSessionFilter').classList.remove('hidden');
+    return;
+  }
+  let qs = [];
+  if (mode === 'quick10') { qs = [...quizQuestions].sort(() => Math.random() - 0.5).slice(0, 10); }
+  else if (mode === 'full') { qs = [...quizQuestions].sort(() => Math.random() - 0.5); }
+  else if (mode === 'weakspots') { qs = quizQuestions.filter((_, i) => wrongAnswers.has(i)).sort(() => Math.random() - 0.5); }
+  if (qs.length === 0) { alert('No questions available for this mode.'); return; }
+  activeQuizQuestions = qs;
+  renderQuiz();
+}
+
+function startSessionQuiz(s) {
+  activeQuizQuestions = quizQuestions.filter(q => q.s === s).sort(() => Math.random() - 0.5);
+  if (activeQuizQuestions.length === 0) { alert('No questions for this session.'); return; }
+  renderQuiz();
+}
+
+function renderQuiz() {
+  document.getElementById('quizModeSelector').style.display = 'none';
+  document.getElementById('quizSessionFilter').classList.add('hidden');
+  document.getElementById('quizHeader').classList.remove('hidden');
+  document.getElementById('quizTitle').textContent = 'Operations Management Quiz';
+  quizAnswers = {};
+  quizScore = 0;
+  updateQuizProgress();
+  const container = document.getElementById('quizContainer');
+  container.innerHTML = '';
+  activeQuizQuestions.forEach((q, qi) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-question';
+    div.id = 'qq' + qi;
+    let optionsHtml = q.o.map((opt, oi) =>
+      `<label class="quiz-option" onclick="selectAnswer(${qi},${oi})"><input type="radio" name="q${qi}" value="${oi}"><span class="quiz-option-text">${opt}</span></label>`
+    ).join('');
+    div.innerHTML = `<div class="quiz-q-header"><span class="quiz-q-num">Q${qi+1}</span><span class="quiz-q-session">S${q.s}</span></div><p class="quiz-q-text">${q.q}</p><div class="quiz-options">${optionsHtml}</div><div class="quiz-feedback" id="fb${qi}"></div>`;
+    container.appendChild(div);
+  });
+}
+
+function selectAnswer(qi, oi) {
+  if (quizAnswers[qi] !== undefined) return;
+  quizAnswers[qi] = oi;
+  const q = activeQuizQuestions[qi];
+  const correct = q.a === oi;
+  if (correct) quizScore++;
+  else { const origIdx = quizQuestions.indexOf(q); if (origIdx >= 0) { wrongAnswers.add(origIdx); saveWrong(); } }
+  const options = document.querySelectorAll(`#qq${qi} .quiz-option`);
+  options.forEach((opt, i) => {
+    opt.classList.add(i === q.a ? 'correct' : (i === oi ? 'wrong' : 'disabled'));
+    opt.style.pointerEvents = 'none';
+  });
+  const fb = document.getElementById('fb' + qi);
+  fb.innerHTML = correct ? '<span style="color:var(--success)">Correct!</span>' : `<span style="color:var(--error)">Wrong.</span> The answer is: <strong>${q.o[q.a]}</strong>`;
+  fb.style.display = 'block';
+  updateQuizProgress();
+  if (Object.keys(quizAnswers).length === activeQuizQuestions.length) showResults();
+}
+
+function updateQuizProgress() {
+  const answered = Object.keys(quizAnswers).length;
+  const total = activeQuizQuestions.length;
+  document.getElementById('quizProgress').textContent = answered + ' / ' + total + ' answered';
+  const pct = total > 0 ? Math.round(quizScore / total * 100) : 0;
+  document.getElementById('scoreText').textContent = pct + '%';
+}
+
+function showResults() {
+  const pct = Math.round(quizScore / activeQuizQuestions.length * 100);
+  const r = document.getElementById('quizResults');
+  r.style.display = 'block';
+  document.getElementById('resultsCircle').textContent = pct + '%';
+  document.getElementById('resultsMsg').textContent = pct >= 80 ? 'Excellent!' : pct >= 60 ? 'Good job!' : 'Keep studying!';
+  document.getElementById('resultsSub').textContent = quizScore + ' / ' + activeQuizQuestions.length + ' correct';
+}
+
+function resetQuiz() { backToModeSelect(); }
+
+// ===== CHEAT SHEET =====
+function filterCheatSheet(s) {
+  document.querySelectorAll('#csFilterRow .fc-filter-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('.cheat-card').forEach(card => {
+    if (s === 'all') card.style.display = '';
+    else card.style.display = card.dataset.cs === String(s) ? '' : 'none';
+  });
+}
+
+// ===== BACK TO TOP =====
+window.addEventListener('scroll', () => {
+  document.getElementById('backToTop').classList.toggle('visible', window.scrollY > 400);
+});
+
+// ===== KEYBOARD =====
+document.addEventListener('keydown', e => {
+  if (currentMode !== 'flashcards') return;
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextCard(); }
+  else if (e.key === 'ArrowLeft') { e.preventDefault(); prevCard(); }
+  else if (e.key === 'Enter') { e.preventDefault(); flipCard(); }
+});
+
+// ===== RESET =====
+function resetAllProgress() {
+  if (!confirm('Reset all progress?')) return;
+  masteredCards.clear();
+  wrongAnswers.clear();
+  localStorage.removeItem(LS_PREFIX + 'mastered');
+  localStorage.removeItem(LS_PREFIX + 'wrong');
+  location.reload();
+}
+
+// ===== INIT =====
+updateMasteryCounter();
+updateFcStats();
+</script>
+</body>
+</html>
